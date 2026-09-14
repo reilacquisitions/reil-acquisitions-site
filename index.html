@@ -207,12 +207,18 @@
             transform: translateY(-2px);
         }
 
-        .hero-graphic {
+        .hero-image {
             position: relative;
             height: 500px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .hero-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
         /* ===== STATS ROW ===== */
@@ -294,12 +300,14 @@
             height: 320px;
             margin: 0 auto 32px;
             border-radius: 16px;
-            background: linear-gradient(135deg, var(--accent-gold) 0%, var(--accent-gold-light) 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            overflow: hidden;
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
-            font-size: 140px;
+        }
+
+        .founder-photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
         .founder-name {
@@ -355,13 +363,17 @@
             margin-bottom: 24px;
         }
 
-        .two-column-graphic {
+        .two-column-image {
             height: 450px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: linear-gradient(135deg, var(--bg-light) 0%, rgba(212, 165, 116, 0.1) 100%);
             border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .two-column-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
         /* ===== WHY SECTION ===== */
@@ -536,14 +548,16 @@
             transform: translateY(-8px);
         }
 
-        .deal-graphic {
+        .deal-image {
             height: 240px;
-            background: linear-gradient(135deg, var(--primary-navy) 0%, var(--primary-slate) 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 100px;
+            overflow: hidden;
             border-bottom: 2px solid var(--border-light);
+        }
+
+        .deal-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
         .deal-content {
@@ -608,11 +622,27 @@
             color: var(--white);
             padding: 100px 24px;
             text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-banner::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(212, 165, 116, 0.1) 0%, rgba(212, 165, 116, 0) 70%);
+            border-radius: 50%;
+            pointer-events: none;
         }
 
         .cta-banner-content {
             max-width: 900px;
             margin: 0 auto;
+            position: relative;
+            z-index: 2;
         }
 
         .cta-banner h2 {
@@ -710,16 +740,8 @@
 
         /* ===== RESPONSIVE ===== */
         @media (max-width: 768px) {
-            .nav {
-                gap: 16px;
-            }
-
             .nav a {
                 display: none;
-            }
-
-            .nav .cta-btn {
-                display: inline-block;
             }
 
             .hero-content {
@@ -731,17 +753,12 @@
                 font-size: 40px;
             }
 
-            .hero-graphic {
+            .hero-image {
                 height: 350px;
             }
 
             .stats-inner {
                 grid-template-columns: repeat(2, 1fr);
-                gap: 32px;
-            }
-
-            .stat-number {
-                font-size: 40px;
             }
 
             .founders-grid,
@@ -750,12 +767,6 @@
             .process-steps,
             .deals-grid {
                 grid-template-columns: 1fr;
-                gap: 40px;
-            }
-
-            .founder-photo {
-                width: 280px;
-                height: 280px;
             }
 
             .process-steps::before {
@@ -766,21 +777,12 @@
                 direction: ltr;
             }
 
-            .section-header h2,
-            .process-header h2,
-            .deals-header h2,
-            .cta-banner h2 {
-                font-size: 36px;
-            }
-
             .footer-grid {
                 grid-template-columns: 1fr 1fr;
-                gap: 40px;
             }
 
             .footer-bottom {
                 flex-direction: column;
-                text-align: center;
                 gap: 16px;
             }
 
@@ -823,47 +825,8 @@
                     <button class="btn btn-secondary">View Deals</button>
                 </div>
             </div>
-            <div class="hero-graphic">
-                <svg viewBox="0 0 600 500" width="100%" height="100%" style="max-width: 500px;">
-                    <defs>
-                        <linearGradient id="handGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                            <stop offset="0%" style="stop-color:#d4a574;stop-opacity:1" />
-                            <stop offset="100%" style="stop-color:#a0826d;stop-opacity:1" />
-                        </linearGradient>
-                        <linearGradient id="briefcaseGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                            <stop offset="0%" style="stop-color:#1a2b3d;stop-opacity:1" />
-                            <stop offset="100%" style="stop-color:#0f1419;stop-opacity:1" />
-                        </linearGradient>
-                        <filter id="shadow">
-                            <feDropShadow dx="0" dy="4" stdDeviation="6" flood-opacity="0.3"/>
-                        </filter>
-                    </defs>
-                    <!-- Briefcase with glossy effect -->
-                    <g filter="url(#shadow)">
-                        <rect x="150" y="100" width="300" height="200" rx="12" fill="url(#briefcaseGradient)" stroke="#d4a574" stroke-width="3"/>
-                        <rect x="160" y="110" width="280" height="40" rx="8" fill="#d4a574" opacity="0.4"/>
-                        <circle cx="300" cy="200" r="12" fill="#d4a574" opacity="0.6"/>
-                        <circle cx="300" cy="200" r="8" fill="none" stroke="#d4a574" stroke-width="2"/>
-                    </g>
-                    <!-- Left hand - strong handshake -->
-                    <g>
-                        <path d="M 140 180 Q 120 160 100 150" stroke="url(#handGradient)" stroke-width="20" fill="none" stroke-linecap="round"/>
-                        <circle cx="90" cy="140" r="16" fill="url(#handGradient)"/>
-                    </g>
-                    <!-- Right hand - strong handshake -->
-                    <g>
-                        <path d="M 460 180 Q 480 160 500 150" stroke="url(#handGradient)" stroke-width="20" fill="none" stroke-linecap="round"/>
-                        <circle cx="510" cy="140" r="16" fill="url(#handGradient)"/>
-                    </g>
-                    <!-- Dollar sign below briefcase -->
-                    <g>
-                        <circle cx="300" cy="380" r="50" fill="#d4a574" opacity="0.2"/>
-                        <text x="300" y="400" font-size="80" font-weight="bold" fill="#d4a574" text-anchor="middle" font-family="'Crimson Text', serif">$</text>
-                    </g>
-                    <!-- Growth arrows -->
-                    <path d="M 480 320 L 520 280 L 510 300" stroke="#d4a574" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M 120 320 L 80 280 L 90 300" stroke="#d4a574" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
+            <div class="hero-image">
+                <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=600&q=80" alt="Business executives shaking hands in conference room">
             </div>
         </div>
     </section>
@@ -899,33 +862,7 @@
         <div class="founders-grid">
             <div class="founder-card">
                 <div class="founder-photo">
-                    <svg viewBox="0 0 240 240" width="100%" height="100%">
-                        <defs>
-                            <linearGradient id="skin1" x1="0%" y1="0%" x2="100%" y2="100%">
-                                <stop offset="0%" style="stop-color:#f5e6d3;stop-opacity:1" />
-                                <stop offset="100%" style="stop-color:#e6d5c8;stop-opacity:1" />
-                            </linearGradient>
-                        </defs>
-                        <circle cx="120" cy="120" r="110" fill="url(#skin1)"/>
-                        <!-- Head -->
-                        <circle cx="120" cy="90" r="50" fill="#f5e6d3"/>
-                        <!-- Eyes -->
-                        <circle cx="100" cy="80" r="6" fill="#1a1a1a"/>
-                        <circle cx="140" cy="80" r="6" fill="#1a1a1a"/>
-                        <!-- Eyebrows -->
-                        <path d="M 95 70 Q 100 68 105 70" stroke="#8b7355" stroke-width="3" fill="none" stroke-linecap="round"/>
-                        <path d="M 135 70 Q 140 68 145 70" stroke="#8b7355" stroke-width="3" fill="none" stroke-linecap="round"/>
-                        <!-- Nose -->
-                        <path d="M 120 75 L 120 90" stroke="#d4a574" stroke-width="2" opacity="0.6"/>
-                        <!-- Smile -->
-                        <path d="M 105 105 Q 120 115 135 105" stroke="#1a1a1a" stroke-width="3" fill="none" stroke-linecap="round"/>
-                        <!-- Cheeks -->
-                        <ellipse cx="85" cy="95" rx="12" ry="8" fill="#d4a574" opacity="0.3"/>
-                        <ellipse cx="155" cy="95" rx="12" ry="8" fill="#d4a574" opacity="0.3"/>
-                        <!-- Shoulders/Neck -->
-                        <path d="M 80 150 Q 120 170 160 150" fill="#2d3e52" opacity="0.9"/>
-                        <rect x="110" y="145" width="20" height="15" fill="#2d3e52" opacity="0.9"/>
-                    </svg>
+                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&q=80" alt="James Reil, Co-Founder">
                 </div>
                 <div class="founder-name">James Reil</div>
                 <div class="founder-title">Co-Founder & Buyer Advisor</div>
@@ -935,35 +872,7 @@
             </div>
             <div class="founder-card">
                 <div class="founder-photo">
-                    <svg viewBox="0 0 240 240" width="100%" height="100%">
-                        <defs>
-                            <linearGradient id="skin2" x1="0%" y1="0%" x2="100%" y2="100%">
-                                <stop offset="0%" style="stop-color:#f5e6d3;stop-opacity:1" />
-                                <stop offset="100%" style="stop-color:#e6d5c8;stop-opacity:1" />
-                            </linearGradient>
-                        </defs>
-                        <circle cx="120" cy="120" r="110" fill="url(#skin2)"/>
-                        <!-- Head -->
-                        <circle cx="120" cy="90" r="50" fill="#f5e6d3"/>
-                        <!-- Hair -->
-                        <path d="M 70 70 Q 120 50 170 70 Q 170 50 120 45 Q 70 50 70 70" fill="#8b7355" opacity="0.95"/>
-                        <!-- Eyes -->
-                        <circle cx="100" cy="80" r="6" fill="#1a1a1a"/>
-                        <circle cx="140" cy="80" r="6" fill="#1a1a1a"/>
-                        <!-- Eyebrows -->
-                        <path d="M 95 70 Q 100 68 105 70" stroke="#8b7355" stroke-width="3" fill="none" stroke-linecap="round"/>
-                        <path d="M 135 70 Q 140 68 145 70" stroke="#8b7355" stroke-width="3" fill="none" stroke-linecap="round"/>
-                        <!-- Nose -->
-                        <path d="M 120 75 L 120 90" stroke="#d4a574" stroke-width="2" opacity="0.6"/>
-                        <!-- Smile -->
-                        <path d="M 105 105 Q 120 115 135 105" stroke="#1a1a1a" stroke-width="3" fill="none" stroke-linecap="round"/>
-                        <!-- Cheeks -->
-                        <ellipse cx="85" cy="95" rx="12" ry="8" fill="#d4a574" opacity="0.3"/>
-                        <ellipse cx="155" cy="95" rx="12" ry="8" fill="#d4a574" opacity="0.3"/>
-                        <!-- Shoulders/Neck -->
-                        <path d="M 80 150 Q 120 170 160 150" fill="#2d3e52" opacity="0.9"/>
-                        <rect x="110" y="145" width="20" height="15" fill="#2d3e52" opacity="0.9"/>
-                    </svg>
+                    <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&q=80" alt="Sarah Marinette, Co-Founder">
                 </div>
                 <div class="founder-name">Sarah Marinette</div>
                 <div class="founder-title">Co-Founder & Deal Operations</div>
@@ -987,35 +896,8 @@
                 </p>
                 <button class="btn btn-primary">Browse Deals</button>
             </div>
-            <div class="two-column-graphic">
-                <svg viewBox="0 0 400 400" width="100%" height="100%" style="max-width: 400px;">
-                    <defs>
-                        <linearGradient id="chartGrad1" x1="0%" y1="100%" x2="0%" y2="0%">
-                            <stop offset="0%" style="stop-color:#d4a574;stop-opacity:0.4" />
-                            <stop offset="100%" style="stop-color:#d4a574;stop-opacity:0.9" />
-                        </linearGradient>
-                        <linearGradient id="chartGrad2" x1="0%" y1="100%" x2="0%" y2="0%">
-                            <stop offset="0%" style="stop-color:#a0826d;stop-opacity:0.4" />
-                            <stop offset="100%" style="stop-color:#a0826d;stop-opacity:0.9" />
-                        </linearGradient>
-                    </defs>
-                    <!-- Chart bars with 3D effect -->
-                    <g filter="drop-shadow(0 4 8 rgba(0,0,0,0.2))">
-                        <rect x="50" y="240" width="60" height="120" fill="url(#chartGrad1)" stroke="#d4a574" stroke-width="2"/>
-                        <rect x="130" y="160" width="60" height="200" fill="url(#chartGrad2)" stroke="#a0826d" stroke-width="2"/>
-                        <rect x="210" y="100" width="60" height="260" fill="url(#chartGrad1)" stroke="#d4a574" stroke-width="2"/>
-                        <rect x="290" y="60" width="60" height="300" fill="url(#chartGrad2)" stroke="#a0826d" stroke-width="2"/>
-                    </g>
-                    <!-- Axes -->
-                    <line x1="40" y1="360" x2="360" y2="360" stroke="#4a5568" stroke-width="3"/>
-                    <line x1="40" y1="40" x2="40" y2="360" stroke="#4a5568" stroke-width="3"/>
-                    <!-- Grid lines -->
-                    <line x1="40" y1="280" x2="360" y2="280" stroke="#e5e7eb" stroke-width="1" opacity="0.5"/>
-                    <line x1="40" y1="200" x2="360" y2="200" stroke="#e5e7eb" stroke-width="1" opacity="0.5"/>
-                    <line x1="40" y1="120" x2="360" y2="120" stroke="#e5e7eb" stroke-width="1" opacity="0.5"/>
-                    <!-- Checkmark -->
-                    <path d="M 60 70 L 90 100 L 140 40" stroke="#d4a574" stroke-width="6" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
+            <div class="two-column-image">
+                <img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=600&q=80" alt="Business analytics and financial data visualization">
             </div>
         </div>
     </section>
@@ -1033,32 +915,8 @@
                 </p>
                 <button class="btn btn-primary">List Your Business</button>
             </div>
-            <div class="two-column-graphic">
-                <svg viewBox="0 0 400 400" width="100%" height="100%" style="max-width: 400px;">
-                    <!-- Central hub -->
-                    <circle cx="200" cy="200" r="80" fill="#d4a574" opacity="0.2" stroke="#d4a574" stroke-width="2"/>
-                    <circle cx="200" cy="200" r="50" fill="#d4a574" stroke="#d4a574" stroke-width="3"/>
-                    <text x="200" y="220" font-size="40" fill="#0f1419" text-anchor="middle" font-family="'Crimson Text', serif" font-weight="bold">You</text>
-                    <!-- Buyer nodes -->
-                    <g filter="drop-shadow(0 2 4 rgba(0,0,0,0.1))">
-                        <circle cx="100" cy="100" r="35" fill="#1a2b3d" stroke="#d4a574" stroke-width="3"/>
-                        <text x="100" y="115" font-size="20" fill="#d4a574" text-anchor="middle" font-family="'Crimson Text', serif" font-weight="bold">B₁</text>
-                        
-                        <circle cx="300" cy="100" r="35" fill="#1a2b3d" stroke="#d4a574" stroke-width="3"/>
-                        <text x="300" y="115" font-size="20" fill="#d4a574" text-anchor="middle" font-family="'Crimson Text', serif" font-weight="bold">B₂</text>
-                        
-                        <circle cx="100" cy="300" r="35" fill="#1a2b3d" stroke="#d4a574" stroke-width="3"/>
-                        <text x="100" y="315" font-size="20" fill="#d4a574" text-anchor="middle" font-family="'Crimson Text', serif" font-weight="bold">B₃</text>
-                        
-                        <circle cx="300" cy="300" r="35" fill="#1a2b3d" stroke="#d4a574" stroke-width="3"/>
-                        <text x="300" y="315" font-size="20" fill="#d4a574" text-anchor="middle" font-family="'Crimson Text', serif" font-weight="bold">B₄</text>
-                    </g>
-                    <!-- Connection lines -->
-                    <line x1="140" y1="140" x2="170" y2="170" stroke="#d4a574" stroke-width="2" opacity="0.7"/>
-                    <line x1="260" y1="140" x2="230" y2="170" stroke="#d4a574" stroke-width="2" opacity="0.7"/>
-                    <line x1="140" y1="260" x2="170" y2="230" stroke="#d4a574" stroke-width="2" opacity="0.7"/>
-                    <line x1="260" y1="260" x2="230" y2="230" stroke="#d4a574" stroke-width="2" opacity="0.7"/>
-                </svg>
+            <div class="two-column-image">
+                <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=600&q=80" alt="Business partnership and acquisition meeting">
             </div>
         </div>
     </section>
@@ -1134,7 +992,9 @@
             </div>
             <div class="deals-grid">
                 <div class="deal-card">
-                    <div class="deal-graphic">🏭</div>
+                    <div class="deal-image">
+                        <img src="https://images.unsplash.com/photo-1565043666747-69f6646db940?w=500&q=80" alt="Precision CNC Machine Shop - Manufacturing">
+                    </div>
                     <div class="deal-content">
                         <div class="deal-industry">Manufacturing</div>
                         <div class="deal-title">Precision CNC Machine Shop</div>
@@ -1157,7 +1017,9 @@
                 </div>
 
                 <div class="deal-card">
-                    <div class="deal-graphic">🌿</div>
+                    <div class="deal-image">
+                        <img src="https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?w=500&q=80" alt="Commercial Landscaping & Snow Management">
+                    </div>
                     <div class="deal-content">
                         <div class="deal-industry">Services</div>
                         <div class="deal-title">Commercial Landscaping & Snow Management</div>
@@ -1180,7 +1042,9 @@
                 </div>
 
                 <div class="deal-card">
-                    <div class="deal-graphic">☕</div>
+                    <div class="deal-image">
+                        <img src="https://images.unsplash.com/photo-1559056199-641a0ac8b3f4?w=500&q=80" alt="Specialty Coffee Roaster & Distributor">
+                    </div>
                     <div class="deal-content">
                         <div class="deal-industry">Food & Beverage</div>
                         <div class="deal-title">Specialty Coffee Roaster & Distributor</div>
