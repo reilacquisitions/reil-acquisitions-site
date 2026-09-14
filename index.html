@@ -3,10 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ReilAcquisitions - Business Acquisition Marketplace for Mid-Market Buyers & Sellers in the Midwest</title>
+    <meta name="description" content="ReilAcquisitions - The institutional marketplace for serious mid-market acquisitions. Buy or sell businesses $5M-$100M with expert guidance.">
+    <meta property="og:title" content="ReilAcquisitions - Marketplace for Mid-Market Acquisitions">
+    <meta property="og:description" content="Acquire the business. Keep the momentum. Expert guidance from sourcing to close.">
+    <meta property="og:image" content="https://images.unsplash.com/photo-1552664730-d307ca884978?w=1200&q=85">
+    <title>ReilAcquisitions - Business Acquisition Marketplace | Buy or Sell $5M-$100M</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -15,15 +19,15 @@
         }
 
         :root {
-            --primary-dark: #0f1419;
-            --primary-navy: #1a3a52;
-            --accent-gold: #c9a961;
-            --white: #ffffff;
-            --cream: #f5f3f0;
-            --text-dark: #1a1a1a;
-            --text-gray: #4a5568;
-            --text-light: #7a8a9e;
-            --border-light: #e5e7eb;
+            --navy: #0a1428;
+            --navy-light: #1a3a52;
+            --gold: #9D7E3E;
+            --cream: #FAFAF8;
+            --light-gray: #F0F0F0;
+            --dark-gray: #383838;
+            --medium-gray: #858585;
+            --teal: #1B8A8A;
+            --white: #FFFFFF;
         }
 
         html {
@@ -31,8 +35,8 @@
         }
 
         body {
-            font-family: 'Inter', sans-serif;
-            color: var(--text-dark);
+            font-family: 'Poppins', sans-serif;
+            color: var(--dark-gray);
             background: var(--white);
             line-height: 1.6;
         }
@@ -43,15 +47,15 @@
             top: 0;
             z-index: 100;
             background: var(--white);
-            border-bottom: 1px solid var(--border-light);
-            backdrop-filter: blur(8px);
+            border-bottom: 1px solid var(--light-gray);
+            backdrop-filter: blur(10px);
             background-color: rgba(255, 255, 255, 0.98);
         }
 
         .header-inner {
             max-width: 1400px;
             margin: 0 auto;
-            padding: 18px 40px;
+            padding: 20px 60px;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -62,126 +66,106 @@
             align-items: center;
             gap: 14px;
             text-decoration: none;
-            color: var(--primary-dark);
+            color: var(--navy);
             font-size: 20px;
-            font-weight: 600;
-            font-family: 'Crimson Text', serif;
-            letter-spacing: 0.5px;
+            font-weight: 700;
+            letter-spacing: 0.3px;
         }
 
         .logo-mark {
             width: 48px;
             height: 48px;
-            background: linear-gradient(135deg, #c9a961 0%, #a68645 100%);
-            border-radius: 10px;
+            background: linear-gradient(135deg, #9D7E3E 0%, #7a6433 100%);
+            border-radius: 8px;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #fff;
+            color: var(--white);
             font-size: 24px;
             font-weight: 700;
-            box-shadow: 0 4px 12px rgba(201, 169, 97, 0.25);
+            box-shadow: 0 4px 12px rgba(157, 126, 62, 0.2);
         }
 
         .nav {
             display: flex;
-            gap: 48px;
+            gap: 50px;
             align-items: center;
         }
 
         .nav a {
             text-decoration: none;
-            color: var(--text-gray);
+            color: var(--medium-gray);
             font-size: 15px;
             font-weight: 500;
             transition: color 0.2s;
         }
 
         .nav a:hover {
-            color: var(--accent-gold);
+            color: var(--gold);
         }
 
         .nav .cta-btn {
-            background: linear-gradient(135deg, #c9a961 0%, #a68645 100%);
+            background: var(--navy);
             color: var(--white);
             padding: 12px 32px;
-            border-radius: 8px;
+            border-radius: 6px;
             font-size: 15px;
             font-weight: 600;
             border: none;
             cursor: pointer;
             transition: all 0.3s;
-            box-shadow: 0 4px 12px rgba(201, 169, 97, 0.2);
+            box-shadow: 0 4px 12px rgba(10, 20, 40, 0.15);
         }
 
         .nav .cta-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(201, 169, 97, 0.3);
+            box-shadow: 0 8px 20px rgba(10, 20, 40, 0.25);
         }
 
         /* ===== HERO ===== */
         .hero {
+            height: 100vh;
             position: relative;
-            height: 700px;
+            display: flex;
+            align-items: center;
             overflow: hidden;
         }
 
-        .hero-image {
+        .hero-background {
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
+            width: 60%;
             height: 100%;
-            z-index: 1;
+            right: 0;
+            top: 0;
+            overflow: hidden;
         }
 
-        .hero-image img {
+        .hero-background img {
             width: 100%;
             height: 100%;
             object-fit: cover;
         }
 
-        .hero-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, rgba(15, 20, 25, 0.4) 0%, rgba(15, 20, 25, 0.2) 50%, transparent 100%);
-            z-index: 2;
-        }
-
         .hero-content {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 3;
-            display: flex;
-            align-items: center;
-            justify-content: flex-start;
-            padding: 0 40px;
-        }
-
-        .hero-text {
+            position: relative;
+            z-index: 2;
+            width: 40%;
+            padding: 0 60px;
             max-width: 650px;
-            color: var(--white);
         }
 
-        .hero-text h1 {
-            font-family: 'Crimson Text', serif;
-            font-size: 72px;
-            font-weight: 600;
-            line-height: 1.1;
+        .hero-content h1 {
+            font-size: 64px;
+            font-weight: 700;
+            color: var(--navy);
+            line-height: 1.2;
             margin-bottom: 28px;
-            color: var(--white);
         }
 
-        .hero-text p {
+        .hero-content p {
             font-size: 20px;
+            color: var(--medium-gray);
             line-height: 1.7;
-            color: rgba(255, 255, 255, 0.95);
             margin-bottom: 44px;
         }
 
@@ -193,7 +177,7 @@
 
         .btn {
             padding: 16px 40px;
-            border-radius: 8px;
+            border-radius: 6px;
             font-size: 16px;
             font-weight: 600;
             border: none;
@@ -201,34 +185,40 @@
             transition: all 0.3s;
             text-decoration: none;
             display: inline-block;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .btn-primary {
-            background: linear-gradient(135deg, #c9a961 0%, #a68645 100%);
+            background: var(--navy);
             color: var(--white);
-            box-shadow: 0 8px 24px rgba(201, 169, 97, 0.3);
+            box-shadow: 0 8px 24px rgba(10, 20, 40, 0.2);
         }
 
         .btn-primary:hover {
             transform: translateY(-3px);
-            box-shadow: 0 12px 32px rgba(201, 169, 97, 0.4);
+            box-shadow: 0 12px 32px rgba(10, 20, 40, 0.3);
         }
 
         .btn-secondary {
             background: transparent;
-            color: var(--white);
-            border: 2px solid #c9a961;
+            color: var(--navy);
+            border: 2px solid var(--navy);
         }
 
         .btn-secondary:hover {
-            background: rgba(201, 169, 97, 0.15);
+            background: rgba(10, 20, 40, 0.05);
             transform: translateY(-3px);
         }
 
         /* ===== STATS ROW ===== */
         .stats {
-            background: var(--cream);
-            padding: 100px 40px;
+            background: var(--white);
+            padding: 80px 60px;
+            border-top: 1px solid var(--light-gray);
+            border-bottom: 1px solid var(--light-gray);
         }
 
         .stats-inner {
@@ -240,28 +230,23 @@
             text-align: center;
         }
 
-        .stat {
-            padding: 20px;
-        }
-
         .stat-number {
-            font-family: 'Crimson Text', serif;
-            font-size: 72px;
-            font-weight: 600;
-            color: var(--accent-gold);
+            font-size: 56px;
+            font-weight: 700;
+            color: var(--gold);
             margin-bottom: 16px;
         }
 
         .stat-label {
             font-size: 16px;
-            color: var(--text-gray);
+            color: var(--medium-gray);
             font-weight: 500;
             line-height: 1.5;
         }
 
         /* ===== SECTION ===== */
         .section {
-            padding: 140px 40px;
+            padding: 140px 60px;
             max-width: 1400px;
             margin: 0 auto;
         }
@@ -272,17 +257,16 @@
         }
 
         .section-header h2 {
-            font-family: 'Crimson Text', serif;
-            font-size: 56px;
-            font-weight: 600;
-            color: var(--primary-dark);
+            font-size: 48px;
+            font-weight: 700;
+            color: var(--navy);
             margin-bottom: 24px;
-            line-height: 1.15;
+            line-height: 1.2;
         }
 
         .section-header p {
             font-size: 20px;
-            color: var(--text-light);
+            color: var(--medium-gray);
             max-width: 700px;
             margin: 0 auto;
             line-height: 1.7;
@@ -292,7 +276,7 @@
         .founders-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 80px;
+            gap: 60px;
         }
 
         .founder-card {
@@ -301,11 +285,11 @@
 
         .founder-photo {
             width: 100%;
-            aspect-ratio: 1 / 1;
-            margin-bottom: 48px;
-            border-radius: 14px;
+            aspect-ratio: 1;
+            border-radius: 8px;
             overflow: hidden;
-            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+            margin-bottom: 32px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
         }
 
         .founder-photo img {
@@ -315,26 +299,25 @@
         }
 
         .founder-name {
-            font-family: 'Crimson Text', serif;
-            font-size: 32px;
-            font-weight: 600;
-            color: var(--primary-dark);
-            margin-bottom: 12px;
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--navy);
+            margin-bottom: 8px;
         }
 
         .founder-title {
-            font-size: 16px;
-            color: var(--accent-gold);
+            font-size: 14px;
+            color: var(--gold);
             font-weight: 600;
-            margin-bottom: 32px;
             text-transform: uppercase;
             letter-spacing: 1px;
+            margin-bottom: 24px;
         }
 
         .founder-bio {
-            font-size: 17px;
-            color: var(--text-gray);
-            line-height: 1.85;
+            font-size: 16px;
+            color: var(--dark-gray);
+            line-height: 1.8;
         }
 
         /* ===== TWO COLUMN ===== */
@@ -355,26 +338,25 @@
         }
 
         .two-column-text h3 {
-            font-family: 'Crimson Text', serif;
             font-size: 48px;
-            font-weight: 600;
-            color: var(--primary-dark);
-            margin-bottom: 36px;
-            line-height: 1.15;
+            font-weight: 700;
+            color: var(--navy);
+            margin-bottom: 32px;
+            line-height: 1.2;
         }
 
         .two-column-text p {
             font-size: 18px;
-            color: var(--text-gray);
-            line-height: 1.85;
+            color: var(--dark-gray);
+            line-height: 1.8;
             margin-bottom: 32px;
         }
 
         .two-column-image {
             height: 500px;
-            border-radius: 14px;
+            border-radius: 8px;
             overflow: hidden;
-            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
         }
 
         .two-column-image img {
@@ -387,48 +369,47 @@
         .why-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 80px;
+            gap: 60px;
         }
 
         .why-card {
-            padding: 64px;
+            padding: 48px;
             background: var(--cream);
-            border-radius: 14px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
             transition: all 0.3s;
             display: flex;
             flex-direction: column;
-            gap: 28px;
+            gap: 24px;
         }
 
         .why-card:hover {
-            box-shadow: 0 16px 40px rgba(201, 169, 97, 0.15);
-            transform: translateY(-8px);
+            box-shadow: 0 12px 32px rgba(157, 126, 62, 0.15);
+            transform: translateY(-4px);
         }
 
         .why-icon {
-            font-size: 56px;
+            font-size: 48px;
         }
 
         .why-card h4 {
-            font-family: 'Crimson Text', serif;
-            font-size: 28px;
-            font-weight: 600;
-            color: var(--primary-dark);
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--navy);
         }
 
         .why-card p {
-            font-size: 17px;
-            color: var(--text-gray);
-            line-height: 1.85;
+            font-size: 16px;
+            color: var(--dark-gray);
+            line-height: 1.8;
         }
 
         /* ===== PROCESS ===== */
         .process {
             background: var(--cream);
-            padding: 140px 40px;
-            border-top: 1px solid var(--border-light);
-            border-bottom: 1px solid var(--border-light);
+            padding: 140px 60px;
+            border-top: 1px solid var(--light-gray);
+            border-bottom: 1px solid var(--light-gray);
         }
 
         .process-inner {
@@ -442,11 +423,15 @@
         }
 
         .process-header h2 {
-            font-family: 'Crimson Text', serif;
-            font-size: 56px;
-            font-weight: 600;
-            color: var(--primary-dark);
+            font-size: 48px;
+            font-weight: 700;
+            color: var(--navy);
             margin-bottom: 24px;
+        }
+
+        .process-header p {
+            font-size: 18px;
+            color: var(--medium-gray);
         }
 
         .process-steps {
@@ -462,8 +447,8 @@
             top: 70px;
             left: 0;
             right: 0;
-            height: 3px;
-            background: var(--accent-gold);
+            height: 2px;
+            background: var(--gold);
             z-index: 1;
         }
 
@@ -477,36 +462,34 @@
             width: 140px;
             height: 140px;
             background: var(--white);
-            border: 3px solid var(--accent-gold);
+            border: 3px solid var(--gold);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin: 0 auto 36px;
-            font-family: 'Crimson Text', serif;
+            margin: 0 auto 32px;
             font-size: 56px;
-            font-weight: 600;
-            color: var(--accent-gold);
-            box-shadow: 0 8px 24px rgba(201, 169, 97, 0.2);
+            font-weight: 700;
+            color: var(--gold);
+            box-shadow: 0 8px 24px rgba(157, 126, 62, 0.15);
         }
 
         .step-title {
-            font-family: 'Crimson Text', serif;
-            font-size: 24px;
-            font-weight: 600;
-            color: var(--primary-dark);
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--navy);
             margin-bottom: 16px;
         }
 
         .step-desc {
-            font-size: 16px;
-            color: var(--text-gray);
+            font-size: 15px;
+            color: var(--dark-gray);
             line-height: 1.8;
         }
 
-        /* ===== FEATURED DEALS ===== */
+        /* ===== DEALS ===== */
         .deals {
-            padding: 140px 40px;
+            padding: 140px 60px;
         }
 
         .deals-inner {
@@ -520,11 +503,15 @@
         }
 
         .deals-header h2 {
-            font-family: 'Crimson Text', serif;
-            font-size: 56px;
-            font-weight: 600;
-            color: var(--primary-dark);
+            font-size: 48px;
+            font-weight: 700;
+            color: var(--navy);
             margin-bottom: 24px;
+        }
+
+        .deals-header p {
+            font-size: 18px;
+            color: var(--medium-gray);
         }
 
         .deals-grid {
@@ -535,19 +522,19 @@
 
         .deal-card {
             background: var(--white);
-            border-radius: 14px;
+            border-radius: 8px;
             overflow: hidden;
             transition: all 0.3s;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
         }
 
         .deal-card:hover {
-            box-shadow: 0 16px 40px rgba(201, 169, 97, 0.2);
-            transform: translateY(-12px);
+            box-shadow: 0 16px 40px rgba(157, 126, 62, 0.2);
+            transform: translateY(-8px);
         }
 
         .deal-image {
-            height: 320px;
+            height: 300px;
             overflow: hidden;
         }
 
@@ -558,44 +545,43 @@
         }
 
         .deal-content {
-            padding: 56px;
+            padding: 48px;
         }
 
         .deal-industry {
-            font-size: 13px;
+            font-size: 12px;
             font-weight: 700;
-            color: var(--accent-gold);
+            color: var(--gold);
             text-transform: uppercase;
             letter-spacing: 2px;
             margin-bottom: 16px;
         }
 
         .deal-title {
-            font-family: 'Crimson Text', serif;
-            font-size: 28px;
-            font-weight: 600;
-            color: var(--primary-dark);
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--navy);
             margin-bottom: 12px;
             line-height: 1.3;
         }
 
         .deal-location {
-            font-size: 16px;
-            color: var(--text-light);
-            margin-bottom: 40px;
+            font-size: 15px;
+            color: var(--medium-gray);
+            margin-bottom: 32px;
         }
 
         .deal-details {
-            padding-top: 40px;
-            border-top: 1px solid var(--border-light);
+            padding-top: 32px;
+            border-top: 1px solid var(--light-gray);
         }
 
         .deal-detail {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 20px;
-            font-size: 16px;
+            margin-bottom: 16px;
+            font-size: 15px;
         }
 
         .deal-detail:last-child {
@@ -603,22 +589,21 @@
         }
 
         .deal-detail-label {
-            color: var(--text-light);
+            color: var(--medium-gray);
             font-weight: 500;
         }
 
         .deal-detail-value {
             font-weight: 700;
-            color: var(--primary-dark);
-            font-size: 18px;
+            color: var(--navy);
+            font-size: 16px;
         }
 
         /* ===== TESTIMONIALS ===== */
         .testimonials {
-            padding: 140px 40px;
+            padding: 140px 60px;
             background: var(--cream);
-            border-top: 1px solid var(--border-light);
-            border-bottom: 1px solid var(--border-light);
+            border-top: 1px solid var(--light-gray);
         }
 
         .testimonials-inner {
@@ -632,10 +617,9 @@
         }
 
         .testimonials-header h2 {
-            font-family: 'Crimson Text', serif;
-            font-size: 56px;
-            font-weight: 600;
-            color: var(--primary-dark);
+            font-size: 48px;
+            font-weight: 700;
+            color: var(--navy);
             margin-bottom: 24px;
         }
 
@@ -647,42 +631,43 @@
 
         .testimonial-card {
             background: var(--white);
-            padding: 56px;
-            border-radius: 14px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            padding: 44px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
         }
 
         .stars {
-            color: var(--accent-gold);
+            color: var(--gold);
             font-size: 18px;
-            margin-bottom: 24px;
+            margin-bottom: 20px;
+            letter-spacing: 2px;
         }
 
         .testimonial-text {
-            font-size: 17px;
-            color: var(--text-gray);
-            line-height: 1.85;
-            margin-bottom: 32px;
+            font-size: 16px;
+            color: var(--dark-gray);
+            line-height: 1.8;
+            margin-bottom: 28px;
             font-style: italic;
         }
 
         .testimonial-author {
             font-weight: 700;
-            color: var(--primary-dark);
+            color: var(--navy);
             font-size: 16px;
         }
 
         .testimonial-title {
-            font-size: 14px;
-            color: var(--text-light);
-            margin-top: 6px;
+            font-size: 13px;
+            color: var(--medium-gray);
+            margin-top: 4px;
         }
 
         /* ===== CTA BANNER ===== */
         .cta-banner {
-            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary-navy) 100%);
+            background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%);
             color: var(--white);
-            padding: 160px 40px;
+            padding: 140px 60px;
             text-align: center;
             position: relative;
             overflow: hidden;
@@ -695,7 +680,7 @@
             right: -10%;
             width: 700px;
             height: 700px;
-            background: radial-gradient(circle, rgba(201, 169, 97, 0.08) 0%, rgba(201, 169, 97, 0) 70%);
+            background: radial-gradient(circle, rgba(157, 126, 62, 0.08) 0%, rgba(157, 126, 62, 0) 70%);
             border-radius: 50%;
             pointer-events: none;
         }
@@ -708,31 +693,30 @@
         }
 
         .cta-banner h2 {
-            font-family: 'Crimson Text', serif;
             font-size: 56px;
-            font-weight: 600;
-            margin-bottom: 32px;
+            font-weight: 700;
+            margin-bottom: 28px;
         }
 
         .cta-banner p {
             font-size: 20px;
             color: rgba(255, 255, 255, 0.95);
-            margin-bottom: 56px;
+            margin-bottom: 48px;
             line-height: 1.7;
         }
 
         .cta-banner-buttons {
             display: flex;
-            gap: 24px;
+            gap: 20px;
             justify-content: center;
             flex-wrap: wrap;
         }
 
         /* ===== FOOTER ===== */
         footer {
-            background: var(--primary-dark);
+            background: var(--navy);
             color: var(--white);
-            padding: 120px 40px 60px;
+            padding: 100px 60px 50px;
         }
 
         .footer-inner {
@@ -744,18 +728,18 @@
             display: grid;
             grid-template-columns: 2.5fr 1fr 1fr 1fr;
             gap: 100px;
-            margin-bottom: 100px;
-            padding-bottom: 100px;
+            margin-bottom: 80px;
+            padding-bottom: 80px;
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .footer-col h4 {
-            font-size: 14px;
+            font-size: 12px;
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 2px;
-            color: var(--accent-gold);
-            margin-bottom: 28px;
+            color: var(--gold);
+            margin-bottom: 24px;
         }
 
         .footer-col ul {
@@ -763,59 +747,114 @@
         }
 
         .footer-col li {
-            margin-bottom: 18px;
+            margin-bottom: 16px;
         }
 
         .footer-col a {
             color: rgba(255, 255, 255, 0.75);
             text-decoration: none;
-            font-size: 16px;
+            font-size: 15px;
             transition: color 0.2s;
         }
 
         .footer-col a:hover {
-            color: var(--accent-gold);
+            color: var(--gold);
         }
 
         .footer-bottom {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            font-size: 15px;
+            font-size: 14px;
             color: rgba(255, 255, 255, 0.6);
         }
 
         .footer-brand {
-            font-family: 'Crimson Text', serif;
-            font-size: 24px;
-            font-weight: 600;
+            font-size: 20px;
+            font-weight: 700;
             color: var(--white);
-            margin-bottom: 20px;
+            margin-bottom: 16px;
         }
 
         .footer-desc {
-            font-size: 16px;
+            font-size: 15px;
             line-height: 1.8;
             color: rgba(255, 255, 255, 0.8);
             max-width: 400px;
         }
 
         /* ===== RESPONSIVE ===== */
+        @media (max-width: 1024px) {
+            .header-inner,
+            .hero-content,
+            .section,
+            .process,
+            .deals,
+            .testimonials,
+            .cta-banner {
+                padding-left: 40px;
+                padding-right: 40px;
+            }
+
+            .nav {
+                gap: 32px;
+            }
+
+            .founder-card {
+                text-align: center;
+            }
+
+            .deals-grid,
+            .testimonials-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 40px;
+            }
+
+            .process-steps {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .process-steps::before {
+                display: none;
+            }
+        }
+
         @media (max-width: 768px) {
+            .header-inner {
+                padding: 16px 24px;
+            }
+
             .nav a {
                 display: none;
             }
 
-            .hero-text h1 {
-                font-size: 48px;
+            .hero {
+                height: auto;
+                min-height: 600px;
             }
 
-            .hero-text p {
-                font-size: 18px;
+            .hero-background {
+                position: relative;
+                width: 100%;
+                height: 300px;
+                margin-bottom: 40px;
             }
 
-            .hero-ctas {
-                flex-direction: column;
+            .hero-content {
+                width: 100%;
+                padding: 40px 24px;
+            }
+
+            .hero-content h1 {
+                font-size: 40px;
+            }
+
+            .section,
+            .process,
+            .deals,
+            .testimonials,
+            .cta-banner {
+                padding: 80px 24px;
             }
 
             .founders-grid,
@@ -828,27 +867,18 @@
                 gap: 40px;
             }
 
-            .process-steps::before {
-                display: none;
-            }
-
             .two-column:nth-child(even) {
                 direction: ltr;
             }
 
-            .stats-inner {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 40px;
-            }
-
             .footer-grid {
-                grid-template-columns: 1fr 1fr;
-                gap: 60px;
+                grid-template-columns: 1fr;
+                gap: 40px;
             }
 
             .footer-bottom {
                 flex-direction: column;
-                gap: 20px;
+                gap: 16px;
                 text-align: center;
             }
 
@@ -858,16 +888,6 @@
 
             .cta-banner-buttons .btn {
                 width: 100%;
-            }
-
-            .section,
-            .hero-content,
-            .stats-inner,
-            .process-inner,
-            .deals-inner,
-            .testimonials-inner {
-                padding-left: 24px;
-                padding-right: 24px;
             }
         }
     </style>
@@ -886,25 +906,22 @@
                 <a href="#why">Why ReilAcquisitions</a>
                 <a href="#process">Process</a>
                 <a href="#deals">Deals</a>
-                <button class="cta-btn">Contact Us</button>
+                <button class="cta-btn">Contact</button>
             </nav>
         </div>
     </header>
 
     <!-- HERO -->
     <section class="hero">
-        <div class="hero-image">
-            <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=1600&q=85&auto=format&fit=crop" alt="Successful business acquisition and handshake">
+        <div class="hero-background">
+            <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=900&q=85&auto=format&fit=crop" alt="Professional business handshake in office">
         </div>
-        <div class="hero-overlay"></div>
         <div class="hero-content">
-            <div class="hero-text">
-                <h1>The business you built deserves careful representation.</h1>
-                <p>Whether you're acquiring your next company or planning your exit, we guide you through every step with Midwest expertise and capital-ready buyers or sellers.</p>
-                <div class="hero-ctas">
-                    <button class="btn btn-primary">I'm a Buyer</button>
-                    <button class="btn btn-secondary">I Want to Sell</button>
-                </div>
+            <h1>Acquire the business. Keep the momentum.</h1>
+            <p>From sourcing to close. One advisor. Institutional-grade marketplace for serious mid-market acquisitions.</p>
+            <div class="hero-ctas">
+                <button class="btn btn-primary">I'm a Buyer</button>
+                <button class="btn btn-secondary">Browse Deals</button>
             </div>
         </div>
     </section>
@@ -912,19 +929,19 @@
     <!-- STATS -->
     <section class="stats">
         <div class="stats-inner">
-            <div class="stat">
+            <div>
                 <div class="stat-number">$500M+</div>
-                <div class="stat-label">Total Deal Value Closed</div>
+                <div class="stat-label">Total Deal Value</div>
             </div>
-            <div class="stat">
+            <div>
                 <div class="stat-number">200+</div>
                 <div class="stat-label">Successful Transactions</div>
             </div>
-            <div class="stat">
+            <div>
                 <div class="stat-number">$5M–$100M</div>
-                <div class="stat-label">Revenue Sweet Spot</div>
+                <div class="stat-label">Revenue Focus</div>
             </div>
-            <div class="stat">
+            <div>
                 <div class="stat-number">100%</div>
                 <div class="stat-label">Confidential Process</div>
             </div>
@@ -934,99 +951,93 @@
     <!-- FOUNDERS -->
     <section class="section">
         <div class="section-header">
-            <h2>Leadership Built on Real Exit Experience</h2>
-            <p>Three operators who've built, bought, and sold companies. We know what works because we've lived it.</p>
+            <h2>Leadership Built on Real Experience</h2>
+            <p>Three operators who've bought, sold, and scaled. We know what works.</p>
         </div>
         <div class="founders-grid">
             <div class="founder-card">
                 <div class="founder-photo">
-                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=500&q=85&auto=format&fit=crop" alt="Mike - Co-Founder & Acquisition Strategist">
+                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&q=85&auto=format&fit=crop" alt="Mike - Co-Founder">
                 </div>
                 <div class="founder-name">Mike</div>
-                <div class="founder-title">Co-Founder & Acquisition Strategist</div>
-                <div class="founder-bio">
-                    Built three companies from startup to exit. 12+ years sourcing and closing M&A deals. Expert in deal structure, financing, and buyer representation. Believes every founder deserves a professional exit.
-                </div>
+                <div class="founder-title">Acquisition Strategist</div>
+                <div class="founder-bio">Built three companies from startup to exit. 12+ years sourcing and closing M&A deals. Expert in deal structure and buyer representation.</div>
             </div>
             <div class="founder-card">
                 <div class="founder-photo">
-                    <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=500&q=85&auto=format&fit=crop" alt="Matt - Co-Founder & Operations Director">
+                    <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=600&q=85&auto=format&fit=crop" alt="Matt - Co-Founder">
                 </div>
                 <div class="founder-name">Matt</div>
-                <div class="founder-title">Co-Founder & Operations Director</div>
-                <div class="founder-bio">
-                    Scaled three acquisition portfolios as operations lead. Expert in due diligence, financial analysis, and post-close integration. Obsessed with eliminating deal surprises through rigorous vetting.
-                </div>
+                <div class="founder-title">Operations Director</div>
+                <div class="founder-bio">Scaled three acquisition portfolios. Expert in due diligence, financial analysis, and integration. Eliminates deal surprises through rigorous vetting.</div>
             </div>
             <div class="founder-card">
                 <div class="founder-photo">
-                    <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=500&q=85&auto=format&fit=crop" alt="Lync - Co-Founder & Market Relations">
+                    <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=600&q=85&auto=format&fit=crop" alt="Lync - Co-Founder">
                 </div>
                 <div class="founder-name">Lync</div>
-                <div class="founder-title">Co-Founder & Market Relations</div>
-                <div class="founder-bio">
-                    MBA from top-tier program. Built Midwest relationships with lenders, attorneys, and accountants. Expert in valuation, tax structuring, and confidential seller outreach. Focuses on closing deals cleanly.
-                </div>
+                <div class="founder-title">Market Relations</div>
+                <div class="founder-bio">MBA, top-tier program. Built Midwest relationships with lenders, attorneys, accountants. Expert in valuation and confidential outreach.</div>
             </div>
         </div>
     </section>
 
-    <!-- BUY A BUSINESS -->
+    <!-- BUY -->
     <section class="section" id="buy">
         <div class="two-column">
             <div class="two-column-text">
                 <h3>Buy a Business</h3>
-                <p>You have capital. You're ready. But finding, vetting, and closing a quality business is a full-time commitment—one you can't afford to get wrong.</p>
-                <p>We source pre-vetted, profitable businesses. We handle diligence, structure, and financing. You get a trusted advisor in your corner throughout.</p>
-                <button class="btn btn-primary">Browse Available Deals</button>
+                <p>You have capital. You're ready. Finding and closing a quality business is a full-time commitment—one you can't afford to get wrong.</p>
+                <p>We source pre-vetted, profitable businesses. We handle diligence, structure, and financing. You get expert guidance throughout.</p>
+                <button class="btn btn-primary">Browse Deals</button>
             </div>
             <div class="two-column-image">
-                <img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800&q=85&auto=format&fit=crop" alt="Financial analysis and business metrics dashboard">
+                <img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=900&q=85&auto=format&fit=crop" alt="Team analyzing financial data">
             </div>
         </div>
     </section>
 
-    <!-- SELL A BUSINESS -->
+    <!-- SELL -->
     <section class="section" id="sell">
         <div class="two-column">
             <div class="two-column-text">
                 <h3>Sell a Business</h3>
-                <p>You built something real. Now it's time to exit on your terms—confidentially, for what it's worth, to a buyer who'll honor your legacy.</p>
-                <p>We reach serious, vetted, capital-ready buyers. Transparent pricing. No surprises. Full guidance through valuation, marketing, diligence, and close.</p>
-                <button class="btn btn-primary">Start Your Exit Plan</button>
+                <p>You built something real. Now it's time to exit on your terms—confidentially, for what it's worth, to a buyer who honors your legacy.</p>
+                <p>We reach serious, vetted, capital-ready buyers. Transparent pricing. No surprises. Full guidance through valuation to close.</p>
+                <button class="btn btn-primary">Start Your Exit</button>
             </div>
             <div class="two-column-image">
-                <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=800&q=85&auto=format&fit=crop" alt="Professional business partnership and acquisition">
+                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=900&q=85&auto=format&fit=crop" alt="Business owner at work">
             </div>
         </div>
     </section>
 
-    <!-- WHY REIL -->
+    <!-- WHY -->
     <section class="section" id="why">
         <div class="section-header">
             <h2>Why ReilAcquisitions</h2>
-            <p>A marketplace built around how deals actually close—with transparency, expertise, and Midwest roots.</p>
+            <p>Built for serious acquisitions and serious exits.</p>
         </div>
         <div class="why-grid">
             <div class="why-card">
                 <div class="why-icon">🎯</div>
                 <h4>Two-Sided Representation</h4>
-                <p>Buyers AND sellers get expert guidance. No bias toward one side. Just honest advice from professionals who've been in both seats.</p>
+                <p>Buyers AND sellers get expert guidance. Honest advice from professionals who've been in both seats.</p>
             </div>
             <div class="why-card">
                 <div class="why-icon">✓</div>
                 <h4>Vetted Deals Only</h4>
-                <p>$5M–$100M revenue, 25+ employees, proven cash flow. We eliminate tire-kickers and low-quality listings. Every deal is verified.</p>
+                <p>$5M–$100M revenue, 25+ employees, proven cash flow. We eliminate low-quality listings and tire-kickers.</p>
             </div>
             <div class="why-card">
                 <div class="why-icon">🔒</div>
                 <h4>Confidential by Default</h4>
-                <p>Blind marketing. Businesses reach buyers only after NDA and proof of financing. Your competitors, staff, and banks don't find out until close.</p>
+                <p>Blind marketing. Only serious, financed buyers see your business after signing an NDA.</p>
             </div>
             <div class="why-card">
                 <div class="why-icon">📍</div>
                 <h4>Midwest Expertise</h4>
-                <p>Wisconsin, Illinois, Iowa, Michigan, Minnesota. We know the lenders, lawyers, accountants, and owners who actually close deals here.</p>
+                <p>Wisconsin, Illinois, Iowa, Michigan, Minnesota. We know the lenders, lawyers, and owners who close deals here.</p>
             </div>
         </div>
     </section>
@@ -1042,28 +1053,28 @@
                 <div class="process-step">
                     <div class="step-icon">01</div>
                     <div class="step-title">Confidential Conversation</div>
-                    <div class="step-desc">Share your goals and criteria. We listen. No pressure—just honest fit assessment and next steps.</div>
+                    <div class="step-desc">Share your goals. We listen. Honest fit assessment and next steps.</div>
                 </div>
                 <div class="process-step">
                     <div class="step-icon">02</div>
                     <div class="step-title">Deal Sourcing & Vetting</div>
-                    <div class="step-desc">We source from our marketplace and direct channels. Every deal: financials verified, earnings validated, background checked.</div>
+                    <div class="step-desc">We source from our marketplace. Every deal: financials verified, earnings validated, background checked.</div>
                 </div>
                 <div class="process-step">
                     <div class="step-icon">03</div>
-                    <div class="step-title">Deep Diligence & Guidance</div>
-                    <div class="step-desc">Valuation analysis, financial deep-dive, asset review, seller interviews. We guide your evaluation and structure negotiations.</div>
+                    <div class="step-title">Guidance & Diligence</div>
+                    <div class="step-desc">Valuation analysis, financial review, asset evaluation. We guide your assessment and negotiations.</div>
                 </div>
                 <div class="process-step">
                     <div class="step-icon">04</div>
                     <div class="step-title">Structure & Close</div>
-                    <div class="step-desc">LOI negotiation, financing coordination, legal prep. We're with you through escrow and beyond.</div>
+                    <div class="step-desc">LOI negotiation, financing coordination, legal prep. We're with you through escrow.</div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- FEATURED DEALS -->
+    <!-- DEALS -->
     <section class="deals" id="deals">
         <div class="deals-inner">
             <div class="deals-header">
@@ -1073,7 +1084,7 @@
             <div class="deals-grid">
                 <div class="deal-card">
                     <div class="deal-image">
-                        <img src="https://images.unsplash.com/photo-1565043666747-69f6646db940?w=600&q=85&auto=format&fit=crop" alt="Precision CNC manufacturing machinery">
+                        <img src="https://images.unsplash.com/photo-1565043666747-69f6646db940?w=700&q=85&auto=format&fit=crop" alt="Precision CNC machinery">
                     </div>
                     <div class="deal-content">
                         <div class="deal-industry">Manufacturing</div>
@@ -1098,11 +1109,11 @@
 
                 <div class="deal-card">
                     <div class="deal-image">
-                        <img src="https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?w=600&q=85&auto=format&fit=crop" alt="Commercial landscaping and grounds maintenance crew">
+                        <img src="https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?w=700&q=85&auto=format&fit=crop" alt="Landscaping crew at work">
                     </div>
                     <div class="deal-content">
                         <div class="deal-industry">Services</div>
-                        <div class="deal-title">Commercial Landscaping & Snow Mgmt</div>
+                        <div class="deal-title">Commercial Landscaping & Snow</div>
                         <div class="deal-location">📍 Madison Metro, Wisconsin</div>
                         <div class="deal-details">
                             <div class="deal-detail">
@@ -1123,11 +1134,11 @@
 
                 <div class="deal-card">
                     <div class="deal-image">
-                        <img src="https://images.unsplash.com/photo-1559056199-641a0ac8b3f4?w=600&q=85&auto=format&fit=crop" alt="Specialty coffee roasting and packaging">
+                        <img src="https://images.unsplash.com/photo-1559056199-641a0ac8b3f4?w=700&q=85&auto=format&fit=crop" alt="Coffee roasting operation">
                     </div>
                     <div class="deal-content">
                         <div class="deal-industry">Food & Beverage</div>
-                        <div class="deal-title">Specialty Coffee Roaster & Distributor</div>
+                        <div class="deal-title">Specialty Coffee Roaster</div>
                         <div class="deal-location">📍 Des Moines, Iowa</div>
                         <div class="deal-details">
                             <div class="deal-detail">
@@ -1150,27 +1161,27 @@
     </section>
 
     <!-- TESTIMONIALS -->
-    <section class="testimonials" id="testimonials">
+    <section class="testimonials">
         <div class="testimonials-inner">
             <div class="testimonials-header">
-                <h2>What Our Clients Say</h2>
+                <h2>Client Success Stories</h2>
             </div>
             <div class="testimonials-grid">
                 <div class="testimonial-card">
                     <div class="stars">★★★★★</div>
-                    <p class="testimonial-text">"We searched for 18 months. ReilAcquisitions brought us three quality options in 60 days. The buyer representation changed everything. We closed on a $4.8M acquisition."</p>
+                    <p class="testimonial-text">"We searched for 18 months. ReilAcquisitions brought us three quality options in 60 days. The buyer representation changed everything."</p>
                     <div class="testimonial-author">Michael Chen</div>
                     <div class="testimonial-title">Founder, Tech Ventures Fund</div>
                 </div>
                 <div class="testimonial-card">
                     <div class="stars">★★★★★</div>
-                    <p class="testimonial-text">"Lync's valuation guidance was spot-on. They got us $1.2M more than our initial offer. The process was clean, professional, and actually fun to work through."</p>
-                    <div class="testimonial-author">Jennifer Rodriguez</div>
-                    <div class="testimonial-title">Founder & Owner, Custom Manufacturing</div>
+                    <p class="testimonial-text">"Lync's valuation guidance was spot-on. They got us $1.2M more than our initial offer. Professional, clean process throughout."</p>
+                    <div class="testimonial-author">Jennifer Martinez</div>
+                    <div class="testimonial-title">Owner, Manufacturing Co.</div>
                 </div>
                 <div class="testimonial-card">
                     <div class="stars">★★★★★</div>
-                    <p class="testimonial-text">"Finally, someone who actually represents buyers. No games. No surprises. Mike's team guided us through a complex deal structure. The Midwest expertise was invaluable."</p>
+                    <p class="testimonial-text">"Finally, someone who actually represents buyers. No games. Clean process. Mike's team guided us through a complex deal structure."</p>
                     <div class="testimonial-author">David Thompson</div>
                     <div class="testimonial-title">Partner, Capital Ventures</div>
                 </div>
@@ -1182,10 +1193,10 @@
     <section class="cta-banner">
         <div class="cta-banner-content">
             <h2>Ready to acquire or exit?</h2>
-            <p>Schedule a confidential conversation with Mike, Matt, or Lync. No pressure, no obligation. Expert guidance on whether we're a fit for your goals.</p>
+            <p>Schedule a confidential conversation. No pressure. Expert guidance on whether we're a fit for your goals.</p>
             <div class="cta-banner-buttons">
-                <button class="btn btn-primary">Schedule a Consultation</button>
-                <button class="btn btn-secondary">Get Our Free Buyer's Guide</button>
+                <button class="btn btn-primary">Schedule Consultation</button>
+                <button class="btn btn-secondary">Request Free Guide</button>
             </div>
         </div>
     </section>
@@ -1196,7 +1207,7 @@
             <div class="footer-grid">
                 <div class="footer-col">
                     <div class="footer-brand">ReilAcquisitions</div>
-                    <p class="footer-desc">The marketplace for serious acquirers and quality mid-market businesses. Two-sided representation. Transparent process. Midwest expertise. $5M–$100M revenue focus.</p>
+                    <p class="footer-desc">Institutional marketplace for serious mid-market acquisitions. Two-sided representation. Transparent process. Midwest expertise.</p>
                 </div>
                 <div class="footer-col">
                     <h4>For Buyers</h4>
