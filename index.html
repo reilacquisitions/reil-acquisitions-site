@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ReilAcquisitions - Business Buyers & Sellers Marketplace</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            /* Primary Palette */
+            --primary: #1e3a8a;           /* Deep Blue */
+            --primary-light: #3b82f6;     /* Bright Blue */
+            --primary-dark: #0c1e3d;      /* Almost Black Blue */
+
+            /* Accent */
+            --accent: #f59e0b;            /* Amber/Gold */
+            --accent-light: #fbbf24;      /* Light Amber */
+
+            /* Neutrals */
+            --white: #ffffff;
+            --slate-50: #f8fafc;
+            --slate-100: #f1f5f9;
+            --slate-200: #e2e8f0;
+            --slate-400: #cbd5e1;
+            --slate-600: #475569;
+            --slate-700: #334155;
+            --slate-800: #1e293b;
+            --slate-900: #0f172a;
+            --slate-950: #020617;
+
+            /* Success / Alert */
+            --success: #10b981;
+            --warning: #f97316;
+            --error: #ef4444;
+
+            /* Spacing */
+            --space-xs: 4px;
+            --space-sm: 8px;
+            --space-md: 16px;
+            --space-lg: 24px;
+            --space-xl: 32px;
+            --space-2xl: 48px;
+            --space-3xl: 64px;
+            --space-4xl: 96px;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--slate-700);
+            background: var(--white);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* ===== HEADER ===== */
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: var(--white);
+            border-bottom: 1px solid var(--slate-100);
+            backdrop-filter: blur(10px);
+            background-color: rgba(255, 255, 255, 0.95);
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: var(--space-md);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: var(--space-md);
+            text-decoration: none;
+            color: var(--primary);
+        }
+
+        .logo-mark {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: var(--white);
+            font-size: 20px;
+            flex-shrink: 0;
+        }
+
+        .logo-text {
+            font-family: 'Syne', sans-serif;
+            font-size: 20px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .nav {
+            display: flex;
+            gap: var(--space-xl);
+            align-items: center;
+        }
+
+        .nav a {
+text-decoration: none;
+            color: var(--slate-600);
+            font-size: 14px;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .nav a:hover {
+            color: var(--primary);
+        }
+
+        .nav .cta {
+            background: var(--primary);
+            color: var(--white);
+            padding: var(--space-sm) var(--space-lg);
+            border-radius: 6px;
+            transition: background 0.2s, transform 0.2s;
+        }
+
+        .nav .cta:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        /* ===== HERO SECTION ===== */
+        .hero {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: var(--space-4xl) var(--space-md);
+            text-align: center;
+            background: linear-gradient(135deg, var(--slate-50) 0%, var(--slate-100) 100%);
+            position: relative;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-sm);
+            background: var(--slate-200);
+            padding: 8px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: var(--space-lg);
+        }
+
+        .hero-badge svg {
+            width: 16px;
+            height: 16px;
+            fill: var(--primary);
+        }
+
+        .hero h1 {
+            font-family: 'Syne', sans-serif;
+            font-size: clamp(32px, 5vw, 56px);
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: var(--space-md);
+            color: var(--primary-dark);
+            letter-spacing: -1px;
+        }
+
+        .hero h1 .highlight {
+            color: var(--accent);
+            background: linear-gradient(135deg, var(--accent) 0%, var(--accent-light) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero p {
+            font-size: 18px;
+            color: var(--slate-600);
+            margin-bottom: var(--space-2xl);
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.8;
+        }
+
+        .hero-cta-group {
+            display: flex;
+            gap: var(--space-md);
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: var(--space-2xl);
+        }
+
+        .btn {
+            padding: 12px 28px;
+            border-radius: 6px;
+            font-size: 15px;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-sm);
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: var(--white);
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(30, 58, 138, 0.3);
+        }
+
+        .btn-secondary {
+            background: var(--white);
+            color: var(--primary);
+            border: 2px solid var(--primary);
+        }
+
+        .btn-secondary:hover {
+            background: var(--slate-50);
+            transform: translateY(-2px);
+        }
+
+        /* ===== VALUE PROPS ===== */
+        .value-props {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: var(--space-4xl) var(--space-md);
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--space-2xl);
+        }
+
+        .prop {
+            background: var(--white);
+            padding: var(--space-2xl);
+            border-radius: 12px;
+            border: 1px solid var(--slate-200);
+            transition: all 0.3s;
+            text-align: center;
+        }
+
+        .prop:hover {
+border-color: var(--primary);
+            box-shadow: 0 12px 32px rgba(30, 58, 138, 0.08);
+            transform: translateY(-4px);
+        }
+
+        .prop-icon {
+            width: 56px;
+            height: 56px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto var(--space-lg);
+            font-size: 28px;
+        }
+
+        .prop h3 {
+            font-family: 'Syne', sans-serif;
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: var(--space-md);
+            color: var(--primary-dark);
+        }
+
+        .prop p {
+            font-size: 14px;
+            color: var(--slate-600);
+            line-height: 1.7;
+        }
+
+        /* ===== POSITIONING SECTION ===== */
+        .positioning {
+            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
+            color: var(--white);
+            padding: var(--space-4xl) var(--space-md);
+            margin: var(--space-4xl) 0;
+        }
+
+        .positioning-content {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .positioning h2 {
+            font-family: 'Syne', sans-serif;
+            font-size: clamp(28px, 4vw, 44px);
+            font-weight: 700;
+            margin-bottom: var(--space-2xl);
+            line-height: 1.3;
+        }
+
+        .positioning-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: var(--space-2xl);
+            margin-bottom: var(--space-2xl);
+        }
+
+        .positioning-card {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: var(--space-xl);
+            border-radius: 12px;
+            backdrop-filter: blur(10px);
+        }
+
+        .positioning-card h3 {
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: var(--space-md);
+            color: var(--accent-light);
+        }
+
+        .positioning-card p {
+            font-size: 14px;
+            line-height: 1.7;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        /* ===== TWO-SIDED MARKETPLACE ===== */
+        .marketplace {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: var(--space-4xl) var(--space-md);
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: var(--space-3xl);
+        }
+
+        .section-header h2 {
+            font-family: 'Syne', sans-serif;
+            font-size: clamp(28px, 4vw, 44px);
+            font-weight: 700;
+            color: var(--primary-dark);
+            margin-bottom: var(--space-md);
+        }
+
+        .section-header p {
+            font-size: 16px;
+            color: var(--slate-600);
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .marketplace-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+            gap: var(--space-2xl);
+        }
+
+        .marketplace-card {
+            background: var(--white);
+            border: 2px solid var(--slate-200);
+            border-radius: 12px;
+            padding: var(--space-2xl);
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .marketplace-card.buyers {
+            border-top-color: var(--accent);
+            border-top-width: 4px;
+        }
+
+        .marketplace-card.sellers {
+            border-top-color: var(--primary);
+            border-top-width: 4px;
+        }
+
+        .marketplace-card:hover {
+            box-shadow: 0 16px 40px rgba(30, 58, 138, 0.12);
+            transform: translateY(-4px);
+        }
+
+        .marketplace-card h3 {
+            font-family: 'Syne', sans-serif;
+            font-size: 24px;
+            font-weight: 700;
+margin-bottom: var(--space-md);
+            color: var(--primary-dark);
+        }
+
+        .marketplace-card.buyers h3 {
+            color: var(--accent);
+        }
+
+        .marketplace-card ul {
+            list-style: none;
+            margin-bottom: var(--space-xl);
+        }
+
+        .marketplace-card li {
+            padding: var(--space-sm) 0;
+            padding-left: var(--space-md);
+            position: relative;
+            font-size: 14px;
+            color: var(--slate-600);
+            line-height: 1.6;
+        }
+
+        .marketplace-card li:before {
+            content: "â";
+            position: absolute;
+            left: 0;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .marketplace-card.buyers li:before {
+            color: var(--accent);
+        }
+
+        /* ===== CTA SECTION ===== */
+        .cta-section {
+            background: var(--slate-50);
+            padding: var(--space-4xl) var(--space-md);
+            text-align: center;
+            margin: var(--space-4xl) 0 0;
+        }
+
+        .cta-section-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .cta-section h2 {
+            font-family: 'Syne', sans-serif;
+            font-size: clamp(28px, 4vw, 40px);
+            font-weight: 700;
+            margin-bottom: var(--space-lg);
+            color: var(--primary-dark);
+        }
+
+        .cta-section p {
+            font-size: 16px;
+            color: var(--slate-600);
+            margin-bottom: var(--space-2xl);
+            line-height: 1.8;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: var(--space-md);
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        /* ===== FOOTER ===== */
+        footer {
+            background: var(--slate-900);
+            color: var(--slate-400);
+            padding: var(--space-2xl) var(--space-md);
+            margin-top: var(--space-4xl);
+            font-size: 14px;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: var(--space-2xl);
+            padding-bottom: var(--space-2xl);
+            border-bottom: 1px solid var(--slate-700);
+            margin-bottom: var(--space-2xl);
+        }
+
+        .footer-section h4 {
+            color: var(--white);
+            font-weight: 600;
+            margin-bottom: var(--space-md);
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section li {
+            margin-bottom: var(--space-sm);
+        }
+
+        .footer-section a {
+            color: var(--slate-400);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .footer-section a:hover {
+            color: var(--white);
+        }
+
+        .footer-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: var(--space-md);
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            .nav {
+                gap: var(--space-md);
+            }
+
+            .nav a {
+                display: none;
+            }
+
+            .nav .cta {
+                display: inline-block;
+            }
+
+            .hero {
+                padding: var(--space-2xl) var(--space-md);
+            }
+
+            .marketplace-grid,
+            .positioning-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+            }
+        }
+
+        /* ===== ANIMATIONS ===== */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .prop,
+.marketplace-card {
+            animation: fadeInUp 0.6s ease-out forwards;
+        }
+
+        .prop:nth-child(1) { animation-delay: 0.1s; }
+        .prop:nth-child(2) { animation-delay: 0.2s; }
+        .prop:nth-child(3) { animation-delay: 0.3s; }
+
+        .marketplace-card:nth-child(1) { animation-delay: 0.1s; }
+        .marketplace-card:nth-child(2) { animation-delay: 0.3s; }
+    </style>
+</head>
+<body>
+    <!-- HEADER -->
+    <header>
+        <div class="header-content">
+            <a href="#" class="logo-section">
+                <div class="logo-mark">R</div>
+                <div class="logo-text">ReilAcquisitions</div>
+            </a>
+            <nav class="nav">
+                <a href="#about">For Buyers</a>
+                <a href="#sellers">For Sellers</a>
+                <a href="#deals">Resources</a>
+                <a href="#contact" class="cta">Get Started</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- HERO -->
+    <section class="hero">
+        <div class="hero-badge">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 2L15.09 8.26H22L17.82 12.5L19.91 18.76L12 14.51L4.09 18.76L6.18 12.5L2 8.26H8.91L12 2Z" fill="currentColor"/>
+            </svg>
+            Wisconsin, Illinois, Iowa, Michigan, Minnesota
+        </div>
+        <h1>The Marketplace for Serious Acquirers and Quality Mid-Market Businesses</h1>
+        <p>Finally, someone represents the buyer. We curate $5Mâ$100M business opportunities with life-changing cash flow and pair them with capital-ready acquirers who have support through every deal.</p>
+        <div class="hero-cta-group">
+            <button class="btn btn-primary">For Buyers: Find Deals</button>
+            <button class="btn btn-secondary">For Sellers: List Your Business</button>
+        </div>
+    </section>
+
+    <!-- VALUE PROPS -->
+    <section class="value-props">
+        <div class="prop">
+            <div class="prop-icon">ð¯</div>
+            <h3>Buyer Representation</h3>
+            <p>You're not alone. We guide you through sourcing, due diligence, valuation, and negotiation from day one.</p>
+        </div>
+        <div class="prop">
+            <div class="prop-icon">ð¼</div>
+            <h3>Quality Deals Only</h3>
+            <p>$5Mâ$100M revenue, 25+ employees, profitable with strong SDEâthe kind of business that actually works.</p>
+        </div>
+        <div class="prop">
+            <div class="prop-icon">ð</div>
+            <h3>Transparent Process</h3>
+            <p>No surprises. Clear data, honest assessments, and a marketplace where both sides trust the source.</p>
+        </div>
+    </section>
+
+    <!-- POSITIONING -->
+    <section class="positioning">
+        <div class="positioning-content">
+            <h2>The Deal We're Building</h2>
+            <div class="positioning-grid">
+                <div class="positioning-card">
+                    <h3>For Buyers</h3>
+                    <p>Representation exists for sellers everywhere. You deserve the same. Our team sources, vets, and guides youâsomeone is finally in your corner.</p>
+                </div>
+                <div class="positioning-card">
+                    <h3>For Sellers</h3>
+                    <p>List your quality business and reach serious buyers with capital. We bring you qualified, vetted acquirers ready to move.</p>
+                </div>
+                <div class="positioning-card">
+                    <h3>For Everyone</h3>
+                    <p>Build trust once. Transact confidently. Close deals that matter. We're the intermediary who makes it all make sense.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MARKETPLACE -->
+    <section class="marketplace">
+        <div class="section-header">
+            <h2>Two Sides. One Marketplace.</h2>
+            <p>We serve both buyers and sellers equallyâa fair, curated environment where quality meets opportunity.</p>
+        </div>
+        <div class="marketplace-grid">
+<div class="marketplace-card buyers">
+                <h3>For Business Buyers</h3>
+                <ul>
+                    <li>Access to vetted $5Mâ$100M businesses with strong cash flow</li>
+                    <li>Full representation through sourcing, diligence, and close</li>
+                    <li>Advisory support and deal guidance from acquisition experts</li>
+                    <li>Confidential, streamlined process with vetted sellers</li>
+                    <li>Resources to evaluate, negotiate, and structure your acquisition</li>
+                </ul>
+                <button class="btn btn-primary">Start Browsing Deals</button>
+            </div>
+            <div class="marketplace-card sellers">
+                <h3>For Business Sellers</h3>
+                <ul>
+                    <li>Reach serious, capital-ready acquirers in the Midwest</li>
+                    <li>List your business confidentially on our vetted marketplace</li>
+                    <li>Support through valuation, LOI, and negotiations</li>
+                    <li>Transparent pricing: listing fee + success commission</li>
+                    <li>Expert guidance on packaging and positioning your sale</li>
+                </ul>
+                <button class="btn btn-primary">List Your Business</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta-section">
+        <div class="cta-section-content">
+            <h2>Ready to Move?</h2>
+            <p>Whether you're buying or selling, the first conversation costs nothing. Let's see if there's a fit.</p>
+            <div class="cta-buttons">
+                <button class="btn btn-primary">I'm a Buyer</button>
+                <button class="btn btn-secondary">I'm a Seller</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>Company</h4>
+                <ul>
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Our Story</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>For Buyers</h4>
+                <ul>
+                    <li><a href="#">Browse Deals</a></li>
+                    <li><a href="#">How It Works</a></li>
+                    <li><a href="#">Resources</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>For Sellers</h4>
+                <ul>
+                    <li><a href="#">List a Business</a></li>
+                    <li><a href="#">Pricing</a></li>
+                    <li><a href="#">FAQ</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Resources</h4>
+                <ul>
+                    <li><a href="#">Acquisition Guide</a></li>
+                    <li><a href="#">Valuation Checklist</a></li>
+                    <li><a href="#">Blog</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 ReilAcquisitions. All rights reserved.</p>
+            <div style="display: flex; gap: 16px;">
+                <a href="#" style="color: inherit;">Privacy</a>
+                <a href="#" style="color: inherit;">Terms</a>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
