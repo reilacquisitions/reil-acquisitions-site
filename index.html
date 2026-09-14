@@ -3,14 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="REIL (Retire Early In Life) - The institutional marketplace for serious mid-market acquisitions. Buy or sell businesses $5M-$100M with expert guidance from founders with 35+ years of experience.">
-    <meta property="og:title" content="REIL Acquisitions - Marketplace for Mid-Market Acquisitions">
-    <meta property="og:description" content="Acquire the business. Keep the momentum. Institutional-grade representation for buyers and sellers.">
-    <meta property="og:image" content="https://images.unsplash.com/photo-1552664730-d307ca884978?w=1200&q=85">
-    <title>REIL Acquisitions v3.0 - Buy or Sell $5M-$100M Businesses | Midwest M&A Marketplace</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <meta name="description" content="REIL (Retire Early In Life) - The institutional marketplace for serious mid-market acquisitions.">
+    <title>REIL Acquisitions - Buy or Sell $5M-$100M Businesses</title>
     <style>
         * {
             margin: 0;
@@ -18,98 +12,69 @@
             box-sizing: border-box;
         }
 
-        :root {
-            --navy-primary: #0A1428;
-            --navy-secondary: #1A3A52;
-            --gold-primary: #C9A961;
-            --teal-primary: #0D7377;
-            --teal-dark: #056064;
-            --cream: #FAFAF8;
-            --gray-light: #F3F4F6;
-            --gray-medium: #6B7280;
-            --gray-dark: #0F0F0F;
-            --success: #2A9D8F;
-            --alert: #E76F51;
-            --white: #FFFFFF;
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
         body {
-            font-family: 'Inter', sans-serif;
-            color: var(--gray-dark);
-            background: var(--white);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            color: #0F0F0F;
+            background: #FFFFFF;
             line-height: 1.6;
-            -webkit-font-smoothing: antialiased;
         }
 
-        /* ===== TYPOGRAPHY ===== */
-        h1 {
-            font-family: 'Sora', sans-serif;
-            font-size: 72px;
-            font-weight: 900;
-            line-height: 1.1;
-            letter-spacing: -0.02em;
-            color: var(--navy-primary);
+        a {
+            color: inherit;
+            text-decoration: none;
         }
 
-        h2 {
-            font-family: 'Sora', sans-serif;
-            font-size: 56px;
-            font-weight: 900;
+        h1, h2, h3, h4, h5, h6 {
+            font-weight: 700;
             line-height: 1.2;
-            letter-spacing: -0.01em;
-            color: var(--navy-primary);
+            color: #0A1428;
         }
 
-        h3 {
-            font-family: 'Sora', sans-serif;
-            font-size: 40px;
-            font-weight: 700;
-            line-height: 1.3;
-            color: var(--navy-primary);
-        }
+        h1 { font-size: 72px; margin-bottom: 24px; }
+        h2 { font-size: 56px; margin-bottom: 32px; }
+        h3 { font-size: 40px; margin-bottom: 24px; }
+        h4 { font-size: 28px; margin-bottom: 16px; }
 
-        h4 {
-            font-family: 'Sora', sans-serif;
-            font-size: 28px;
-            font-weight: 700;
-            line-height: 1.3;
-            color: var(--navy-primary);
-        }
+        p { font-size: 16px; line-height: 1.8; margin-bottom: 16px; color: #0F0F0F; }
 
-        p {
+        button, .btn {
+            padding: 16px 40px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
             font-size: 16px;
-            font-weight: 400;
-            line-height: 1.7;
-            color: var(--gray-dark);
+            font-weight: 700;
+            transition: all 0.3s ease;
         }
 
-        .label {
-            font-family: 'Sora', sans-serif;
-            font-size: 14px;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 1.2px;
-            color: var(--gold-primary);
+        .btn-primary {
+            background: linear-gradient(135deg, #0D7377 0%, #056064 100%);
+            color: white;
+            box-shadow: 0 4px 12px rgba(13, 115, 119, 0.2);
         }
 
-        /* ===== HEADER ===== */
+        .btn-primary:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 32px rgba(13, 115, 119, 0.3);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            border: 2px solid #0A1428;
+            color: #0A1428;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(10, 20, 40, 0.05);
+        }
+
+        /* HEADER */
         header {
             position: sticky;
             top: 0;
             z-index: 100;
-            background: var(--white);
-            border-bottom: 1px solid var(--gray-light);
-            backdrop-filter: blur(12px);
-            background-color: rgba(255, 255, 255, 0.95);
-        }
-
-        .header-inner {
-            max-width: 1400px;
-            margin: 0 auto;
+            background: white;
+            border-bottom: 1px solid #F3F4F6;
             padding: 20px 60px;
             display: flex;
             justify-content: space-between;
@@ -119,13 +84,10 @@
         .logo {
             display: flex;
             align-items: center;
-            gap: 14px;
-            text-decoration: none;
-            color: var(--navy-primary);
-            font-family: 'Sora', sans-serif;
+            gap: 12px;
             font-size: 20px;
             font-weight: 700;
-            letter-spacing: 0.3px;
+            color: #0A1428;
         }
 
         .logo-mark {
@@ -136,235 +98,125 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            color: var(--white);
-            font-size: 24px;
+            color: white;
             font-weight: 700;
-            box-shadow: 0 4px 12px rgba(201, 169, 97, 0.25);
+            font-size: 24px;
         }
 
         .nav {
             display: flex;
-            gap: 48px;
+            gap: 40px;
             align-items: center;
         }
 
         .nav a {
-            text-decoration: none;
-            color: var(--gray-medium);
             font-size: 15px;
-            font-weight: 500;
-            transition: color 0.3s ease;
-            position: relative;
+            color: #6B7280;
+            transition: color 0.3s;
         }
 
         .nav a:hover {
-            color: var(--gold-primary);
+            color: #C9A961;
         }
 
-        .nav a::after {
-            content: '';
-            position: absolute;
-            bottom: -4px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: var(--gold-primary);
-            transition: width 0.3s ease;
-        }
-
-        .nav a:hover::after {
-            width: 100%;
-        }
-
-        .nav .cta-btn {
-            background: linear-gradient(135deg, #0D7377 0%, #056064 100%);
-            color: var(--white);
-            padding: 14px 32px;
-            border-radius: 6px;
-            font-family: 'Sora', sans-serif;
-            font-size: 16px;
-            font-weight: 700;
-            border: none;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 12px rgba(13, 115, 119, 0.2);
-            height: 48px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .nav .cta-btn:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 12px 32px rgba(13, 115, 119, 0.3);
-        }
-
-        /* ===== HERO ===== */
+        /* HERO */
         .hero {
             height: 100vh;
-            position: relative;
             display: flex;
             align-items: center;
+            padding: 0 60px;
+            background: white;
+            position: relative;
             overflow: hidden;
         }
 
-        .hero-bg {
-            position: absolute;
-            width: 65%;
-            height: 100%;
-            right: 0;
-            top: 0;
-        }
-
-        .hero-bg img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
-        }
-
         .hero-content {
-            position: relative;
+            width: 50%;
             z-index: 2;
-            width: 35%;
-            padding: 0 60px;
-            max-width: 550px;
         }
 
         .hero-content h1 {
             margin-bottom: 28px;
+            color: #0A1428;
         }
 
         .hero-content p {
             font-size: 18px;
-            line-height: 1.8;
-            margin-bottom: 44px;
-            color: var(--gray-medium);
+            color: #6B7280;
+            margin-bottom: 40px;
         }
 
-        .ctas {
+        .hero-ctas {
             display: flex;
             gap: 20px;
-            flex-wrap: wrap;
         }
 
-        .btn {
-            padding: 14px 32px;
-            border-radius: 6px;
-            font-family: 'Sora', sans-serif;
-            font-size: 16px;
-            font-weight: 700;
-            border: none;
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-            text-decoration: none;
-            display: inline-flex;
+        .hero-image {
+            position: absolute;
+            right: 0;
+            top: 0;
+            width: 55%;
+            height: 100%;
+            background: linear-gradient(135deg, #0A1428 0%, #1A3A52 100%);
+            display: flex;
             align-items: center;
             justify-content: center;
-            height: 48px;
-            letter-spacing: 0.5px;
+            color: white;
+            font-size: 48px;
+            font-weight: 700;
         }
 
-        .btn-primary {
-            background: linear-gradient(135deg, #0D7377 0%, #056064 100%);
-            color: var(--white);
-            box-shadow: 0 8px 24px rgba(13, 115, 119, 0.25);
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 16px 40px rgba(13, 115, 119, 0.35);
-        }
-
-        .btn-secondary {
-            background: transparent;
-            color: var(--navy-primary);
-            border: 2px solid var(--navy-primary);
-        }
-
-        .btn-secondary:hover {
-            background: rgba(10, 20, 40, 0.05);
-            transform: translateY(-2px);
-        }
-
-        /* ===== STATS ===== */
+        /* STATS */
         .stats {
-            background: var(--cream);
+            background: #FAFAF8;
             padding: 128px 60px;
-            border-top: 1px solid var(--gray-light);
-            border-bottom: 1px solid var(--gray-light);
-        }
-
-        .stats-inner {
-            max-width: 1400px;
-            margin: 0 auto;
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            gap: 64px;
+            gap: 60px;
+            max-width: 1400px;
+            margin: 0 auto;
             text-align: center;
-        }
-
-        .stat {
-            padding: 20px;
+            border-top: 1px solid #F3F4F6;
+            border-bottom: 1px solid #F3F4F6;
         }
 
         .stat-number {
-            font-family: 'Sora', sans-serif;
             font-size: 64px;
-            font-weight: 900;
-            color: var(--gold-primary);
+            font-weight: 700;
+            color: #C9A961;
             margin-bottom: 12px;
-            position: relative;
-            padding-bottom: 20px;
-        }
-
-        .stat-number::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 60px;
-            height: 2px;
-            background: var(--gold-primary);
         }
 
         .stat-label {
-            font-size: 16px;
-            color: var(--gray-medium);
-            font-weight: 500;
-            line-height: 1.6;
+            font-size: 15px;
+            color: #6B7280;
         }
 
-        /* ===== SECTION ===== */
-        .section {
-            padding: 128px 60px;
+        /* SECTION */
+        section {
             max-width: 1400px;
             margin: 0 auto;
+            padding: 128px 60px;
         }
 
         .section-header {
             text-align: center;
-            margin-bottom: 100px;
-        }
-
-        .section-header h2 {
-            margin-bottom: 20px;
+            margin-bottom: 80px;
         }
 
         .section-header p {
             font-size: 18px;
-            color: var(--gray-medium);
-            max-width: 700px;
-            margin: 0 auto;
-            line-height: 1.8;
+            color: #6B7280;
+            max-width: 600px;
+            margin: 20px auto 0;
         }
 
-        /* ===== FOUNDERS ===== */
-        .founders-grid {
+        /* FOUNDERS */
+        .founders {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 64px;
+            gap: 60px;
+            text-align: center;
         }
 
         .founder-card {
@@ -375,48 +227,47 @@
             width: 100%;
             aspect-ratio: 1;
             border-radius: 8px;
-            overflow: hidden;
-            margin-bottom: 32px;
+            margin-bottom: 28px;
+            background: linear-gradient(135deg, #0A1428 0%, #1A3A52 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 48px;
+            font-weight: 700;
+            border-top: 3px solid #C9A961;
             box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
-            border-top: 3px solid var(--gold-primary);
-        }
-
-        .founder-photo img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
         }
 
         .founder-name {
-            font-family: 'Sora', sans-serif;
             font-size: 28px;
             font-weight: 700;
-            color: var(--navy-primary);
+            color: #0A1428;
             margin-bottom: 8px;
         }
 
         .founder-title {
             font-size: 14px;
-            color: var(--gold-primary);
+            color: #C9A961;
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 1px;
-            margin-bottom: 24px;
+            margin-bottom: 20px;
         }
 
         .founder-bio {
             font-size: 16px;
-            color: var(--gray-dark);
             line-height: 1.8;
+            color: #0F0F0F;
         }
 
-        /* ===== TWO-COLUMN ===== */
+        /* TWO COLUMN */
         .two-column {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 96px;
+            gap: 80px;
             align-items: center;
-            margin-bottom: 128px;
+            margin-bottom: 100px;
         }
 
         .two-column:nth-child(even) {
@@ -428,95 +279,69 @@
         }
 
         .two-column-text h3 {
-            margin-bottom: 32px;
+            margin-bottom: 24px;
         }
 
         .two-column-text p {
-            margin-bottom: 32px;
+            margin-bottom: 24px;
         }
 
         .two-column-image {
-            height: 520px;
+            height: 500px;
             border-radius: 8px;
-            overflow: hidden;
+            background: linear-gradient(135deg, #0A1428 0%, #1A3A52 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 48px;
+            font-weight: 700;
             box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
         }
 
-        .two-column-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        /* ===== WHY SECTION ===== */
+        /* WHY CARDS */
         .why-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 64px;
+            gap: 60px;
         }
 
         .why-card {
-            padding: 56px;
-            background: var(--cream);
+            padding: 48px;
+            background: #FAFAF8;
             border-radius: 8px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
             transition: all 0.3s ease;
-            display: flex;
-            flex-direction: column;
-            gap: 24px;
-            border-left: 0px solid var(--gold-primary);
-            position: relative;
         }
 
         .why-card:hover {
-            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.12);
             transform: translateY(-8px);
-            border-left-width: 3px;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
+            border-left: 3px solid #C9A961;
         }
 
         .why-label {
-            font-family: 'Sora', sans-serif;
-            font-size: 20px;
+            font-size: 24px;
             font-weight: 700;
-            color: var(--navy-primary);
+            color: #0A1428;
+            margin-bottom: 16px;
         }
 
         .why-card p {
-            font-size: 16px;
+            font-size: 15px;
             line-height: 1.8;
         }
 
-        /* ===== PROCESS ===== */
+        /* PROCESS */
         .process {
-            background: var(--cream);
-            padding: 128px 60px;
-            border-top: 1px solid var(--gray-light);
-            border-bottom: 1px solid var(--gray-light);
-        }
-
-        .process-inner {
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-
-        .process-header {
-            text-align: center;
-            margin-bottom: 100px;
-        }
-
-        .process-header h2 {
-            margin-bottom: 20px;
-        }
-
-        .process-header p {
-            font-size: 18px;
-            color: var(--gray-medium);
+            background: #FAFAF8;
+            border-top: 1px solid #F3F4F6;
+            border-bottom: 1px solid #F3F4F6;
         }
 
         .process-steps {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            gap: 48px;
+            gap: 40px;
             position: relative;
         }
 
@@ -527,7 +352,7 @@
             left: 0;
             right: 0;
             height: 3px;
-            background: linear-gradient(90deg, var(--gold-primary) 0%, var(--gold-primary) 100%);
+            background: #C9A961;
             z-index: 1;
         }
 
@@ -540,298 +365,229 @@
         .step-icon {
             width: 140px;
             height: 140px;
-            background: var(--white);
-            border: 3px solid var(--gold-primary);
+            background: white;
+            border: 3px solid #C9A961;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin: 0 auto 36px;
-            font-family: 'Sora', sans-serif;
+            margin: 0 auto 28px;
             font-size: 56px;
-            font-weight: 900;
-            color: var(--gold-primary);
+            font-weight: 700;
+            color: #C9A961;
             box-shadow: 0 8px 24px rgba(201, 169, 97, 0.2);
             transition: all 0.3s ease;
         }
 
         .process-step:hover .step-icon {
-            box-shadow: 0 16px 40px rgba(201, 169, 97, 0.3);
             transform: scale(1.05);
+            box-shadow: 0 12px 40px rgba(201, 169, 97, 0.3);
         }
 
         .step-title {
-            font-family: 'Sora', sans-serif;
             font-size: 20px;
             font-weight: 700;
-            color: var(--navy-primary);
-            margin-bottom: 16px;
+            color: #0A1428;
+            margin-bottom: 12px;
         }
 
         .step-desc {
-            font-size: 15px;
-            color: var(--gray-dark);
+            font-size: 14px;
+            color: #0F0F0F;
             line-height: 1.8;
         }
 
-        /* ===== DEALS ===== */
-        .deals {
-            padding: 128px 60px;
-        }
-
-        .deals-inner {
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-
-        .deals-header {
-            text-align: center;
-            margin-bottom: 100px;
-        }
-
-        .deals-header h2 {
-            margin-bottom: 20px;
-        }
-
-        .deals-header p {
-            font-size: 18px;
-            color: var(--gray-medium);
-        }
-
+        /* DEALS */
         .deals-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 64px;
+            gap: 48px;
         }
 
         .deal-card {
-            background: var(--white);
+            background: white;
             border-radius: 8px;
             overflow: hidden;
+            border: 1px solid #F3F4F6;
+            border-top: 3px solid #C9A961;
             transition: all 0.3s ease;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-            border: 1px solid var(--gray-light);
-            border-top: 3px solid var(--gold-primary);
         }
 
         .deal-card:hover {
-            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.15);
             transform: translateY(-8px);
+            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.15);
         }
 
         .deal-image {
             height: 360px;
-            overflow: hidden;
-        }
-
-        .deal-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.3s ease;
-        }
-
-        .deal-card:hover .deal-image img {
-            transform: scale(1.05);
+            background: linear-gradient(135deg, #0A1428 0%, #1A3A52 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 48px;
+            font-weight: 700;
         }
 
         .deal-content {
-            padding: 48px;
+            padding: 40px;
         }
 
         .deal-industry {
             font-size: 12px;
             font-weight: 600;
-            color: var(--gold-primary);
+            color: #C9A961;
             text-transform: uppercase;
             letter-spacing: 1.5px;
-            margin-bottom: 16px;
+            margin-bottom: 12px;
         }
 
         .deal-title {
-            font-family: 'Sora', sans-serif;
-            font-size: 28px;
+            font-size: 24px;
             font-weight: 700;
-            color: var(--navy-primary);
-            margin-bottom: 12px;
-            line-height: 1.3;
+            color: #0A1428;
+            margin-bottom: 8px;
         }
 
         .deal-location {
-            font-size: 15px;
-            color: var(--gray-medium);
-            margin-bottom: 36px;
+            font-size: 14px;
+            color: #6B7280;
+            margin-bottom: 28px;
         }
 
         .deal-details {
-            padding-top: 36px;
-            border-top: 1px solid var(--gray-light);
+            border-top: 1px solid #F3F4F6;
+            padding-top: 24px;
         }
 
         .deal-detail {
             display: flex;
             justify-content: space-between;
-            align-items: center;
-            margin-bottom: 18px;
-            font-size: 15px;
-        }
-
-        .deal-detail:last-child {
-            margin-bottom: 0;
+            margin-bottom: 16px;
+            font-size: 14px;
         }
 
         .deal-detail-label {
-            color: var(--gray-medium);
-            font-weight: 500;
+            color: #6B7280;
         }
 
         .deal-detail-value {
             font-weight: 700;
-            color: var(--navy-primary);
-            font-size: 17px;
-            font-family: 'Sora', sans-serif;
+            color: #0A1428;
         }
 
-        /* ===== TESTIMONIALS ===== */
+        /* TESTIMONIALS */
         .testimonials {
-            padding: 128px 60px;
-            background: var(--cream);
-            border-top: 1px solid var(--gray-light);
-        }
-
-        .testimonials-inner {
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-
-        .testimonials-header {
-            text-align: center;
-            margin-bottom: 100px;
-        }
-
-        .testimonials-header h2 {
-            margin-bottom: 20px;
+            background: #FAFAF8;
+            border-top: 1px solid #F3F4F6;
         }
 
         .testimonials-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 64px;
+            gap: 40px;
         }
 
         .testimonial-card {
-            background: var(--white);
-            padding: 44px;
+            background: white;
+            padding: 40px;
             border-radius: 8px;
+            border: 1px solid #F3F4F6;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
-            border: 1px solid var(--gray-light);
         }
 
         .stars {
-            color: var(--gold-primary);
-            font-size: 18px;
-            margin-bottom: 24px;
-            letter-spacing: 3px;
+            font-size: 20px;
+            color: #C9A961;
+            margin-bottom: 16px;
+            letter-spacing: 4px;
         }
 
         .testimonial-text {
-            font-size: 16px;
-            color: var(--gray-dark);
+            font-size: 15px;
+            color: #0F0F0F;
             line-height: 1.8;
-            margin-bottom: 28px;
+            margin-bottom: 20px;
             font-style: italic;
         }
 
         .testimonial-author {
-            font-family: 'Sora', sans-serif;
             font-weight: 700;
-            color: var(--navy-primary);
-            font-size: 16px;
+            color: #0A1428;
+            font-size: 15px;
         }
 
         .testimonial-title {
             font-size: 13px;
-            color: var(--gray-medium);
+            color: #6B7280;
             margin-top: 4px;
         }
 
-        /* ===== CTA BANNER ===== */
+        /* CTA BANNER */
         .cta-banner {
-            background: linear-gradient(135deg, var(--navy-primary) 0%, var(--navy-secondary) 100%);
-            color: var(--white);
-            padding: 140px 60px;
+            background: linear-gradient(135deg, #0A1428 0%, #1A3A52 100%);
+            color: white;
+            padding: 120px 60px;
             text-align: center;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .cta-banner::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            right: -10%;
-            width: 700px;
-            height: 700px;
-            background: radial-gradient(circle, rgba(201, 169, 97, 0.08) 0%, rgba(201, 169, 97, 0) 70%);
-            border-radius: 50%;
-            pointer-events: none;
-        }
-
-        .cta-banner-content {
-            max-width: 1000px;
-            margin: 0 auto;
-            position: relative;
-            z-index: 2;
         }
 
         .cta-banner h2 {
-            color: var(--white);
-            margin-bottom: 28px;
+            color: white;
+            margin-bottom: 20px;
         }
 
         .cta-banner p {
-            font-size: 20px;
             color: rgba(255, 255, 255, 0.95);
-            margin-bottom: 48px;
-            line-height: 1.7;
+            font-size: 20px;
+            margin-bottom: 40px;
         }
 
-        .cta-banner-buttons {
+        .cta-buttons {
             display: flex;
-            gap: 24px;
+            gap: 20px;
             justify-content: center;
-            flex-wrap: wrap;
         }
 
-        /* ===== FOOTER ===== */
+        .cta-buttons .btn-primary {
+            background: linear-gradient(135deg, #C9A961 0%, #A67C52 100%);
+            color: white;
+        }
+
+        .cta-buttons .btn-secondary {
+            border-color: white;
+            color: white;
+            background: transparent;
+        }
+
+        .cta-buttons .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        /* FOOTER */
         footer {
-            background: var(--navy-primary);
-            color: var(--white);
-            padding: 100px 60px 50px;
-        }
-
-        .footer-inner {
-            max-width: 1400px;
-            margin: 0 auto;
+            background: #0A1428;
+            color: white;
+            padding: 80px 60px 40px;
         }
 
         .footer-grid {
             display: grid;
             grid-template-columns: 2.5fr 1fr 1fr 1fr;
-            gap: 100px;
-            margin-bottom: 80px;
-            padding-bottom: 80px;
+            gap: 80px;
+            max-width: 1400px;
+            margin: 0 auto 60px;
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 60px;
         }
 
         .footer-col h4 {
-            font-family: 'Sora', sans-serif;
             font-size: 12px;
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 1.5px;
-            color: var(--gold-primary);
-            margin-bottom: 24px;
+            color: #C9A961;
+            margin-bottom: 20px;
         }
 
         .footer-col ul {
@@ -839,133 +595,100 @@
         }
 
         .footer-col li {
-            margin-bottom: 16px;
+            margin-bottom: 12px;
         }
 
         .footer-col a {
             color: rgba(255, 255, 255, 0.75);
-            text-decoration: none;
-            font-size: 15px;
-            transition: color 0.3s ease;
+            transition: color 0.3s;
         }
 
         .footer-col a:hover {
-            color: var(--gold-primary);
-        }
-
-        .footer-bottom {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 14px;
-            color: rgba(255, 255, 255, 0.6);
+            color: #C9A961;
         }
 
         .footer-brand {
-            font-family: 'Sora', sans-serif;
             font-size: 20px;
             font-weight: 700;
-            color: var(--white);
-            margin-bottom: 16px;
+            margin-bottom: 12px;
         }
 
         .footer-desc {
-            font-size: 15px;
+            font-size: 14px;
             line-height: 1.8;
             color: rgba(255, 255, 255, 0.8);
-            max-width: 400px;
+            max-width: 380px;
         }
 
-        /* ===== RESPONSIVE ===== */
+        .footer-bottom {
+            text-align: center;
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.6);
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* RESPONSIVE */
         @media (max-width: 1024px) {
-            .header-inner,
-            .hero-content,
-            .section,
-            .process,
-            .deals,
-            .testimonials,
-            .cta-banner {
+            header, section, .stats, .process {
                 padding-left: 40px;
                 padding-right: 40px;
             }
 
-            .nav {
+            .hero {
+                padding: 60px 40px;
+            }
+
+            .deals-grid, .testimonials-grid {
+                grid-template-columns: repeat(2, 1fr);
                 gap: 32px;
             }
 
-            .deals-grid,
-            .testimonials-grid {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 48px;
+            .hero-content {
+                width: 100%;
             }
 
-            .process-steps {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            .process-steps::before {
-                display: none;
-            }
-
-            h1 {
-                font-size: 56px;
-            }
-
-            h2 {
-                font-size: 44px;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .header-inner {
-                padding: 16px 24px;
-            }
-
-            .nav a {
-                display: none;
-            }
-
-            .hero {
-                height: auto;
-                min-height: 600px;
-            }
-
-            .hero-bg {
+            .hero-image {
                 position: relative;
                 width: 100%;
                 height: 300px;
                 margin-bottom: 40px;
             }
 
-            .hero-content {
-                width: 100%;
+            h1 { font-size: 56px; }
+            h2 { font-size: 44px; }
+        }
+
+        @media (max-width: 768px) {
+            header {
+                padding: 16px 24px;
+                flex-direction: column;
+                gap: 16px;
+            }
+
+            .nav {
+                display: none;
+            }
+
+            .hero {
+                height: auto;
                 padding: 40px 24px;
             }
 
-            .hero-content h1 {
-                font-size: 48px;
+            .hero-image {
+                position: relative;
+                width: 100%;
+                height: 250px;
+                margin-bottom: 40px;
             }
 
-            .section,
-            .process,
-            .deals,
-            .testimonials,
-            .cta-banner {
+            section, .stats, .process {
                 padding: 80px 24px;
             }
 
-            .founders-grid,
-            .two-column,
-            .why-grid,
-            .process-steps,
-            .deals-grid,
-            .testimonials-grid {
+            .founders, .deals-grid, .testimonials-grid, .process-steps, .two-column, .why-grid {
                 grid-template-columns: 1fr;
-                gap: 40px;
-            }
-
-            .two-column:nth-child(even) {
-                direction: ltr;
+                gap: 32px;
             }
 
             .footer-grid {
@@ -973,35 +696,17 @@
                 gap: 40px;
             }
 
-            .footer-bottom {
-                flex-direction: column;
-                gap: 16px;
-                text-align: center;
-            }
-
-            .cta-banner-buttons {
-                flex-direction: column;
-            }
-
-            .cta-banner-buttons .btn {
-                width: 100%;
-            }
-
-            h1 {
-                font-size: 40px;
-            }
-
-            h2 {
-                font-size: 36px;
-            }
+            h1 { font-size: 40px; }
+            h2 { font-size: 32px; }
+            h3 { font-size: 28px; }
 
             .stat-number {
                 font-size: 48px;
             }
 
-            .stats-inner {
+            .stats {
                 grid-template-columns: repeat(2, 1fr);
-                gap: 40px;
+                gap: 32px;
             }
         }
     </style>
@@ -1009,95 +714,83 @@
 <body>
     <!-- HEADER -->
     <header>
-        <div class="header-inner">
-            <a href="#" class="logo">
-                <div class="logo-mark">R</div>
-                <span>REIL Acquisitions</span>
-            </a>
-            <nav class="nav">
-                <a href="#buy">Buy a Business</a>
-                <a href="#sell">Sell a Business</a>
-                <a href="#why">Why REIL</a>
-                <a href="#process">Process</a>
-                <a href="#deals">Deals</a>
-                <button class="cta-btn">Contact</button>
-            </nav>
-        </div>
+        <a href="#" class="logo">
+            <div class="logo-mark">R</div>
+            REIL Acquisitions
+        </a>
+        <nav class="nav">
+            <a href="#buy">Buy</a>
+            <a href="#sell">Sell</a>
+            <a href="#why">Why REIL</a>
+            <a href="#process">Process</a>
+            <a href="#deals">Deals</a>
+            <button class="btn-primary" style="padding: 12px 28px; font-size: 14px;">Contact</button>
+        </nav>
     </header>
 
     <!-- HERO -->
     <section class="hero">
-        <div class="hero-bg">
-            <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=1000&q=85&auto=format&fit=crop" alt="Professional business handshake">
-        </div>
         <div class="hero-content">
             <h1>Acquire the business. Keep the momentum.</h1>
-            <p>From sourcing to close. One advisor. Institutional-grade marketplace for serious mid-market acquisitions.</p>
-            <div class="ctas">
+            <p>Institutional-grade representation for serious mid-market acquisitions. From sourcing to close. One advisor.</p>
+            <div class="hero-ctas">
                 <button class="btn btn-primary">I'm a Buyer</button>
                 <button class="btn btn-secondary">Browse Deals</button>
             </div>
         </div>
+        <div class="hero-image">📊</div>
     </section>
 
     <!-- STATS -->
     <section class="stats">
-        <div class="stats-inner">
-            <div class="stat">
-                <div class="stat-number">$500M+</div>
-                <div class="stat-label">Total Deal Value</div>
-            </div>
-            <div class="stat">
-                <div class="stat-number">200+</div>
-                <div class="stat-label">Successful Transactions</div>
-            </div>
-            <div class="stat">
-                <div class="stat-number">$5M–$100M</div>
-                <div class="stat-label">Revenue Focus</div>
-            </div>
-            <div class="stat">
-                <div class="stat-number">100%</div>
-                <div class="stat-label">Confidential Process</div>
-            </div>
+        <div>
+            <div class="stat-number">$500M+</div>
+            <div class="stat-label">Deal Value</div>
+        </div>
+        <div>
+            <div class="stat-number">200+</div>
+            <div class="stat-label">Transactions</div>
+        </div>
+        <div>
+            <div class="stat-number">$5M–$100M</div>
+            <div class="stat-label">Revenue Focus</div>
+        </div>
+        <div>
+            <div class="stat-number">100%</div>
+            <div class="stat-label">Confidential</div>
         </div>
     </section>
 
     <!-- FOUNDERS -->
-    <section class="section">
+    <section>
         <div class="section-header">
             <h2>Leadership Built on Real Experience</h2>
-            <p>Three operators who've bought, sold, and scaled. We know what works.</p>
+            <p>Three operators who've bought, sold, and scaled businesses.</p>
         </div>
-        <div class="founders-grid">
+        <div class="founders">
             <div class="founder-card">
-                <div class="founder-photo">
-                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&q=85&auto=format&fit=crop" alt="Mike - Co-Founder">
-                </div>
+                <div class="founder-photo">👨‍💼</div>
                 <div class="founder-name">Mike</div>
                 <div class="founder-title">Acquisition Strategist</div>
-                <div class="founder-bio">Built three companies from startup to exit. 12+ years sourcing and closing M&A deals. Expert in deal structure and buyer representation.</div>
+                <p class="founder-bio">12+ years sourcing and closing M&A deals. Built three companies to exit. Expert in deal structure and buyer representation.</p>
             </div>
             <div class="founder-card">
-                <div class="founder-photo">
-                    <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=600&q=85&auto=format&fit=crop" alt="Matt - Co-Founder">
-                </div>
+                <div class="founder-photo">👨‍💼</div>
                 <div class="founder-name">Matt</div>
                 <div class="founder-title">Operations Director</div>
-                <div class="founder-bio">Scaled three acquisition portfolios. Expert in due diligence, financial analysis, and integration. Eliminates deal surprises through rigorous vetting.</div>
+                <p class="founder-bio">Scaled three acquisition portfolios. Expert in due diligence and financial analysis. Eliminates deal surprises.</p>
             </div>
             <div class="founder-card">
-                <div class="founder-photo">
-                    <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=600&q=85&auto=format&fit=crop" alt="Lync - Co-Founder">
-                </div>
+                <div class="founder-photo">👩‍💼</div>
                 <div class="founder-name">Lync</div>
                 <div class="founder-title">Market Relations</div>
-                <div class="founder-bio">MBA, top-tier program. Built Midwest relationships with lenders, attorneys, accountants. Expert in valuation and confidential outreach.</div>
+                <p class="founder-bio">MBA. Built Midwest relationships with lenders, attorneys, accountants. Expert in valuation and confidential outreach.</p>
             </div>
         </div>
     </section>
 
     <!-- BUY -->
-    <section class="section" id="buy">
+    <section id="buy">
         <div class="two-column">
             <div class="two-column-text">
                 <h3>Buy a Business</h3>
@@ -1105,14 +798,12 @@
                 <p>We source pre-vetted, profitable businesses. We handle diligence, structure, and financing. You get expert guidance throughout.</p>
                 <button class="btn btn-primary">Browse Deals</button>
             </div>
-            <div class="two-column-image">
-                <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=900&q=85&auto=format&fit=crop" alt="Team analyzing financial data in conference room">
-            </div>
+            <div class="two-column-image">💼</div>
         </div>
     </section>
 
     <!-- SELL -->
-    <section class="section" id="sell">
+    <section id="sell">
         <div class="two-column">
             <div class="two-column-text">
                 <h3>Sell a Business</h3>
@@ -1120,14 +811,12 @@
                 <p>We reach serious, vetted, capital-ready buyers. Transparent pricing. No surprises. Full guidance through valuation to close.</p>
                 <button class="btn btn-primary">Start Your Exit</button>
             </div>
-            <div class="two-column-image">
-                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=900&q=85&auto=format&fit=crop" alt="Business owner confident in their company">
-            </div>
+            <div class="two-column-image">🎯</div>
         </div>
     </section>
 
     <!-- WHY -->
-    <section class="section" id="why">
+    <section id="why">
         <div class="section-header">
             <h2>Why REIL</h2>
             <p>Built for serious acquisitions and serious exits.</p>
@@ -1147,122 +836,112 @@
             </div>
             <div class="why-card">
                 <div class="why-label">Midwest Expertise</div>
-                <p>Wisconsin, Illinois, Iowa, Michigan, Minnesota. We know the lenders, lawyers, and owners who close deals here.</p>
+                <p>Wisconsin, Illinois, Iowa, Michigan, Minnesota. We know the lenders, lawyers, and owners who close deals.</p>
             </div>
         </div>
     </section>
 
     <!-- PROCESS -->
     <section class="process" id="process">
-        <div class="process-inner">
-            <div class="process-header">
-                <h2>How It Works</h2>
-                <p>A clear, transparent path designed to surface surprises early.</p>
+        <div class="section-header">
+            <h2>How It Works</h2>
+            <p>A clear, transparent path designed to surface surprises early.</p>
+        </div>
+        <div class="process-steps">
+            <div class="process-step">
+                <div class="step-icon">01</div>
+                <div class="step-title">Confidential Conversation</div>
+                <p class="step-desc">Share your goals. We listen. Honest fit assessment and next steps.</p>
             </div>
-            <div class="process-steps">
-                <div class="process-step">
-                    <div class="step-icon">01</div>
-                    <div class="step-title">Confidential Conversation</div>
-                    <div class="step-desc">Share your goals. We listen. Honest fit assessment and next steps.</div>
-                </div>
-                <div class="process-step">
-                    <div class="step-icon">02</div>
-                    <div class="step-title">Deal Sourcing & Vetting</div>
-                    <div class="step-desc">We source from our marketplace. Every deal: financials verified, earnings validated, background checked.</div>
-                </div>
-                <div class="process-step">
-                    <div class="step-icon">03</div>
-                    <div class="step-title">Guidance & Diligence</div>
-                    <div class="step-desc">Valuation analysis, financial review, asset evaluation. We guide your assessment and negotiations.</div>
-                </div>
-                <div class="process-step">
-                    <div class="step-icon">04</div>
-                    <div class="step-title">Structure & Close</div>
-                    <div class="step-desc">LOI negotiation, financing coordination, legal prep. We're with you through escrow.</div>
-                </div>
+            <div class="process-step">
+                <div class="step-icon">02</div>
+                <div class="step-title">Deal Sourcing & Vetting</div>
+                <p class="step-desc">We source from our marketplace. Every deal verified, earnings validated, background checked.</p>
+            </div>
+            <div class="process-step">
+                <div class="step-icon">03</div>
+                <div class="step-title">Guidance & Diligence</div>
+                <p class="step-desc">Valuation analysis, financial review, asset evaluation. We guide your assessment.</p>
+            </div>
+            <div class="process-step">
+                <div class="step-icon">04</div>
+                <div class="step-title">Structure & Close</div>
+                <p class="step-desc">LOI negotiation, financing coordination, legal prep. We're with you through escrow.</p>
             </div>
         </div>
     </section>
 
     <!-- DEALS -->
-    <section class="deals" id="deals">
-        <div class="deals-inner">
-            <div class="deals-header">
-                <h2>Featured Businesses</h2>
-                <p>Current opportunities: $5M–$100M revenue, strong cash flow, life-changing acquisitions.</p>
+    <section id="deals">
+        <div class="section-header">
+            <h2>Featured Businesses</h2>
+            <p>Current opportunities: $5M–$100M revenue, strong cash flow, life-changing acquisitions.</p>
+        </div>
+        <div class="deals-grid">
+            <div class="deal-card">
+                <div class="deal-image">🏭</div>
+                <div class="deal-content">
+                    <div class="deal-industry">MANUFACTURING</div>
+                    <div class="deal-title">Precision CNC Machine Shop</div>
+                    <div class="deal-location">📍 Dane County, Wisconsin</div>
+                    <div class="deal-details">
+                        <div class="deal-detail">
+                            <span class="deal-detail-label">Revenue</span>
+                            <span class="deal-detail-value">$8.2M</span>
+                        </div>
+                        <div class="deal-detail">
+                            <span class="deal-detail-label">SDE</span>
+                            <span class="deal-detail-value">$1.2M</span>
+                        </div>
+                        <div class="deal-detail">
+                            <span class="deal-detail-label">Asking</span>
+                            <span class="deal-detail-value">$5.4M</span>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="deals-grid">
-                <div class="deal-card">
-                    <div class="deal-image">
-                        <img src="https://images.unsplash.com/photo-1565043666747-69f6646db940?w=700&q=85&auto=format&fit=crop" alt="Precision CNC machinery">
-                    </div>
-                    <div class="deal-content">
-                        <div class="deal-industry">Manufacturing</div>
-                        <div class="deal-title">Precision CNC Machine Shop</div>
-                        <div class="deal-location">📍 Dane County, Wisconsin</div>
-                        <div class="deal-details">
-                            <div class="deal-detail">
-                                <span class="deal-detail-label">Revenue</span>
-                                <span class="deal-detail-value">$8.2M</span>
-                            </div>
-                            <div class="deal-detail">
-                                <span class="deal-detail-label">SDE</span>
-                                <span class="deal-detail-value">$1.2M</span>
-                            </div>
-                            <div class="deal-detail">
-                                <span class="deal-detail-label">Asking Price</span>
-                                <span class="deal-detail-value">$5.4M</span>
-                            </div>
+
+            <div class="deal-card">
+                <div class="deal-image">🌿</div>
+                <div class="deal-content">
+                    <div class="deal-industry">SERVICES</div>
+                    <div class="deal-title">Commercial Landscaping & Snow</div>
+                    <div class="deal-location">📍 Madison Metro, Wisconsin</div>
+                    <div class="deal-details">
+                        <div class="deal-detail">
+                            <span class="deal-detail-label">Revenue</span>
+                            <span class="deal-detail-value">$6.1M</span>
+                        </div>
+                        <div class="deal-detail">
+                            <span class="deal-detail-label">SDE</span>
+                            <span class="deal-detail-value">$890K</span>
+                        </div>
+                        <div class="deal-detail">
+                            <span class="deal-detail-label">Asking</span>
+                            <span class="deal-detail-value">$3.8M</span>
                         </div>
                     </div>
                 </div>
+            </div>
 
-                <div class="deal-card">
-                    <div class="deal-image">
-                        <img src="https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?w=700&q=85&auto=format&fit=crop" alt="Commercial landscaping and grounds maintenance crew">
-                    </div>
-                    <div class="deal-content">
-                        <div class="deal-industry">Services</div>
-                        <div class="deal-title">Commercial Landscaping & Snow</div>
-                        <div class="deal-location">📍 Madison Metro, Wisconsin</div>
-                        <div class="deal-details">
-                            <div class="deal-detail">
-                                <span class="deal-detail-label">Revenue</span>
-                                <span class="deal-detail-value">$6.1M</span>
-                            </div>
-                            <div class="deal-detail">
-                                <span class="deal-detail-label">SDE</span>
-                                <span class="deal-detail-value">$890K</span>
-                            </div>
-                            <div class="deal-detail">
-                                <span class="deal-detail-label">Asking Price</span>
-                                <span class="deal-detail-value">$3.8M</span>
-                            </div>
+            <div class="deal-card">
+                <div class="deal-image">☕</div>
+                <div class="deal-content">
+                    <div class="deal-industry">FOOD & BEVERAGE</div>
+                    <div class="deal-title">Specialty Coffee Roaster</div>
+                    <div class="deal-location">📍 Des Moines, Iowa</div>
+                    <div class="deal-details">
+                        <div class="deal-detail">
+                            <span class="deal-detail-label">Revenue</span>
+                            <span class="deal-detail-value">$5.7M</span>
                         </div>
-                    </div>
-                </div>
-
-                <div class="deal-card">
-                    <div class="deal-image">
-                        <img src="https://images.unsplash.com/photo-1559056199-641a0ac8b3f4?w=700&q=85&auto=format&fit=crop" alt="Specialty coffee roasting operation">
-                    </div>
-                    <div class="deal-content">
-                        <div class="deal-industry">Food & Beverage</div>
-                        <div class="deal-title">Specialty Coffee Roaster</div>
-                        <div class="deal-location">📍 Des Moines, Iowa</div>
-                        <div class="deal-details">
-                            <div class="deal-detail">
-                                <span class="deal-detail-label">Revenue</span>
-                                <span class="deal-detail-value">$5.7M</span>
-                            </div>
-                            <div class="deal-detail">
-                                <span class="deal-detail-label">SDE</span>
-                                <span class="deal-detail-value">$720K</span>
-                            </div>
-                            <div class="deal-detail">
-                                <span class="deal-detail-label">Asking Price</span>
-                                <span class="deal-detail-value">$3.2M</span>
-                            </div>
+                        <div class="deal-detail">
+                            <span class="deal-detail-label">SDE</span>
+                            <span class="deal-detail-value">$720K</span>
+                        </div>
+                        <div class="deal-detail">
+                            <span class="deal-detail-label">Asking</span>
+                            <span class="deal-detail-value">$3.2M</span>
                         </div>
                     </div>
                 </div>
@@ -1272,85 +951,78 @@
 
     <!-- TESTIMONIALS -->
     <section class="testimonials">
-        <div class="testimonials-inner">
-            <div class="testimonials-header">
-                <h2>Client Success Stories</h2>
+        <div class="section-header">
+            <h2>Client Success Stories</h2>
+        </div>
+        <div class="testimonials-grid">
+            <div class="testimonial-card">
+                <div class="stars">★★★★★</div>
+                <p class="testimonial-text">"We searched for 18 months. REIL brought us three quality options in 60 days. The buyer representation changed everything."</p>
+                <div class="testimonial-author">Michael Chen</div>
+                <div class="testimonial-title">Founder, Tech Ventures Fund</div>
             </div>
-            <div class="testimonials-grid">
-                <div class="testimonial-card">
-                    <div class="stars">★★★★★</div>
-                    <p class="testimonial-text">"We searched for 18 months. REIL brought us three quality options in 60 days. The buyer representation changed everything."</p>
-                    <div class="testimonial-author">Michael Chen</div>
-                    <div class="testimonial-title">Founder, Tech Ventures Fund</div>
-                </div>
-                <div class="testimonial-card">
-                    <div class="stars">★★★★★</div>
-                    <p class="testimonial-text">"Lync's valuation guidance was spot-on. They got us $1.2M more than our initial offer. Professional, clean process throughout."</p>
-                    <div class="testimonial-author">Jennifer Martinez</div>
-                    <div class="testimonial-title">Owner, Manufacturing Co.</div>
-                </div>
-                <div class="testimonial-card">
-                    <div class="stars">★★★★★</div>
-                    <p class="testimonial-text">"Finally, someone who actually represents buyers. No games. Clean process. Mike's team guided us through a complex deal structure."</p>
-                    <div class="testimonial-author">David Thompson</div>
-                    <div class="testimonial-title">Partner, Capital Ventures</div>
-                </div>
+            <div class="testimonial-card">
+                <div class="stars">★★★★★</div>
+                <p class="testimonial-text">"Lync's valuation guidance was spot-on. They got us $1.2M more than our initial offer. Professional, clean process throughout."</p>
+                <div class="testimonial-author">Jennifer Martinez</div>
+                <div class="testimonial-title">Owner, Manufacturing Co.</div>
+            </div>
+            <div class="testimonial-card">
+                <div class="stars">★★★★★</div>
+                <p class="testimonial-text">"Finally, someone who actually represents buyers. No games. Clean process. Mike's team guided us through a complex deal structure."</p>
+                <div class="testimonial-author">David Thompson</div>
+                <div class="testimonial-title">Partner, Capital Ventures</div>
             </div>
         </div>
     </section>
 
     <!-- CTA BANNER -->
     <section class="cta-banner">
-        <div class="cta-banner-content">
-            <h2>Ready to acquire or exit?</h2>
-            <p>Schedule a confidential conversation. No pressure. Expert guidance on whether we're a fit for your goals.</p>
-            <div class="cta-banner-buttons">
-                <button class="btn btn-primary">Schedule Consultation</button>
-                <button class="btn btn-secondary">Request Free Guide</button>
-            </div>
+        <h2>Ready to acquire or exit?</h2>
+        <p>Schedule a confidential conversation. No pressure. Expert guidance on whether we're a fit for your goals.</p>
+        <div class="cta-buttons">
+            <button class="btn btn-primary">Schedule Consultation</button>
+            <button class="btn btn-secondary">Request Free Guide</button>
         </div>
     </section>
 
     <!-- FOOTER -->
     <footer>
-        <div class="footer-inner">
-            <div class="footer-grid">
-                <div class="footer-col">
-                    <div class="footer-brand">REIL Acquisitions</div>
-                    <p class="footer-desc">Institutional marketplace for serious mid-market acquisitions. Two-sided representation. Transparent process. Midwest expertise.</p>
-                </div>
-                <div class="footer-col">
-                    <h4>For Buyers</h4>
-                    <ul>
-                        <li><a href="#deals">Browse Deals</a></li>
-                        <li><a href="#process">How It Works</a></li>
-                        <li><a href="#">Financing Resources</a></li>
-                        <li><a href="#">Valuation Guide</a></li>
-                    </ul>
-                </div>
-                <div class="footer-col">
-                    <h4>For Sellers</h4>
-                    <ul>
-                        <li><a href="#">List a Business</a></li>
-                        <li><a href="#">Exit Planning</a></li>
-                        <li><a href="#">Valuation Consultation</a></li>
-                        <li><a href="#">FAQ</a></li>
-                    </ul>
-                </div>
-                <div class="footer-col">
-                    <h4>Company</h4>
-                    <ul>
-                        <li><a href="#">About</a></li>
-                        <li><a href="#">Contact</a></li>
-                        <li><a href="#">Blog</a></li>
-                        <li><a href="#">Privacy</a></li>
-                    </ul>
-                </div>
+        <div class="footer-grid">
+            <div class="footer-col">
+                <div class="footer-brand">REIL Acquisitions</div>
+                <p class="footer-desc">Institutional marketplace for serious mid-market acquisitions. Two-sided representation. Transparent process. Midwest expertise.</p>
             </div>
-            <div class="footer-bottom">
-                <p>&copy; 2026 REIL Acquisitions. All rights reserved.</p>
-                <p>Wisconsin • Illinois • Iowa • Michigan • Minnesota</p>
+            <div class="footer-col">
+                <h4>FOR BUYERS</h4>
+                <ul>
+                    <li><a href="#deals">Browse Deals</a></li>
+                    <li><a href="#process">How It Works</a></li>
+                    <li><a href="#">Financing Resources</a></li>
+                    <li><a href="#">Valuation Guide</a></li>
+                </ul>
             </div>
+            <div class="footer-col">
+                <h4>FOR SELLERS</h4>
+                <ul>
+                    <li><a href="#">List a Business</a></li>
+                    <li><a href="#">Exit Planning</a></li>
+                    <li><a href="#">Valuation Consultation</a></li>
+                    <li><a href="#">FAQ</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>COMPANY</h4>
+                <ul>
+                    <li><a href="#">About</a></li>
+                    <li><a href="#">Contact</a></li>
+                    <li><a href="#">Blog</a></li>
+                    <li><a href="#">Privacy</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 REIL (Retire Early In Life) Acquisitions. Wisconsin • Illinois • Iowa • Michigan • Minnesota</p>
         </div>
     </footer>
 </body>
