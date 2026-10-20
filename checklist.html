@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="The Acquisition Checklist — how to structure your first $5M-$100M business purchase. Free guide from REIL Acquisitions.">
+<title>Free Acquisition Checklist — REIL Acquisitions</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><linearGradient id='g' x1='0%' y1='0%' x2='100%' y2='100%'><stop offset='0%' stop-color='%23C9A961'/><stop offset='100%' stop-color='%23A67C52'/></linearGradient></defs><rect width='100' height='100' fill='url(%23g)' rx='20'/><text x='50' y='70' font-size='60' font-weight='900' text-anchor='middle' fill='white' font-family='system-ui'>R</text></svg>">
+<style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+    html { scroll-behavior:smooth; }
+    body { font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif; color:#1a1a1a; background:#fff; -webkit-font-smoothing:antialiased; line-height:1.6; }
+    a { color:inherit; text-decoration:none; }
+    button { border:none; cursor:pointer; font-family:inherit; transition:all .3s ease; }
+
+    h1 { font-size:64px; font-weight:900; line-height:1.08; letter-spacing:-0.02em; }
+    h2 { font-size:44px; font-weight:900; line-height:1.15; letter-spacing:-0.01em; }
+    h3 { font-size:26px; font-weight:900; line-height:1.25; }
+    p { font-size:18px; line-height:1.85; color:#3a3f4a; }
+
+    header { position:sticky; top:0; z-index:1000; background:#0a1428; padding:20px 60px; display:flex; justify-content:space-between; align-items:center; }
+    .logo { display:flex; align-items:center; gap:14px; color:#fff; font-weight:900; font-size:20px; }
+    .logo-mark { width:44px; height:44px; background:linear-gradient(135deg,#c9a961,#a67c52); border-radius:10px; display:flex; align-items:center; justify-content:center; color:#fff; font-weight:900; font-size:22px; }
+    .header-cta { background:linear-gradient(135deg,#c9a961,#a67c52); color:#0a1428; padding:12px 28px; border-radius:8px; font-weight:900; font-size:14px; letter-spacing:.5px; }
+
+    .hero { background:linear-gradient(160deg,#0a1428 0%,#123149 100%); color:#fff; padding:120px 60px 100px; text-align:center; position:relative; overflow:hidden; }
+    .hero::before { content:''; position:absolute; top:-40%; right:-20%; width:700px; height:700px; background:radial-gradient(circle,rgba(201,169,97,0.18) 0%,transparent 60%); }
+    .hero-inner { position:relative; z-index:2; max-width:900px; margin:0 auto; }
+    .eyebrow { display:inline-block; background:rgba(201,169,97,0.15); color:#c9a961; padding:8px 20px; border-radius:100px; font-size:13px; font-weight:800; letter-spacing:2px; text-transform:uppercase; margin-bottom:32px; }
+    .hero h1 { color:#fff; margin-bottom:24px; }
+    .hero h1 span { color:#c9a961; }
+    .hero p { color:rgba(255,255,255,0.85); font-size:21px; max-width:680px; margin:0 auto 48px; }
+    .hero .stat-line { display:flex; justify-content:center; gap:48px; flex-wrap:wrap; color:rgba(255,255,255,0.7); font-size:15px; font-weight:600; margin-top:8px; }
+    .hero .stat-line b { color:#c9a961; font-size:22px; display:block; }
+
+    .layout { display:grid; grid-template-columns:1.1fr .9fr; gap:80px; max-width:1200px; margin:0 auto; padding:100px 60px; align-items:start; }
+
+    .benefits h2 { color:#0a1428; margin-bottom:16px; }
+    .benefits .sub { color:#6b7280; font-size:18px; margin-bottom:48px; }
+    .benefit { display:flex; gap:20px; margin-bottom:32px; align-items:flex-start; }
+    .check { width:32px; height:32px; min-width:32px; background:linear-gradient(135deg,#0d7377,#056064); border-radius:8px; display:flex; align-items:center; justify-content:center; color:#fff; font-weight:900; font-size:18px; margin-top:4px; }
+    .benefit h3 { color:#0a1428; margin-bottom:6px; }
+    .benefit p { color:#6b7280; font-size:16px; line-height:1.7; margin-bottom:0; }
+
+    .preview { margin-top:56px; }
+    .preview h3 { color:#0a1428; margin-bottom:20px; font-size:22px; }
+    .preview-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:16px; }
+    .preview-item { background:#f6f5f1; border:1px solid #eceadf; border-left:3px solid #c9a961; border-radius:8px; padding:16px 18px; font-size:14px; font-weight:600; color:#3a3f4a; }
+
+    .form-card { background:#fff; border:1px solid #eceadf; border-radius:16px; padding:48px; box-shadow:0 30px 70px rgba(10,20,40,0.10); position:sticky; top:100px; }
+    .form-card .tag { display:inline-block; background:#0d7377; color:#fff; font-size:12px; font-weight:900; letter-spacing:1px; text-transform:uppercase; padding:6px 14px; border-radius:100px; margin-bottom:20px; }
+    .form-card h2 { color:#0a1428; font-size:30px; margin-bottom:12px; }
+    .form-card .form-sub { color:#6b7280; font-size:16px; margin-bottom:32px; }
+    .form-card label { display:block; font-size:13px; font-weight:800; color:#0a1428; margin-bottom:8px; letter-spacing:.5px; text-transform:uppercase; }
+    .form-card input { width:100%; padding:16px 18px; border:2px solid #e5e7eb; border-radius:10px; font-size:16px; margin-bottom:20px; font-family:inherit; transition:border-color .2s; }
+    .form-card input:focus { outline:none; border-color:#c9a961; }
+    .submit { width:100%; background:linear-gradient(135deg,#c9a961,#a67c52); color:#0a1428; padding:18px; border-radius:10px; font-size:17px; font-weight:900; letter-spacing:.5px; margin-top:8px; }
+    .submit:hover { transform:translateY(-2px); box-shadow:0 16px 40px rgba(201,169,97,0.35); }
+    .privacy { text-align:center; font-size:13px; color:#9ca3af; margin-top:20px; }
+    .form-note { text-align:center; font-size:12px; color:#9ca3af; margin-top:12px; font-style:italic; }
+
+    .success { display:none; text-align:center; padding:40px 0; }
+    .success.show { display:block; }
+    .success .big-check { width:72px; height:72px; background:linear-gradient(135deg,#0d7377,#056064); border-radius:50%; display:flex; align-items:center; justify-content:center; color:#fff; font-size:36px; font-weight:900; margin:0 auto 24px; }
+    .success h3 { color:#0a1428; margin-bottom:12px; }
+    .success p { color:#6b7280; font-size:16px; }
+
+    .bottom-cta { background:linear-gradient(135deg,#0a1428,#123149); text-align:center; padding:100px 60px; color:#fff; }
+    .bottom-cta h2 { color:#fff; margin-bottom:16px; }
+    .bottom-cta p { color:rgba(255,255,255,0.85); max-width:600px; margin:0 auto 40px; }
+    .bottom-cta a { display:inline-block; background:linear-gradient(135deg,#c9a961,#a67c52); color:#0a1428; padding:18px 44px; border-radius:10px; font-weight:900; font-size:16px; letter-spacing:.5px; }
+
+    footer { background:#0a1428; color:rgba(255,255,255,0.6); text-align:center; padding:40px 60px; font-size:14px; border-top:1px solid rgba(255,255,255,0.08); }
+
+    @media (max-width: 900px) {
+        .layout { grid-template-columns:1fr; padding:60px 32px; gap:48px; }
+        .form-card { position:static; }
+        h1 { font-size:44px; }
+        h2 { font-size:32px; }
+        header { padding:16px 24px; }
+        .hero { padding:80px 24px 64px; }
+        .hero .stat-line { gap:24px; }
+        .preview-grid { grid-template-columns:1fr; }
+    }
+</style>
+</head>
+<body>
+
+<header>
+    <a href="https://reilacquisitions.com" class="logo">
+        <div class="logo-mark">R</div>
+        <span>REIL Acquisitions</span>
+    </a>
+    <a href="https://reilacquisitions.com" class="header-cta">Back to Site</a>
+</header>
+
+<section class="hero">
+    <div class="hero-inner">
+        <div class="eyebrow">Free Guide for Buyers</div>
+        <h1>The Acquisition Checklist:<br><span>Structure Your First $5M–$100M Purchase</span></h1>
+        <p>Everything you need to verify before you write the LOI — capital readiness, deal evaluation, valuation math, financing, and the deal-breakers that kill most acquisitions.</p>
+        <div class="stat-line">
+            <div><b>200+</b>Buyers Served</div>
+            <div><b>$500M+</b>Deal Value</div>
+            <div><b>60–90d</b>Typical Close</div>
+            <div><b>100%</b>Confidential</div>
+        </div>
+    </div>
+</section>
+
+<div class="layout">
+    <div class="benefits">
+        <h2>What's inside the checklist</h2>
+        <p class="sub">Built from real deals. No fluff, no theory — the exact verification steps that separate a good acquisition from a $500K mistake.</p>
+
+        <div class="benefit">
+            <div class="check">✓</div>
+            <div>
+                <h3>Pre-Acquisition Readiness</h3>
+                <p>Capital reserves, lender pre-approval, advisor alignment, and personal readiness — before you ever start searching.</p>
+            </div>
+        </div>
+        <div class="benefit">
+            <div class="check">✓</div>
+            <div>
+                <h3>Deal Evaluation Framework</h3>
+                <p>Revenue verification, SDE calculation, customer concentration risk, and the operational red flags that kill 40% of deals.</p>
+            </div>
+        </div>
+        <div class="benefit">
+            <div class="check">✓</div>
+            <div>
+                <h3>Valuation Math, Step by Step</h3>
+                <p>EBITDA and SDE multiples by industry, comparable data, and the valuation mistakes buyers make over and over.</p>
+            </div>
+        </div>
+        <div class="benefit">
+            <div class="check">✓</div>
+            <div>
+                <h3>Financing & Structure</h3>
+                <p>How 60% leverage actually works, SBA 7(a) basics, seller notes, and where your down payment can come from.</p>
+            </div>
+        </div>
+        <div class="benefit">
+            <div class="check">✓</div>
+            <div>
+                <h3>The 7 Deal Breakers</h3>
+                <p>Undisclosed liabilities, customer concentration, owner dependency, declining revenue — the exact list to run before you commit.</p>
+            </div>
+        </div>
+
+        <div class="preview">
+            <h3>A peek at what you'll get</h3>
+            <div class="preview-grid">
+                <div class="preview-item">Capital readiness checklist</div>
+                <div class="preview-item">SDE calculation worksheet</div>
+                <div class="preview-item">Valuation multiples by industry</div>
+                <div class="preview-item">Financing pre-approval steps</div>
+                <div class="preview-item">Due diligence priorities</div>
+                <div class="preview-item">LOI → close timeline</div>
+                <div class="preview-item">7 deal-breaker red flags</div>
+                <div class="preview-item">Post-close integration guide</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-card">
+        <div id="formWrap">
+            <div class="tag">Free Download</div>
+            <h2>Get the checklist</h2>
+            <p class="form-sub">Enter your email and get the full 12-page checklist instantly. No spam, unsubscribe anytime.</p>
+            <form id="leadForm">
+                <label for="name">Full Name</label>
+                <input type="text" id="name" name="name" placeholder="John Smith" required>
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" placeholder="you@company.com" required>
+                <label for="phone">Phone (optional)</label>
+                <input type="tel" id="phone" name="phone" placeholder="(555) 555-5555">
+                <button type="submit" class="submit">Get My Free Checklist</button>
+            </form>
+            <p class="privacy">🔒 Your information is kept confidential.</p>
+            <p class="form-note">Connect this form to ConvertKit, Formspree, or HubSpot to capture leads. Demo shows the success state below.</p>
+        </div>
+        <div class="success" id="successMsg">
+            <div class="big-check">✓</div>
+            <h3>Checklist on the way!</h3>
+            <p>Check your inbox. Your free Acquisition Checklist should arrive in the next few minutes.</p>
+        </div>
+    </div>
+</div>
+
+<section class="bottom-cta">
+    <h2>Ready to put the checklist to work?</h2>
+    <p>When you're ready to look at vetted, confidential acquisition opportunities in the Midwest, we're here to guide you through the entire journey.</p>
+    <a href="mailto:hello@reilacquisitions.com">Schedule a Confidential Conversation</a>
+</section>
+
+<footer>
+    © 2026 REIL (Retire Early In Life) Acquisitions — Wisconsin · Illinois · Iowa · Michigan · Minnesota
+</footer>
+
+<script>
+    document.getElementById('leadForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        // Demo: show success state. Wire to a real form backend (Formspree/ConvertKit) to capture.
+        document.getElementById('formWrap').style.display = 'none';
+        document.getElementById('successMsg').classList.add('show');
+    });
+</script>
+</body>
+</html>
