@@ -56,6 +56,41 @@ footer a { color: #c9a961; }
 <script defer src="/_vercel/insights/script.js"></script>
 <script>window.si = window.si || function () { (window.siq = window.siq || []).push(arguments); };</script>
 <script defer src="/_vercel/speed-insights/script.js"></script>
+<script>
+/* First-touch attribution. Held in sessionStorage for this visit only - no cookies,
+   no identifiers, nothing persisted beyond the session. Sent with every form
+   submission so each lead can be traced to the channel that produced it. */
+(function () {
+    var KEY = 'reil_attr';
+    function readUtms() {
+        var out = {};
+        (location.search || '').replace(/^\?/, '').split('&').forEach(function (kv) {
+            if (!kv) return;
+            var i = kv.indexOf('=');
+            var k = decodeURIComponent(i === -1 ? kv : kv.slice(0, i));
+            var v = decodeURIComponent(i === -1 ? '' : kv.slice(i + 1));
+            if (/^utm_/.test(k) && v) out[k] = v.slice(0, 160);
+        });
+        return out;
+    }
+    try {
+        var saved = {};
+        try { saved = JSON.parse(sessionStorage.getItem(KEY) || '{}') || {}; } catch (e) { saved = {}; }
+        if (!saved.landing) saved.landing = (location.pathname + (location.search || '')).slice(0, 300);
+        if (!saved.referrer) saved.referrer = (document.referrer || '').slice(0, 300);
+        if (!saved.ts) saved.ts = new Date().toISOString();
+        var utms = readUtms();
+        for (var k in utms) saved[k] = utms[k];
+        sessionStorage.setItem(KEY, JSON.stringify(saved));
+    } catch (e) {}
+    window.reilAttribution = function () {
+        var out = {};
+        try { out = JSON.parse(sessionStorage.getItem(KEY) || '{}') || {}; } catch (e) { out = {}; }
+        out.page = location.pathname.slice(0, 200);
+        return out;
+    };
+})();
+</script>
 </head>
 <body>
 <header>
