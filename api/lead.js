@@ -49,8 +49,101 @@ function rows(d) {
   ].filter((r) => r[1]);
 }
 
+/* ---------------- attribution ----------------
+   Where did this lead come from? Captured server-side, so it still works for
+   visitors without JavaScript and never depends on a third-party tracker.  */
+
+const SEARCH_SOURCES = ["google.", "bing.", "duckduckgo.", "yahoo.", "ecosia.", "brave.", "startpage.", "qwant.", "yandex.", "marginalia."];
+const SOCIAL_SOURCES = ["facebook.", "fb.", "instagram.", "linkedin.", "lnkd.in", "twitter.", "x.com", "t.co", "reddit.", "youtube.", "youtu.be", "tiktok.", "pinterest.", "threads.", "nextdoor."];
+
+function hostOf(url) {
+  try { return new URL(String(url)).hostname.replace(/^www\./i, "").toLowerCase(); } catch (e) { return ""; }
+}
+
+function classifyChannel(referrer, utmMedium, utmSource) {
+  const m = clean(utmMedium, 60).toLowerCase();
+  const s = clean(utmSource, 60).toLowerCase();
+  if (m) return s ? `${m} / ${s}` : m;
+  if (s) return s;
+  const host = hostOf(referrer);
+  if (!host) return "direct or unknown";
+  if (host === "reilacquisitions.com" || host.slice(-19) === ".reilacquisitions.com") return "internal";
+  if (SEARCH_SOURCES.some((d) => host.indexOf(d) !== -1)) return "organic search";
+  if (SOCIAL_SOURCES.some((d) => host.indexOf(d) !== -1)) return "social";
+  return `referral: ${host}`;
+}
+
+function deviceOf(ua) {
+  const u = String(ua || "").toLowerCase();
+  if (!u) return "";
+  if (/ipad|tablet|playbook|silk/.test(u) || /android(?!.*mobile)/.test(u)) return "tablet";
+  if (/mobi|iphone|ipod|android|blackberry|opera mini|iemobile/.test(u)) return "mobile";
+  return "desktop";
+}
+
+function attribution(req, d) {
+  const h = req.headers || {};
+  const hdr = (k) => clean(h[k], 300);
+  const referer = hdr("referer");
+
+  // UTM tags reach us either from the form (persisted client-side) or in the
+  // query string of the page URL the browser sends as Referer. Accept either.
+  const refUtms = {};
+  let externalReferrer = "";
+  try {
+    const u = new URL(referer);
+    if (u.hostname.replace(/^www\./i, "").toLowerCase() === "reilacquisitions.com") {
+      u.searchParams.forEach((v, k) => { if (/^utm_/.test(k)) refUtms[k] = v; });
+    } else {
+      externalReferrer = referer;
+    }
+  } catch (e) {}
+
+  const utm = {};
+  ["utm_source", "utm_medium", "utm_campaign", "utm_term", "utm_content"].forEach((k) => {
+    utm[k] = clean(d[k], 160) || refUtms[k] || "";
+  });
+
+  const referrer = clean(d.referrer, 300) || externalReferrer;
+  let city = hdr("x-vercel-ip-city");
+  try { city = decodeURIComponent(city); } catch (e) {}
+
+  return {
+    channel: classifyChannel(referrer || referer, utm.utm_medium, utm.utm_source),
+    referrer: referrer || (referer ? "(internal page)" : "(none - direct)"),
+    landing: clean(d.landing, 300),
+    page: clean(d.page, 200),
+    utm_source: utm.utm_source,
+    utm_medium: utm.utm_medium,
+    utm_campaign: utm.utm_campaign,
+    utm_term: utm.utm_term,
+    utm_content: utm.utm_content,
+    location: [city, hdr("x-vercel-ip-country-region"), hdr("x-vercel-ip-country")].filter(Boolean).join(", "),
+    device: deviceOf(hdr("user-agent")),
+    first_touch: clean(d.ts, 40),
+  };
+}
+
+function attributionRows(a) {
+  if (!a) return [];
+  return [
+    ["Channel", a.channel],
+    ["Landed on", a.landing],
+    ["Submitted from", a.page],
+    ["Referrer", a.referrer],
+    ["UTM source", a.utm_source],
+    ["UTM medium", a.utm_medium],
+    ["UTM campaign", a.utm_campaign],
+    ["UTM term", a.utm_term],
+    ["UTM content", a.utm_content],
+    ["Location", a.location],
+    ["Device", a.device],
+    ["First seen", a.first_touch],
+  ].filter((r) => r[1]);
+}
+
 /* ---------------- Resend ---------------- */
-async function sendResend(d) {
+async function sendResend(d, attr) {
   const key = process.env.RESEND_API_KEY;
   if (!key) return { skipped: true };
 
@@ -62,10 +155,16 @@ async function sendResend(d) {
   const msg = clean(d.message, 4000);
   const source = clean(d.source, 120) || "Website contact form";
 
+  const aRows = attributionRows(attr);
+  const aText = aRows.length
+    ? `\n\nHow they arrived:\n` + aRows.map((r) => `${r[0]}: ${r[1]}`).join("\n")
+    : "";
+
   const text =
     `New inquiry from ${source}\n\n` +
     table.map((r) => `${r[0]}: ${r[1]}`).join("\n") +
-    `\n\nMessage:\n${msg || "(none)"}`;
+    `\n\nMessage:\n${msg || "(none)"}` +
+    aText;
 
   const html =
     `<div style="font-family:-apple-system,Segoe UI,Roboto,Arial,sans-serif;max-width:600px">` +
@@ -76,12 +175,20 @@ async function sendResend(d) {
                      `<td style="border-bottom:1px solid #eee">${esc(r[1])}</td></tr>`).join("") +
     `</table>` +
     (msg ? `<p style="font-size:14px;color:#333;margin-top:22px"><b>Message</b><br>${esc(msg).replace(/\n/g, "<br>")}</p>` : "") +
+    (aRows.length
+      ? `<h3 style="color:#0a1428;font-size:15px;margin:28px 0 10px">How they arrived</h3>` +
+        `<table cellpadding="8" cellspacing="0" style="font-size:13px;border-collapse:collapse;width:100%">` +
+        aRows.map((r) => `<tr><td style="color:#888;border-bottom:1px solid #f2f2f2;width:130px">${esc(r[0])}</td>` +
+                         `<td style="border-bottom:1px solid #f2f2f2;color:#555">${esc(r[1])}</td></tr>`).join("") +
+        `</table>`
+      : "") +
     `</div>`;
 
   const body = {
     from,
     to,
-    subject: `Website inquiry - ${clean(d.name, 120)}${d.company ? " (" + clean(d.company, 120) + ")" : ""}`,
+    subject: `Website inquiry - ${clean(d.name, 120)}${d.company ? " (" + clean(d.company, 120) + ")" : ""}` +
+      (attr && attr.channel ? ` [${clean(attr.channel, 40)}]` : ""),
     text,
     html,
   };
@@ -273,9 +380,11 @@ module.exports = async function handler(req, res) {
     return;
   }
 
+  const attr = attribution(req, data);
+
   let lead;
   try {
-    lead = await sendResend(data);
+    lead = await sendResend(data, attr);
   } catch (e) {
     finish(502, { ok: false, delivered: [], failed: [{ channel: "email", error: String(e).slice(0, 220) }] });
     return;
@@ -302,5 +411,5 @@ module.exports = async function handler(req, res) {
     confirmation = { sent: false, error: String(e).slice(0, 160) };
   }
 
-  finish(200, { ok: true, delivered: ["email"], provider: "resend", id: lead.id, confirmation });
+  finish(200, { ok: true, delivered: ["email"], provider: "resend", id: lead.id, confirmation, attribution: attr });
 };

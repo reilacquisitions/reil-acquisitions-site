@@ -27,11 +27,14 @@ header { position: sticky; top: 0; z-index: 1000; background: #fff; border-botto
 main { max-width: 900px; margin: 0 auto; padding: 80px 80px 100px; }
 h2 { font-size: 26px; font-weight: 900; color: #0a1428; margin: 44px 0 14px; }
 h2:first-child { margin-top: 0; }
+h3 { font-size: 18px; font-weight: 900; color: #0a1428; margin: 26px 0 8px; }
 p, li { font-size: 17px; line-height: 1.8; color: #333; margin-bottom: 16px; }
 ul { padding-left: 26px; margin-bottom: 16px; }
 li { margin-bottom: 10px; }
 strong { color: #0a1428; }
 .updated { font-size: 14px; color: #888; margin-bottom: 34px; }
+.callout { background: #f6f5f2; border-left: 4px solid #c9a961; border-radius: 8px; padding: 22px 26px; margin: 26px 0; }
+.callout p:last-child { margin-bottom: 0; }
 footer { background: #0a1428; color: rgba(255,255,255,.65); text-align: center; padding: 44px 80px; font-size: 14px; }
 footer a { color: #c9a961; }
 .email-plain { color: rgba(255,255,255,.65); }
@@ -49,6 +52,11 @@ footer a { color: #c9a961; }
   .header-cta { padding: 10px 18px; font-size: 11px; }
 }
 </style>
+<!-- Analytics: Vercel Web Analytics + Speed Insights - cookieless, anonymised, no personal data. -->
+<script>window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };</script>
+<script defer src="/_vercel/insights/script.js"></script>
+<script>window.si = window.si || function () { (window.siq = window.siq || []).push(arguments); };</script>
+<script defer src="/_vercel/speed-insights/script.js"></script>
 </head>
 <body>
 <header>
@@ -65,34 +73,67 @@ footer a { color: #c9a961; }
     <p class="updated">Last updated: October 2026</p>
 
     <h2>The short version</h2>
-    <p>If you contact us or download our checklist, we use your details to respond to you and to send you the material you asked for. We do not sell your information, and we do not add you to lists you did not ask for.</p>
+    <p>If you contact us or download our checklist, we use your details to respond to you and to send you the material you asked for. We do not sell your information, we do not add you to lists you did not ask for, and we do not run advertising trackers on this site.</p>
+
+    <h2>Who we are</h2>
+    <p>This site is operated by <strong>REIL Acquisitions</strong>, a business acquisition and exit advisory firm serving Wisconsin, Illinois, Iowa, Michigan and Minnesota. For anything in this policy you can reach us at <strong>hello@reilacquisitions.com</strong>.</p>
 
     <h2>Information we collect</h2>
     <ul>
         <li><strong>Details you give us</strong> — name, email address, phone number, company, and anything you write in a message or inquiry form.</li>
-        <li><strong>Form submissions</strong> — routed through FormSubmit and delivered to our business inbox.</li>
+        <li><strong>Form submissions</strong> — submitted to our own secure endpoint on this website and delivered to our business inbox by email through our email provider, Resend. We do not route your submission through a third-party form service.</li>
         <li><strong>Basic technical data</strong> — our hosting provider records standard request logs (IP address, browser type, pages requested) for security and reliability.</li>
+        <li><strong>Aggregate analytics</strong> — we measure page views, referring sites and general location/device type. This is aggregate and anonymised. See <em>Cookies and analytics</em> below.</li>
     </ul>
+
+    <h2>Cookies and analytics</h2>
+    <div class="callout">
+        <p><strong>This site does not use cookies.</strong> We do not set tracking cookies, we do not use advertising or cross-site trackers, and we do not build a profile of you or follow you to other websites. There is therefore no cookie banner, because there is nothing to consent to.</p>
+    </div>
+    <p>We use Vercel Web Analytics and Speed Insights to understand which pages are useful and how quickly the site loads. These tools are <strong>cookieless</strong>: instead of a cookie, visitors are counted using a temporary hash derived from the incoming request. That hash cannot be used to identify you, and it cannot follow you between different days or across different websites. We see totals and trends — top pages, referring sites, country, and device type — not individuals.</p>
+    <p>We also record, on our own server, <em>how a visitor arrived</em> when they submit a form — for example the referring website, a campaign tag if one is present in the link, and the page they landed on. This is attached to that inquiry so we know which of our own outreach efforts is working. It is stored only in the session, not on your device.</p>
 
     <h2>How we use it</h2>
     <ul>
         <li>To reply to your inquiry and provide the resources you requested.</li>
         <li>To evaluate whether we are a fit for your acquisition or exit goals.</li>
         <li>To keep records of our communications and to meet legal and accounting obligations.</li>
+        <li>To understand, in aggregate, which pages and channels bring people to this site.</li>
     </ul>
 
     <h2>Confidentiality of deal information</h2>
     <p>Business and financial information shared during an engagement is treated as strictly confidential. We market businesses on a blind basis, and we will sign a mutual NDA before you share sensitive financial detail. Information about your company is disclosed to a counterparty only after you approve it.</p>
 
     <h2>Sharing</h2>
-    <p>We do not sell, rent, or trade your personal information. We share it only with service providers who help us operate the site and our communications (such as our email and form providers), or where we are required to by law.</p>
-
-    <h2>Your choices</h2>
+    <p>We do not sell, rent, or trade your personal information. We share it only with the service providers who help us operate this site and our communications, or where we are required to by law:</p>
     <ul>
-        <li>You can ask us to correct or delete your information at any time.</li>
-        <li>You can unsubscribe from any email we send you using the link included in it.</li>
-        <li>You may opt out of our list entirely by emailing us.</li>
+        <li><strong>Resend</strong> — delivers our email, including the confirmation we send you and the notification we send ourselves.</li>
+        <li><strong>Vercel</strong> — hosts this website and provides the aggregate, cookieless analytics described above.</li>
     </ul>
+
+    <h2>How long we keep it</h2>
+    <p>Inquiry records are kept for as long as we need them to serve you and to meet our legal and accounting obligations, and are then deleted. Aggregate analytics are retained by our analytics provider on a rolling window and are not linked to you.</p>
+
+    <h2>Your choices and your rights</h2>
+    <p>You can contact us at any time to:</p>
+    <ul>
+        <li>Ask what information we hold about you, and receive a copy of it.</li>
+        <li>Ask us to correct anything inaccurate.</li>
+        <li>Ask us to delete your information, where we are not required to keep it.</li>
+        <li>Object to or restrict how we use it.</li>
+        <li>Unsubscribe from any email we send you, using the link included in it, or by asking us directly.</li>
+    </ul>
+    <p>These rights apply to everyone who contacts us. If you are in the European Economic Area or the United Kingdom, they reflect your rights under the GDPR; if you are a California resident, they reflect your rights under the CCPA/CPRA, including the right not to be discriminated against for exercising them. We do not sell or share personal information as those terms are defined by California law.</p>
+    <p>To make a request, email <strong>hello@reilacquisitions.com</strong> and we will respond within 30 days.</p>
+
+    <h2>Security</h2>
+    <p>This site is served over HTTPS. Form submissions are transmitted to our own endpoint and delivered by email to a monitored business inbox. No method of transmission over the internet is completely secure, but we limit what we collect to what we actually need in order to respond to you.</p>
+
+    <h2>Children</h2>
+    <p>This site is intended for business owners and professional advisors. It is not directed at children, and we do not knowingly collect information from anyone under 16.</p>
+
+    <h2>Changes to this policy</h2>
+    <p>If we change how we handle information, we will update this page and revise the date at the top. Material changes will be described plainly.</p>
 
     <h2>Contact</h2>
     <p>Questions about this policy, or a request to remove your information: <strong>hello@reilacquisitions.com</strong>, or use the form on our <a href="/#contact"><strong>contact page</strong></a>.</p>
@@ -100,7 +141,7 @@ footer a { color: #c9a961; }
 
 <footer>
     &copy; 2026 REIL (Retire Early In Life) Acquisitions — Wisconsin &middot; Illinois &middot; Iowa &middot; Michigan &middot; Minnesota<br>
-    <a href="/">Home</a> &middot; <a href="/about/">About</a> &middot; <a href="/#contact">Contact</a> &middot; <span class="email-plain">hello@reilacquisitions.com</span>
+    <a href="/">Home</a> &middot; <a href="/about/">About</a> &middot; <a href="/#contact">Contact</a> &middot; <a href="/privacy/">Privacy</a> &middot; <a href="/terms/">Terms</a> &middot; <span class="email-plain">hello@reilacquisitions.com</span>
 </footer>
 </body>
 </html>

@@ -22,6 +22,46 @@ p { font-size: 19px; line-height: 1.75; color: rgba(255,255,255,.82); margin-bot
 .foot { margin-top: 60px; font-size: 13px; color: rgba(255,255,255,.45); }
 @media (max-width: 640px) { h1 { font-size: 34px; } .btn { width: 100%; } }
 </style>
+<!-- Analytics: Vercel Web Analytics + Speed Insights - cookieless, anonymised, no personal data. -->
+<script>window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };</script>
+<script defer src="/_vercel/insights/script.js"></script>
+<script>window.si = window.si || function () { (window.siq = window.siq || []).push(arguments); };</script>
+<script defer src="/_vercel/speed-insights/script.js"></script>
+<script>
+/* First-touch attribution. Held in sessionStorage for this visit only - no cookies,
+   no identifiers, nothing persisted beyond the session. Sent with every form
+   submission so each lead can be traced to the channel that produced it. */
+(function () {
+    var KEY = 'reil_attr';
+    function readUtms() {
+        var out = {};
+        (location.search || '').replace(/^\?/, '').split('&').forEach(function (kv) {
+            if (!kv) return;
+            var i = kv.indexOf('=');
+            var k = decodeURIComponent(i === -1 ? kv : kv.slice(0, i));
+            var v = decodeURIComponent(i === -1 ? '' : kv.slice(i + 1));
+            if (/^utm_/.test(k) && v) out[k] = v.slice(0, 160);
+        });
+        return out;
+    }
+    try {
+        var saved = {};
+        try { saved = JSON.parse(sessionStorage.getItem(KEY) || '{}') || {}; } catch (e) { saved = {}; }
+        if (!saved.landing) saved.landing = (location.pathname + (location.search || '')).slice(0, 300);
+        if (!saved.referrer) saved.referrer = (document.referrer || '').slice(0, 300);
+        if (!saved.ts) saved.ts = new Date().toISOString();
+        var utms = readUtms();
+        for (var k in utms) saved[k] = utms[k];
+        sessionStorage.setItem(KEY, JSON.stringify(saved));
+    } catch (e) {}
+    window.reilAttribution = function () {
+        var out = {};
+        try { out = JSON.parse(sessionStorage.getItem(KEY) || '{}') || {}; } catch (e) { out = {}; }
+        out.page = location.pathname.slice(0, 200);
+        return out;
+    };
+})();
+</script>
 </head>
 <body>
 <div class="card">
@@ -34,7 +74,7 @@ p { font-size: 19px; line-height: 1.75; color: rgba(255,255,255,.82); margin-bot
         <a href="/assets/REIL-Acquisition-Checklist.pdf" class="btn" download>Download the Checklist</a>
         <a href="/" class="btn btn-ghost">Back to Site</a>
     </div>
-    <div class="foot">REIL (Retire Early In Life) Acquisitions &middot; Wisconsin &middot; Illinois &middot; Iowa &middot; Michigan &middot; Minnesota</div>
+    <div class="foot">REIL (Retire Early In Life) Acquisitions &middot; Wisconsin &middot; Illinois &middot; Iowa &middot; Michigan &middot; Minnesota<br><a href="/privacy/" style="color:rgba(255,255,255,.6)">Privacy</a> &middot; <a href="/terms/" style="color:rgba(255,255,255,.6)">Terms</a></div>
 </div>
 </body>
 </html>
