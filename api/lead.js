@@ -7,11 +7,8 @@
  *
  * Env vars (set in Vercel):
  *   RESEND_API_KEY  - Resend API key (required)
- *   RESEND_FROM     - verified From header. Until reilacquisitions.com is
- *                     verified in Resend this must stay onboarding@resend.dev,
- *                     because an unverified account may only send to its own
- *                     address. Swap to website@reilacquisitions.com after
- *                     verifying the domain.
+ *   RESEND_FROM     - From header. reilacquisitions.com is verified in Resend,
+ *                     so leads are sent as website@reilacquisitions.com.
  *   LEAD_TO         - destination, defaults to hello@reilacquisitions.com
  *   LEAD_BCC        - optional extra recipient
  *
@@ -59,7 +56,7 @@ async function sendResend(d) {
 
   const to = (process.env.LEAD_TO || "hello@reilacquisitions.com")
     .split(",").map((s) => s.trim()).filter(Boolean);
-  const from = process.env.RESEND_FROM || "REIL Website <onboarding@resend.dev>";
+  const from = process.env.RESEND_FROM || "REIL Website <website@reilacquisitions.com>";
   const bcc = (process.env.LEAD_BCC || "").split(",").map((s) => s.trim()).filter(Boolean);
   const table = rows(d);
   const msg = clean(d.message, 4000);
@@ -130,7 +127,7 @@ module.exports = async function handler(req, res) {
     const out = {
       ok: configured,
       mode: "dry_run",
-      email: { configured, provider: "resend", from: process.env.RESEND_FROM || "REIL Website <onboarding@resend.dev>", to: process.env.LEAD_TO || "hello@reilacquisitions.com" },
+      email: { configured, provider: "resend", from: process.env.RESEND_FROM || "REIL Website <website@reilacquisitions.com>", to: process.env.LEAD_TO || "hello@reilacquisitions.com" },
     };
     res.status(configured ? 200 : 503).json(out);
     return;
