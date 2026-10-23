@@ -1188,13 +1188,16 @@
      1. /api/lead          - our own backend (Mailgun, no third party)
      2. formsubmit.co      - hosted form service
      3. the visitor's mail client (mailto)
-   Three independent paths, so an inquiry is never silently lost. */
+   Every attempt is time-boxed: a blackholed endpoint must not leave the visitor
+   staring at "Sending..." forever. On any failure or timeout we move to the next
+   path, so an inquiry is never silently lost. */
 (function () {
     var form = document.getElementById('contactForm');
     if (!form) return;
     var success = document.getElementById('contactSuccess');
     var btn = form.querySelector('.contact-submit');
     var FS = 'https://formsubmit.co/ajax/hello@reilacquisitions.com';
+    var TIMEOUT_MS = 7000;
 
     function done() {
         form.style.display = 'none';
@@ -1218,13 +1221,25 @@
     }
 
     function post(url, payload) {
-        return fetch(url, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-            body: JSON.stringify(payload)
-        }).then(function (r) {
-            if (!r.ok) throw new Error('HTTP ' + r.status);
-            return true;
+        return new Promise(function (resolve, reject) {
+            var ctrl = (typeof AbortController !== 'undefined') ? new AbortController() : null;
+            var timer = setTimeout(function () {
+                if (ctrl) ctrl.abort();
+                reject(new Error('timeout'));
+            }, TIMEOUT_MS);
+            fetch(url, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+                body: JSON.stringify(payload),
+                signal: ctrl ? ctrl.signal : undefined
+            }).then(function (r) {
+                clearTimeout(timer);
+                if (!r.ok) throw new Error('HTTP ' + r.status);
+                resolve(true);
+            }).catch(function (e) {
+                clearTimeout(timer);
+                reject(e);
+            });
         });
     }
 
