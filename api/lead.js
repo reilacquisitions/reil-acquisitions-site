@@ -144,6 +144,28 @@ module.exports = async function handler(req, res) {
 
   const data = parseBody(req);
 
+  // ---- dry run: verify every channel is wired WITHOUT delivering anything.
+  // Used by the uptime watchdog so health checks never spam the team.
+  if (String(data.dry_run) === "true" || data.dry_run === true) {
+    const out = { ok: true, mode: "dry_run", channels: {} };
+    if (process.env.TELEGRAM_BOT_TOKEN && process.env.TELEGRAM_CHAT_ID) {
+      try {
+        const r = await fetch(`https://api.telegram.org/bot${process.env.TELEGRAM_BOT_TOKEN}/getMe`);
+        const j = await r.json();
+        out.channels.telegram = { configured: true, reachable: !!(r.ok && j.ok), bot: j.result && j.result.username };
+      } catch (e) {
+        out.channels.telegram = { configured: true, reachable: false, error: String(e).slice(0, 120) };
+      }
+    } else {
+      out.channels.telegram = { configured: false };
+    }
+    out.channels.mailgun = { configured: !!process.env.MAILGUN_API_KEY, domain: process.env.MAILGUN_DOMAIN || null };
+    out.channels.lead_to = process.env.LEAD_TO || "hello@reilacquisitions.com";
+    out.ok = Object.values(out.channels).some((c) => c && c.configured && c.reachable !== false);
+    res.status(out.ok ? 200 : 503).json(out);
+    return;
+  }
+
   // Honeypot: real people never fill this in. Pretend success, send nothing.
   if (data._honey) {
     finish(200, { ok: true, delivered: [], note: "ignored" });
