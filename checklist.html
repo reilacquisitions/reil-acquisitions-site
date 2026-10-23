@@ -91,6 +91,19 @@
         .preview-grid { grid-template-columns:1fr; }
     }
         .hp-field { position: absolute; left: -9999px; opacity: 0; height: 0; width: 0; }
+        .lead-error {
+            display: none;
+            margin-top: 14px;
+            padding: 13px 16px;
+            border-radius: 9px;
+            background: #fdf3f3;
+            border: 1.5px solid #e8b4b4;
+            color: #9b2c2c;
+            font-size: 14px;
+            line-height: 1.5;
+            text-align: center;
+        }
+        .lead-error.show { display: block; }
         .download-btn {
             display: inline-block; margin-top: 8px; padding: 16px 34px; border-radius: 10px;
             background: linear-gradient(135deg,#0d7377 0%,#056064 100%); color: #fff;
@@ -185,10 +198,7 @@
             <div class="tag">Free Download</div>
             <h2>Get the checklist</h2>
             <p class="form-sub">Enter your email and get the full 12-page checklist instantly. No spam, unsubscribe anytime.</p>
-            <form id="leadForm" action="https://formsubmit.co/hello@reilacquisitions.com" method="POST">
-                <input type="hidden" name="_subject" value="REIL checklist request">
-                <input type="hidden" name="_template" value="box">
-                <input type="hidden" name="_next" value="https://reilacquisitions.com/thank-you.html">
+            <form id="leadForm" action="/api/lead" method="POST">
                 <input type="hidden" name="source" value="Free Acquisition Checklist">
                 <input type="text" name="_honey" class="hp-field" tabindex="-1" autocomplete="off" aria-hidden="true">
                 <label for="name">Full Name</label>
@@ -198,13 +208,14 @@
                 <label for="phone">Phone (optional)</label>
                 <input type="tel" id="phone" name="phone" placeholder="(555) 555-5555">
                 <button type="submit" class="submit">Get My Free Checklist</button>
+                <p id="leadError" class="lead-error" role="alert"></p>
             </form>
             <p class="privacy">🔒 Your information is kept confidential. No spam, unsubscribe anytime.</p>
         </div>
         <div class="success" id="successMsg">
             <div class="big-check">✓</div>
-            <h3>Checklist on the way!</h3>
-            <p>Check your inbox &mdash; your free Acquisition Checklist is on its way. You can also open it right now:</p>
+            <h3>You're all set!</h3>
+            <p>Thanks &mdash; we'll be in touch. Your free Acquisition Checklist is ready to download right now:</p>
             <a class="download-btn" href="/assets/REIL-Acquisition-Checklist.pdf" download>Download the Checklist (PDF)</a>
         </div>
     </div>
@@ -221,53 +232,41 @@
 </footer>
 
 <script>
-/* Lead form delivery, most-preferred path first:
-     1. /api/lead          - our own backend (Mailgun, no third party)
-     2. formsubmit.co      - hosted form service
-     3. the visitor's mail client (mailto)
-   Every attempt is time-boxed: a blackholed endpoint must not leave the visitor
-   staring at "Sending..." forever. On any failure or timeout we move to the next
-   path, so a lead is never silently lost. */
+/* Checklist form: handled entirely in-page.
+   The browser POSTs to our own /api/lead function, which delivers server-side.
+   No mail client, no third-party form service, no other app launches. */
 (function () {
     var form = document.getElementById('leadForm');
     if (!form) return;
     var btn = form.querySelector('button[type="submit"]');
-    var FS = 'https://formsubmit.co/ajax/hello@reilacquisitions.com';
-    var TIMEOUT_MS = 7000;
+    var label = btn.textContent;
+    var errBox = document.getElementById('leadError');
+    var TIMEOUT_MS = 15000;
 
-    function done() {
+    function showSuccess() {
+        form.reset();                     // clear the fields
         document.getElementById('formWrap').style.display = 'none';
         document.getElementById('successMsg').classList.add('show');
     }
 
-    function mailtoFallback(d) {
-        var body = [
-            'Name: ' + (d.name || ''),
-            'Email: ' + (d.email || ''),
-            'Phone: ' + (d.phone || ''),
-            'Free Acquisition Checklist request'
-        ].join('\r\n');
-        window.location.href = 'mailto:hello@reilacquisitions.com'
-            + '?subject=' + encodeURIComponent('Checklist request from ' + (d.name || 'a visitor'))
-            + '&body=' + encodeURIComponent(body);
-    }
-
-    function post(url, payload) {
+    function send(payload) {
         return new Promise(function (resolve, reject) {
             var ctrl = (typeof AbortController !== 'undefined') ? new AbortController() : null;
             var timer = setTimeout(function () {
                 if (ctrl) ctrl.abort();
-                reject(new Error('timeout'));
+                reject(new Error('Timed out'));
             }, TIMEOUT_MS);
-            fetch(url, {
+            fetch('/api/lead', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
                 body: JSON.stringify(payload),
                 signal: ctrl ? ctrl.signal : undefined
             }).then(function (r) {
                 clearTimeout(timer);
-                if (!r.ok) throw new Error('HTTP ' + r.status);
-                resolve(true);
+                return r.json().catch(function () { return {}; }).then(function (j) {
+                    if (!r.ok) throw new Error((j && (j.error || j.detail)) || ('HTTP ' + r.status));
+                    resolve(j);
+                });
             }).catch(function (e) {
                 clearTimeout(timer);
                 reject(e);
@@ -278,7 +277,7 @@
     form.addEventListener('submit', function (e) {
         if (!window.fetch || !window.FormData) return;   // native POST fallback
         e.preventDefault();
-        var label = btn.textContent;
+        if (errBox) { errBox.textContent = ''; errBox.classList.remove('show'); }
         btn.textContent = 'Sending\u2026';
         btn.disabled = true;
 
@@ -286,14 +285,14 @@
         new FormData(form).forEach(function (v, k) { payload[k] = v; });
         payload.source = 'Free Acquisition Checklist';
 
-        post('/api/lead', payload)
-            .then(done)
-            .catch(function () { return post(FS, payload).then(done); })
-            .catch(function () {
-                btn.textContent = label;
-                btn.disabled = false;
-                mailtoFallback(payload);
-            });
+        send(payload).then(showSuccess).catch(function () {
+            btn.textContent = label;
+            btn.disabled = false;
+            if (errBox) {
+                errBox.textContent = "Sorry \u2014 that didn't go through. Please try again, or email hello@reilacquisitions.com.";
+                errBox.classList.add('show');
+            }
+        });
     });
 })();
 </script>

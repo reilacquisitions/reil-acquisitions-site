@@ -767,6 +767,29 @@
             margin-top: 8px;
             border: none;
         }
+        .contact-error {
+            display: none;
+            margin: 4px 0 0;
+            padding: 14px 18px;
+            border-radius: 10px;
+            background: #fdf3f3;
+            border: 1.5px solid #e8b4b4;
+            color: #9b2c2c;
+            font-size: 14.5px;
+            line-height: 1.55;
+            text-align: center;
+        }
+        .contact-error.show { display: block; }
+        .contact-again {
+            display: inline-block;
+            margin-top: 22px;
+            font-size: 15px;
+            font-weight: 800;
+            color: #0a1428;
+            border-bottom: 2px solid #c9a961;
+            padding-bottom: 2px;
+        }
+        .contact-again:hover { color: #0d7377; border-color: #0d7377; }
         .contact-note {
             font-size: 13px;
             color: #999;
@@ -1094,11 +1117,7 @@
                 <div class="contact-response-note">We reply within one business day.</div>
             </div>
             <div class="contact-form-wrap">
-                <form id="contactForm" class="contact-form"
-                      action="https://formsubmit.co/hello@reilacquisitions.com" method="POST">
-                    <input type="hidden" name="_subject" value="New REIL website inquiry">
-                    <input type="hidden" name="_template" value="box">
-                    <input type="hidden" name="_next" value="https://reilacquisitions.com/thank-you.html">
+                <form id="contactForm" class="contact-form" action="/api/lead" method="POST">
                     <input type="text" name="_honey" class="hp-field" tabindex="-1" autocomplete="off" aria-hidden="true">
                     <div class="field-row">
                         <div class="field">
@@ -1134,12 +1153,14 @@
                         <textarea id="c-message" name="message" rows="4" placeholder="A sentence or two is plenty."></textarea>
                     </div>
                     <button type="submit" class="btn btn-primary contact-submit">Send Confidential Message</button>
+                    <p id="contactError" class="contact-error" role="alert"></p>
                     <p class="contact-note">Your details stay private. No lists, no spam.</p>
                 </form>
                 <div id="contactSuccess" class="contact-success" role="status" aria-live="polite">
                     <div class="contact-success-icon">&#10003;</div>
                     <h3>Message sent.</h3>
-                    <p>Thanks &mdash; we'll be in touch within one business day. A copy is on its way to your inbox.</p>
+                    <p>Thanks &mdash; we'll be in touch within one business day.</p>
+                    <a href="#" id="sendAnother" class="contact-again">Send another message</a>
                 </div>
             </div>
         </div>
@@ -1184,58 +1205,44 @@
     </footer>
 
 <script>
-/* Contact form delivery, most-preferred path first:
-     1. /api/lead          - our own backend (Mailgun, no third party)
-     2. formsubmit.co      - hosted form service
-     3. the visitor's mail client (mailto)
-   Every attempt is time-boxed: a blackholed endpoint must not leave the visitor
-   staring at "Sending..." forever. On any failure or timeout we move to the next
-   path, so an inquiry is never silently lost. */
+/* Contact form: handled entirely in-page.
+   The browser POSTs to our own /api/lead function, which does the delivery
+   server-side. We never hand off to a mail client and never open another app.
+   On success the fields are cleared; on failure we say so inline. */
 (function () {
     var form = document.getElementById('contactForm');
     if (!form) return;
     var success = document.getElementById('contactSuccess');
+    var errBox = document.getElementById('contactError');
     var btn = form.querySelector('.contact-submit');
-    var FS = 'https://formsubmit.co/ajax/hello@reilacquisitions.com';
-    var TIMEOUT_MS = 7000;
+    var label = btn.textContent;
+    var TIMEOUT_MS = 15000;
 
-    function done() {
+    function showSuccess() {
+        form.reset();                     // clear the fields for the next inquiry
         form.style.display = 'none';
         success.classList.add('show');
         success.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
 
-    function mailtoFallback(d) {
-        var body = [
-            'Name: ' + (d.name || ''),
-            'Email: ' + (d.email || ''),
-            'Company: ' + (d.company || ''),
-            'Phone: ' + (d.phone || ''),
-            'Looking to: ' + (d.intent || ''),
-            '',
-            (d.message || '')
-        ].join('\r\n');
-        window.location.href = 'mailto:hello@reilacquisitions.com'
-            + '?subject=' + encodeURIComponent('Website inquiry from ' + (d.name || 'a visitor'))
-            + '&body=' + encodeURIComponent(body);
-    }
-
-    function post(url, payload) {
+    function send(payload) {
         return new Promise(function (resolve, reject) {
             var ctrl = (typeof AbortController !== 'undefined') ? new AbortController() : null;
             var timer = setTimeout(function () {
                 if (ctrl) ctrl.abort();
-                reject(new Error('timeout'));
+                reject(new Error('Timed out'));
             }, TIMEOUT_MS);
-            fetch(url, {
+            fetch('/api/lead', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
                 body: JSON.stringify(payload),
                 signal: ctrl ? ctrl.signal : undefined
             }).then(function (r) {
                 clearTimeout(timer);
-                if (!r.ok) throw new Error('HTTP ' + r.status);
-                resolve(true);
+                return r.json().catch(function () { return {}; }).then(function (j) {
+                    if (!r.ok) throw new Error((j && (j.error || j.detail)) || ('HTTP ' + r.status));
+                    resolve(j);
+                });
             }).catch(function (e) {
                 clearTimeout(timer);
                 reject(e);
@@ -1246,22 +1253,34 @@
     form.addEventListener('submit', function (e) {
         if (!window.fetch || !window.FormData) return;   // native POST fallback
         e.preventDefault();
-        var label = btn.textContent;
+        if (errBox) { errBox.textContent = ''; errBox.classList.remove('show'); }
         btn.textContent = 'Sending\u2026';
         btn.disabled = true;
 
         var payload = {};
         new FormData(form).forEach(function (v, k) { payload[k] = v; });
 
-        post('/api/lead', payload)
-            .then(done)
-            .catch(function () { return post(FS, payload).then(done); })
-            .catch(function () {
-                btn.textContent = label;
-                btn.disabled = false;
-                mailtoFallback(payload);
-            });
+        send(payload).then(showSuccess).catch(function () {
+            btn.textContent = label;
+            btn.disabled = false;
+            if (errBox) {
+                errBox.textContent = "Sorry \u2014 that didn't go through. Please try again, or call or email us at hello@reilacquisitions.com.";
+                errBox.classList.add('show');
+            }
+        });
     });
+
+    var again = document.getElementById('sendAnother');
+    if (again) {
+        again.addEventListener('click', function (e) {
+            e.preventDefault();
+            success.classList.remove('show');
+            form.style.display = '';
+            btn.textContent = label;
+            btn.disabled = false;
+            form.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        });
+    }
 })();
 </script>
 </body>
