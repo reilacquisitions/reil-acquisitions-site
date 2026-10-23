@@ -689,7 +689,6 @@
             color: #a67c52;
             margin-bottom: 8px;
         }
-        .contact-info-item a,
         .contact-info-value {
             font-size: 18px;
             color: #0a1428;
@@ -697,7 +696,7 @@
             line-height: 1.6;
             display: block;
         }
-        .contact-info-item a:hover { color: #0d7377; }
+        .contact-info-value, .contact-email { color: #0a1428; }
         .contact-guide-link {
             font-size: 18px;
             color: #0a1428;
@@ -767,6 +766,38 @@
             margin-top: 8px;
             border: none;
         }
+        .field-error {
+            display: block;
+            margin-top: 7px;
+            font-size: 13.5px;
+            font-weight: 600;
+            color: #9b2c2c;
+        }
+        input[aria-invalid="true"], select[aria-invalid="true"], textarea[aria-invalid="true"] {
+            border-color: #d98080 !important;
+            background: #fffafa !important;
+        }
+        .contact-email {
+            font-size: 18px;
+            color: #0a1428;
+            font-weight: 600;
+            display: block;
+        }
+        .copy-email {
+            margin-top: 10px;
+            padding: 8px 16px;
+            border-radius: 8px;
+            background: #f3f1ec;
+            border: 1px solid #e2ddd2;
+            color: #0a1428;
+            font-size: 13px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: .5px;
+            cursor: pointer;
+            transition: all .25s ease;
+        }
+        .copy-email:hover { background: #0a1428; color: #fff; border-color: #0a1428; }
         .contact-error {
             display: none;
             margin: 4px 0 0;
@@ -1100,7 +1131,8 @@
             <div class="contact-info">
                 <div class="contact-info-item">
                     <div class="contact-info-label">Email</div>
-                    <a href="mailto:hello@reilacquisitions.com">hello@reilacquisitions.com</a>
+                    <span class="contact-email">hello@reilacquisitions.com</span>
+                    <button type="button" class="copy-email" data-copy="hello@reilacquisitions.com">Copy address</button>
                 </div>
                 <div class="contact-info-item">
                     <div class="contact-info-label">Coverage</div>
@@ -1117,7 +1149,7 @@
                 <div class="contact-response-note">We reply within one business day.</div>
             </div>
             <div class="contact-form-wrap">
-                <form id="contactForm" class="contact-form" action="/api/lead" method="POST">
+                <form id="contactForm" class="contact-form" action="/api/lead" method="POST" novalidate>
                     <input type="text" name="_honey" class="hp-field" tabindex="-1" autocomplete="off" aria-hidden="true">
                     <div class="field-row">
                         <div class="field">
@@ -1186,7 +1218,7 @@
                 <ul>
                     <li><a href="/sell-a-business-madison-wi/">Sell a Business in Madison, WI</a></li>
                     <li><a href="/sell-a-business-madison-wi/">Exit Planning &amp; Valuation</a></li>
-                    <li><a href="mailto:hello@reilacquisitions.com">Confidential Consultation</a></li>
+                    <li><a href="#contact">Confidential Consultation</a></li>
                     <li><a href="/checklist.html">Acquisition Checklist</a></li>
                 </ul>
             </div>
@@ -1205,10 +1237,10 @@
     </footer>
 
 <script>
-/* Contact form: handled entirely in-page.
-   The browser POSTs to our own /api/lead function, which does the delivery
-   server-side. We never hand off to a mail client and never open another app.
-   On success the fields are cleared; on failure we say so inline. */
+/* Contact form: validated and submitted entirely in-page.
+   1. Validate the entries and show inline, per-field errors.
+   2. POST to our own /api/lead function, which does delivery server-side.
+   The browser never hands off to a mail client and never opens another app. */
 (function () {
     var form = document.getElementById('contactForm');
     if (!form) return;
@@ -1218,7 +1250,43 @@
     var label = btn.textContent;
     var TIMEOUT_MS = 15000;
 
+    function clearFieldErrors() {
+        form.querySelectorAll('.field-error').forEach(function (e) { e.remove(); });
+        form.querySelectorAll('[aria-invalid="true"]').forEach(function (e) { e.removeAttribute('aria-invalid'); });
+    }
+
+    function flag(field, message) {
+        if (!field) return;
+        field.setAttribute('aria-invalid', 'true');
+        var msg = document.createElement('span');
+        msg.className = 'field-error';
+        msg.textContent = message;
+        var host = field.closest('.field') || field.parentNode;
+        host.appendChild(msg);
+    }
+
+    function validate() {
+        clearFieldErrors();
+        var problems = [];
+        var name = form.querySelector('[name="name"]');
+        var email = form.querySelector('[name="email"]');
+        var intent = form.querySelector('[name="intent"]');
+
+        if (!name.value.trim()) { flag(name, 'Please enter your name.'); problems.push(name); }
+        var ev = email.value.trim();
+        if (!ev) { flag(email, 'Please enter your email address.'); problems.push(email); }
+        else if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(ev)) { flag(email, 'That email address looks incomplete.'); problems.push(email); }
+        if (intent && !intent.value) { flag(intent, 'Please choose one.'); problems.push(intent); }
+
+        if (problems.length) {
+            problems[0].focus();
+            return false;
+        }
+        return true;
+    }
+
     function showSuccess() {
+        clearFieldErrors();
         form.reset();                     // clear the fields for the next inquiry
         form.style.display = 'none';
         success.classList.add('show');
@@ -1250,10 +1318,22 @@
         });
     }
 
+    // Clear a field's error as soon as the visitor corrects it.
+    form.addEventListener('input', function (e) {
+        var f = e.target;
+        if (f.getAttribute('aria-invalid') === 'true') {
+            f.removeAttribute('aria-invalid');
+            var host = f.closest('.field') || f.parentNode;
+            var m = host.querySelector('.field-error');
+            if (m) m.remove();
+        }
+    });
+
     form.addEventListener('submit', function (e) {
-        if (!window.fetch || !window.FormData) return;   // native POST fallback
-        e.preventDefault();
+        e.preventDefault();               // always handled here, never handed off
         if (errBox) { errBox.textContent = ''; errBox.classList.remove('show'); }
+        if (!validate()) return;          // invalid: tell them exactly what to fix
+
         btn.textContent = 'Sending\u2026';
         btn.disabled = true;
 
@@ -1264,7 +1344,7 @@
             btn.textContent = label;
             btn.disabled = false;
             if (errBox) {
-                errBox.textContent = "Sorry \u2014 that didn't go through. Please try again, or call or email us at hello@reilacquisitions.com.";
+                errBox.textContent = "Sorry \u2014 that didn't go through. Please try again in a moment.";
                 errBox.classList.add('show');
             }
         });
@@ -1276,11 +1356,32 @@
             e.preventDefault();
             success.classList.remove('show');
             form.style.display = '';
+            clearFieldErrors();
             btn.textContent = label;
             btn.disabled = false;
             form.scrollIntoView({ behavior: 'smooth', block: 'center' });
         });
     }
+
+    // Copy the address to the clipboard instead of launching a mail client.
+    document.querySelectorAll('.copy-email').forEach(function (b) {
+        b.addEventListener('click', function () {
+            var val = b.getAttribute('data-copy') || '';
+            var done = function () {
+                var old = b.textContent;
+                b.textContent = 'Copied';
+                setTimeout(function () { b.textContent = old; }, 1600);
+            };
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(val).then(done).catch(done);
+            } else {
+                var t = document.createElement('textarea');
+                t.value = val; document.body.appendChild(t); t.select();
+                try { document.execCommand('copy'); } catch (err) {}
+                document.body.removeChild(t); done();
+            }
+        });
+    });
 })();
 </script>
 </body>

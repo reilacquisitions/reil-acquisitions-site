@@ -91,6 +91,17 @@
         .preview-grid { grid-template-columns:1fr; }
     }
         .hp-field { position: absolute; left: -9999px; opacity: 0; height: 0; width: 0; }
+        .field-error {
+            display: block;
+            margin-top: 7px;
+            font-size: 13.5px;
+            font-weight: 600;
+            color: #9b2c2c;
+        }
+        input[aria-invalid="true"], select[aria-invalid="true"], textarea[aria-invalid="true"] {
+            border-color: #d98080 !important;
+            background: #fffafa !important;
+        }
         .lead-error {
             display: none;
             margin-top: 14px;
@@ -198,7 +209,7 @@
             <div class="tag">Free Download</div>
             <h2>Get the checklist</h2>
             <p class="form-sub">Enter your email and get the full 12-page checklist instantly. No spam, unsubscribe anytime.</p>
-            <form id="leadForm" action="/api/lead" method="POST">
+            <form id="leadForm" action="/api/lead" method="POST" novalidate>
                 <input type="hidden" name="source" value="Free Acquisition Checklist">
                 <input type="text" name="_honey" class="hp-field" tabindex="-1" autocomplete="off" aria-hidden="true">
                 <label for="name">Full Name</label>
@@ -224,7 +235,7 @@
 <section class="bottom-cta">
     <h2>Ready to put the checklist to work?</h2>
     <p>When you're ready to look at vetted, confidential acquisition opportunities in the Midwest, we're here to guide you through the entire journey.</p>
-    <a href="mailto:hello@reilacquisitions.com">Schedule a Confidential Conversation</a>
+    <a href="https://reilacquisitions.com/#contact">Schedule a Confidential Conversation</a>
 </section>
 
 <footer>
@@ -232,8 +243,7 @@
 </footer>
 
 <script>
-/* Checklist form: handled entirely in-page.
-   The browser POSTs to our own /api/lead function, which delivers server-side.
+/* Checklist form: validated and submitted entirely in-page.
    No mail client, no third-party form service, no other app launches. */
 (function () {
     var form = document.getElementById('leadForm');
@@ -243,7 +253,37 @@
     var errBox = document.getElementById('leadError');
     var TIMEOUT_MS = 15000;
 
+    function clearFieldErrors() {
+        form.querySelectorAll('.field-error').forEach(function (e) { e.remove(); });
+        form.querySelectorAll('[aria-invalid="true"]').forEach(function (e) { e.removeAttribute('aria-invalid'); });
+    }
+
+    function flag(field, message) {
+        if (!field) return;
+        field.setAttribute('aria-invalid', 'true');
+        var msg = document.createElement('span');
+        msg.className = 'field-error';
+        msg.textContent = message;
+        field.parentNode.insertBefore(msg, field.nextSibling);
+    }
+
+    function validate() {
+        clearFieldErrors();
+        var problems = [];
+        var name = form.querySelector('[name="name"]');
+        var email = form.querySelector('[name="email"]');
+
+        if (!name.value.trim()) { flag(name, 'Please enter your name.'); problems.push(name); }
+        var ev = email.value.trim();
+        if (!ev) { flag(email, 'Please enter your email address.'); problems.push(email); }
+        else if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(ev)) { flag(email, 'That email address looks incomplete.'); problems.push(email); }
+
+        if (problems.length) { problems[0].focus(); return false; }
+        return true;
+    }
+
     function showSuccess() {
+        clearFieldErrors();
         form.reset();                     // clear the fields
         document.getElementById('formWrap').style.display = 'none';
         document.getElementById('successMsg').classList.add('show');
@@ -274,10 +314,20 @@
         });
     }
 
+    form.addEventListener('input', function (e) {
+        var f = e.target;
+        if (f.getAttribute('aria-invalid') === 'true') {
+            f.removeAttribute('aria-invalid');
+            var m = f.parentNode.querySelector('.field-error');
+            if (m) m.remove();
+        }
+    });
+
     form.addEventListener('submit', function (e) {
-        if (!window.fetch || !window.FormData) return;   // native POST fallback
-        e.preventDefault();
+        e.preventDefault();               // always handled here, never handed off
         if (errBox) { errBox.textContent = ''; errBox.classList.remove('show'); }
+        if (!validate()) return;
+
         btn.textContent = 'Sending\u2026';
         btn.disabled = true;
 
@@ -289,7 +339,7 @@
             btn.textContent = label;
             btn.disabled = false;
             if (errBox) {
-                errBox.textContent = "Sorry \u2014 that didn't go through. Please try again, or email hello@reilacquisitions.com.";
+                errBox.textContent = "Sorry \u2014 that didn't go through. Please try again in a moment.";
                 errBox.classList.add('show');
             }
         });
