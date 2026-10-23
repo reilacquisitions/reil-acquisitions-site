@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+
+# Block nothing — this is a marketing site and we want full crawl coverage.
+
+Sitemap: https://reilacquisitions.com/sitemap.xml
