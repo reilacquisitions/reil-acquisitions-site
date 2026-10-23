@@ -5,6 +5,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="The Acquisition Checklist — how to structure your first $5M-$100M business purchase. Free guide from REIL Acquisitions.">
 <title>Free Acquisition Checklist — REIL Acquisitions</title>
+<link rel="canonical" href="https://reilacquisitions.com/checklist.html">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://reilacquisitions.com/checklist.html">
+<meta property="og:title" content="Free Acquisition Checklist — REIL Acquisitions">
+<meta property="og:description" content="How to structure your first $5M-$100M business purchase. Free 10-page guide.">
+<meta property="og:image" content="https://reilacquisitions.com/og-image.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://reilacquisitions.com/og-image.jpg">
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><linearGradient id='g' x1='0%' y1='0%' x2='100%' y2='100%'><stop offset='0%' stop-color='%23C9A961'/><stop offset='100%' stop-color='%23A67C52'/></linearGradient></defs><rect width='100' height='100' fill='url(%23g)' rx='20'/><text x='50' y='70' font-size='60' font-weight='900' text-anchor='middle' fill='white' font-family='system-ui'>R</text></svg>">
 <style>
     * { margin:0; padding:0; box-sizing:border-box; }
@@ -82,6 +90,14 @@
         .hero .stat-line { gap:24px; }
         .preview-grid { grid-template-columns:1fr; }
     }
+        .hp-field { position: absolute; left: -9999px; opacity: 0; height: 0; width: 0; }
+        .download-btn {
+            display: inline-block; margin-top: 8px; padding: 16px 34px; border-radius: 10px;
+            background: linear-gradient(135deg,#0d7377 0%,#056064 100%); color: #fff;
+            font-size: 14px; font-weight: 900; text-transform: uppercase; letter-spacing: .5px;
+            text-decoration: none; transition: all .3s ease;
+        }
+        .download-btn:hover { transform: translateY(-4px); }
 </style>
 </head>
 <body>
@@ -169,7 +185,12 @@
             <div class="tag">Free Download</div>
             <h2>Get the checklist</h2>
             <p class="form-sub">Enter your email and get the full 12-page checklist instantly. No spam, unsubscribe anytime.</p>
-            <form id="leadForm">
+            <form id="leadForm" action="https://formsubmit.co/hello@reilacquisitions.com" method="POST">
+                <input type="hidden" name="_subject" value="REIL checklist request">
+                <input type="hidden" name="_template" value="box">
+                <input type="hidden" name="_next" value="https://reilacquisitions.com/thank-you.html">
+                <input type="hidden" name="source" value="Free Acquisition Checklist">
+                <input type="text" name="_honey" class="hp-field" tabindex="-1" autocomplete="off" aria-hidden="true">
                 <label for="name">Full Name</label>
                 <input type="text" id="name" name="name" placeholder="John Smith" required>
                 <label for="email">Email</label>
@@ -178,13 +199,13 @@
                 <input type="tel" id="phone" name="phone" placeholder="(555) 555-5555">
                 <button type="submit" class="submit">Get My Free Checklist</button>
             </form>
-            <p class="privacy">🔒 Your information is kept confidential.</p>
-            <p class="form-note">Connect this form to ConvertKit, Formspree, or HubSpot to capture leads. Demo shows the success state below.</p>
+            <p class="privacy">🔒 Your information is kept confidential. No spam, unsubscribe anytime.</p>
         </div>
         <div class="success" id="successMsg">
             <div class="big-check">✓</div>
             <h3>Checklist on the way!</h3>
-            <p>Check your inbox. Your free Acquisition Checklist should arrive in the next few minutes.</p>
+            <p>Check your inbox &mdash; your free Acquisition Checklist is on its way. You can also open it right now:</p>
+            <a class="download-btn" href="/assets/REIL-Acquisition-Checklist.pdf" download>Download the Checklist (PDF)</a>
         </div>
     </div>
 </div>
@@ -200,12 +221,66 @@
 </footer>
 
 <script>
-    document.getElementById('leadForm').addEventListener('submit', function(e) {
-        e.preventDefault();
-        // Demo: show success state. Wire to a real form backend (Formspree/ConvertKit) to capture.
+/* Lead form delivery, most-preferred path first:
+     1. /api/lead          - our own backend (Mailgun, no third party)
+     2. formsubmit.co      - hosted form service
+     3. the visitor's mail client (mailto)
+   Three independent paths, so a lead is never silently lost. */
+(function () {
+    var form = document.getElementById('leadForm');
+    if (!form) return;
+    var btn = form.querySelector('button[type="submit"]');
+    var FS = 'https://formsubmit.co/ajax/hello@reilacquisitions.com';
+
+    function done() {
         document.getElementById('formWrap').style.display = 'none';
         document.getElementById('successMsg').classList.add('show');
+    }
+
+    function mailtoFallback(d) {
+        var body = [
+            'Name: ' + (d.name || ''),
+            'Email: ' + (d.email || ''),
+            'Phone: ' + (d.phone || ''),
+            'Free Acquisition Checklist request'
+        ].join('\r\n');
+        window.location.href = 'mailto:hello@reilacquisitions.com'
+            + '?subject=' + encodeURIComponent('Checklist request from ' + (d.name || 'a visitor'))
+            + '&body=' + encodeURIComponent(body);
+    }
+
+    function post(url, payload) {
+        return fetch(url, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+            body: JSON.stringify(payload)
+        }).then(function (r) {
+            if (!r.ok) throw new Error('HTTP ' + r.status);
+            return true;
+        });
+    }
+
+    form.addEventListener('submit', function (e) {
+        if (!window.fetch || !window.FormData) return;   // native POST fallback
+        e.preventDefault();
+        var label = btn.textContent;
+        btn.textContent = 'Sending\u2026';
+        btn.disabled = true;
+
+        var payload = {};
+        new FormData(form).forEach(function (v, k) { payload[k] = v; });
+        payload.source = 'Free Acquisition Checklist';
+
+        post('/api/lead', payload)
+            .then(done)
+            .catch(function () { return post(FS, payload).then(done); })
+            .catch(function () {
+                btn.textContent = label;
+                btn.disabled = false;
+                mailtoFallback(payload);
+            });
     });
+})();
 </script>
 </body>
 </html>
