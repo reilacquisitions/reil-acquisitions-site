@@ -1,26 +1,25 @@
 /**
- * POST /api/lead — first-party lead capture for reilacquisitions.com
+ * POST /api/lead — lead capture for reilacquisitions.com
  *
- * Delivery is server-side. The browser never opens a mail client and never hands
- * off to a third-party form service it can't verify.
- *
- * Channels (any that are configured are attempted; a lead succeeds if at least one works):
- *   1. Telegram  — instant push to the team   (TELEGRAM_BOT_TOKEN + TELEGRAM_CHAT_ID)
- *   2. Mailgun   — email to hello@            (MAILGUN_API_KEY, plus MAILGUN_DOMAIN / LEAD_TO)
+ * Leads are EMAILED. Delivery happens server-side; the browser never opens a
+ * mail client, never hands off to a third-party form service, and no chat
+ * platform is involved.
  *
  * Env vars (set in Vercel):
- *   TELEGRAM_BOT_TOKEN  - bot token that can post to the chat below
- *   TELEGRAM_CHAT_ID    - destination chat id
- *   MAILGUN_API_KEY     - optional; enables email delivery as well
- *   MAILGUN_DOMAIN      - optional, defaults to reilacquisitions.com
- *   LEAD_TO             - optional, defaults to hello@reilacquisitions.com
- *   LEAD_FROM           - optional, defaults to "REIL Website <website@<domain>>"
+ *   RESEND_API_KEY  - Resend API key (required)
+ *   RESEND_FROM     - verified From header. Until reilacquisitions.com is
+ *                     verified in Resend this must stay onboarding@resend.dev,
+ *                     because an unverified account may only send to its own
+ *                     address. Swap to website@reilacquisitions.com after
+ *                     verifying the domain.
+ *   LEAD_TO         - destination, defaults to hello@reilacquisitions.com
+ *   LEAD_BCC        - optional extra recipient
  *
  * Responses:
- *   200 {ok:true,  delivered:[...]}          at least one channel succeeded
- *   400 {ok:false, error:"..."}              validation failure
- *   502 {ok:false, delivered:[], failed:[...]} every configured channel failed
- *   503 {ok:false, error:"..."}              no channel configured at all
+ *   200 {ok:true, id}          accepted by Resend
+ *   400 {ok:false,error}       validation failure
+ *   502 {ok:false,failed}      provider rejected the send
+ *   503 {ok:false,error}       no provider configured
  *
  * Zero npm dependencies - uses global fetch (Node 18+).
  */
@@ -42,7 +41,7 @@ function parseBody(req) {
 const clean = (s, max) => String(s == null ? "" : s).trim().slice(0, max || 4000);
 const esc = (s) => String(s == null ? "" : s).replace(/[<>&]/g, (c) => ({ "<": "&lt;", ">": "&gt;", "&": "&amp;" }[c]));
 
-function summarise(d) {
+function rows(d) {
   return [
     ["Name", clean(d.name, 200)],
     ["Email", clean(d.email, 200)],
@@ -53,73 +52,55 @@ function summarise(d) {
   ].filter((r) => r[1]);
 }
 
-/* ---------------- channel: Telegram ---------------- */
-async function sendTelegram(d) {
-  const token = process.env.TELEGRAM_BOT_TOKEN;
-  const chat = process.env.TELEGRAM_CHAT_ID;
-  if (!token || !chat) return { channel: "telegram", skipped: true };
+/* ---------------- Resend ---------------- */
+async function sendResend(d) {
+  const key = process.env.RESEND_API_KEY;
+  if (!key) return { skipped: true };
 
-  const rows = summarise(d).map((r) => `<b>${esc(r[0])}</b>: ${esc(r[1])}`).join("\n");
-  const msg = clean(d.message, 3000);
-  const text =
-    "\u{1F4E5} <b>New website inquiry</b>\n\n" +
-    rows +
-    (msg ? `\n\n<b>Message</b>\n${esc(msg)}` : "");
-
-  // NB: Telegram rejects mailto: in inline-keyboard buttons (BUTTON_URL_INVALID),
-  // so the address is left in the message text for the team to tap or copy.
-  const res = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      chat_id: chat,
-      text,
-      parse_mode: "HTML",
-      disable_web_page_preview: true,
-    }),
-  });
-  const body = await res.text();
-  if (!res.ok) throw new Error(`telegram ${res.status}: ${body.slice(0, 180)}`);
-  return { channel: "telegram", ok: true };
-}
-
-/* ---------------- channel: Mailgun ---------------- */
-async function sendMailgun(d) {
-  const key = process.env.MAILGUN_API_KEY;
-  if (!key) return { channel: "mailgun", skipped: true };
-
-  const domain = process.env.MAILGUN_DOMAIN || "reilacquisitions.com";
-  const to = process.env.LEAD_TO || "hello@reilacquisitions.com";
-  const from = process.env.LEAD_FROM || `REIL Website <website@${domain}>`;
-  const rows = summarise(d);
+  const to = (process.env.LEAD_TO || "hello@reilacquisitions.com")
+    .split(",").map((s) => s.trim()).filter(Boolean);
+  const from = process.env.RESEND_FROM || "REIL Website <onboarding@resend.dev>";
+  const bcc = (process.env.LEAD_BCC || "").split(",").map((s) => s.trim()).filter(Boolean);
+  const table = rows(d);
   const msg = clean(d.message, 4000);
+  const source = clean(d.source, 120) || "Website contact form";
 
-  const text = rows.map((r) => `${r[0]}: ${r[1]}`).join("\n") + "\n\nMessage:\n" + (msg || "(none)");
+  const text =
+    `New inquiry from ${source}\n\n` +
+    table.map((r) => `${r[0]}: ${r[1]}`).join("\n") +
+    `\n\nMessage:\n${msg || "(none)"}`;
+
   const html =
-    `<h2 style="font-family:sans-serif">New inquiry from ${esc(clean(d.source, 120) || "Website contact form")}</h2>` +
-    `<table cellpadding="6" style="font-family:sans-serif;font-size:14px;border-collapse:collapse">` +
-    rows.map((r) => `<tr><td style="color:#666"><b>${esc(r[0])}</b></td><td>${esc(r[1])}</td></tr>`).join("") +
-    `</table><p style="font-family:sans-serif;font-size:14px"><b>Message</b><br>${esc(msg || "(none)").replace(/\n/g, "<br>")}</p>`;
+    `<div style="font-family:-apple-system,Segoe UI,Roboto,Arial,sans-serif;max-width:600px">` +
+    `<h2 style="color:#0a1428;margin:0 0 8px;font-size:20px">New inquiry from ${esc(source)}</h2>` +
+    `<p style="color:#888;font-size:13px;margin:0 0 20px">Submitted ${new Date().toUTCString()}</p>` +
+    `<table cellpadding="8" cellspacing="0" style="font-size:14px;border-collapse:collapse;width:100%">` +
+    table.map((r) => `<tr><td style="color:#666;border-bottom:1px solid #eee;width:130px"><b>${esc(r[0])}</b></td>` +
+                     `<td style="border-bottom:1px solid #eee">${esc(r[1])}</td></tr>`).join("") +
+    `</table>` +
+    (msg ? `<p style="font-size:14px;color:#333;margin-top:22px"><b>Message</b><br>${esc(msg).replace(/\n/g, "<br>")}</p>` : "") +
+    `</div>`;
 
-  const form = new URLSearchParams();
-  form.set("from", from);
-  form.set("to", to);
-  form.set("subject", `New REIL inquiry - ${clean(d.name, 120)}${d.company ? " (" + clean(d.company, 120) + ")" : ""}`);
-  form.set("text", text);
-  form.set("html", html);
-  if (d.email) form.set("h:Reply-To", clean(d.email, 200));
+  const body = {
+    from,
+    to,
+    subject: `Website inquiry - ${clean(d.name, 120)}${d.company ? " (" + clean(d.company, 120) + ")" : ""}`,
+    text,
+    html,
+  };
+  if (d.email) body.reply_to = clean(d.email, 200);
+  if (bcc.length) body.bcc = bcc;
 
-  const res = await fetch(`https://api.mailgun.net/v3/${domain}/messages`, {
+  const res = await fetch("https://api.resend.com/emails", {
     method: "POST",
-    headers: {
-      Authorization: "Basic " + Buffer.from(`api:${key}`).toString("base64"),
-      "Content-Type": "application/x-www-form-urlencoded",
-    },
-    body: form.toString(),
+    headers: { Authorization: `Bearer ${key}`, "Content-Type": "application/json" },
+    body: JSON.stringify(body),
   });
-  const body = await res.text();
-  if (!res.ok) throw new Error(`mailgun ${res.status}: ${body.slice(0, 180)}`);
-  return { channel: "mailgun", ok: true };
+  const raw = await res.text();
+  let parsed = {};
+  try { parsed = JSON.parse(raw); } catch (e) { parsed = { raw: raw.slice(0, 300) }; }
+  if (!res.ok) throw new Error(`resend ${res.status}: ${parsed.message || raw.slice(0, 200)}`);
+  return { ok: true, id: parsed.id };
 }
 
 module.exports = async function handler(req, res) {
@@ -131,44 +112,33 @@ module.exports = async function handler(req, res) {
   }
 
   const ctype = String(req.headers["content-type"] || "");
-  // A native form POST (no JS) should land on a real page, not raw JSON.
   const native = ctype.includes("application/x-www-form-urlencoded") || ctype.includes("multipart/form-data");
-  const finish = (code, body) => {
+  const finish = (code, payload) => {
     if (native && code === 200) {
       res.writeHead(303, { Location: "/thank-you.html" });
       res.end();
       return;
     }
-    res.status(code).json(body);
+    res.status(code).json(payload);
   };
 
   const data = parseBody(req);
 
-  // ---- dry run: verify every channel is wired WITHOUT delivering anything.
-  // Used by the uptime watchdog so health checks never spam the team.
+  // dry run - verify configuration without sending anything (used by the watchdog)
   if (String(data.dry_run) === "true" || data.dry_run === true) {
-    const out = { ok: true, mode: "dry_run", channels: {} };
-    if (process.env.TELEGRAM_BOT_TOKEN && process.env.TELEGRAM_CHAT_ID) {
-      try {
-        const r = await fetch(`https://api.telegram.org/bot${process.env.TELEGRAM_BOT_TOKEN}/getMe`);
-        const j = await r.json();
-        out.channels.telegram = { configured: true, reachable: !!(r.ok && j.ok), bot: j.result && j.result.username };
-      } catch (e) {
-        out.channels.telegram = { configured: true, reachable: false, error: String(e).slice(0, 120) };
-      }
-    } else {
-      out.channels.telegram = { configured: false };
-    }
-    out.channels.mailgun = { configured: !!process.env.MAILGUN_API_KEY, domain: process.env.MAILGUN_DOMAIN || null };
-    out.channels.lead_to = process.env.LEAD_TO || "hello@reilacquisitions.com";
-    out.ok = Object.values(out.channels).some((c) => c && c.configured && c.reachable !== false);
-    res.status(out.ok ? 200 : 503).json(out);
+    const configured = !!process.env.RESEND_API_KEY;
+    const out = {
+      ok: configured,
+      mode: "dry_run",
+      email: { configured, provider: "resend", from: process.env.RESEND_FROM || "REIL Website <onboarding@resend.dev>", to: process.env.LEAD_TO || "hello@reilacquisitions.com" },
+    };
+    res.status(configured ? 200 : 503).json(out);
     return;
   }
 
   // Honeypot: real people never fill this in. Pretend success, send nothing.
   if (data._honey) {
-    finish(200, { ok: true, delivered: [], note: "ignored" });
+    finish(200, { ok: true, note: "ignored" });
     return;
   }
 
@@ -183,38 +153,19 @@ module.exports = async function handler(req, res) {
     return;
   }
 
-  const channels = [sendTelegram, sendMailgun];
-  const configured = channels.filter((fn) =>
-    fn === sendTelegram
-      ? process.env.TELEGRAM_BOT_TOKEN && process.env.TELEGRAM_CHAT_ID
-      : process.env.MAILGUN_API_KEY
-  );
-
-  if (!configured.length) {
+  if (!process.env.RESEND_API_KEY) {
     finish(503, {
       ok: false,
-      error: "No lead delivery channel configured",
-      detail: "Set TELEGRAM_BOT_TOKEN + TELEGRAM_CHAT_ID, or MAILGUN_API_KEY, in the Vercel project.",
+      error: "Email delivery is not configured",
+      detail: "Set RESEND_API_KEY (and RESEND_FROM) in the Vercel project.",
     });
     return;
   }
 
-  const delivered = [];
-  const failed = [];
-  await Promise.all(
-    configured.map(async (fn) => {
-      try {
-        const r = await fn(data);
-        if (r && r.ok) delivered.push(r.channel);
-      } catch (e) {
-        failed.push({ channel: fn.name, error: String(e).slice(0, 200) });
-      }
-    })
-  );
-
-  if (delivered.length) {
-    finish(200, { ok: true, delivered, failed });
-    return;
+  try {
+    const r = await sendResend(data);
+    finish(200, { ok: true, delivered: ["email"], provider: "resend", id: r.id });
+  } catch (e) {
+    finish(502, { ok: false, delivered: [], failed: [{ channel: "email", error: String(e).slice(0, 220) }] });
   }
-  finish(502, { ok: false, delivered: [], failed });
 };
