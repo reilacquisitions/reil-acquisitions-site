@@ -84,9 +84,11 @@
     a { color:#0d7377; text-decoration:none; }
     a:hover { text-decoration:underline; }
     header { position:sticky; top:0; z-index:100; background:#0a1428; padding:18px 40px; display:flex; justify-content:space-between; align-items:center; }
-    .logo { display:flex; align-items:center; gap:12px; color:#fff; font-weight:900; font-size:18px; text-decoration:none; }
+    .logo { display:flex; align-items:center; gap:12px; color:#fff; font-weight:900; font-size:18px; text-decoration:none; min-width:0; flex-shrink:1; }
+    .logo-txt { min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
     .logo-mark { width: auto; height: 42px; display: block; flex-shrink: 0; }
-    .hdr-cta { background:linear-gradient(135deg,#c9a961,#a67c52); color:#0a1428; padding:11px 24px; border-radius:8px; font-weight:900; font-size:14px; text-decoration:none; }
+    .hdr-cta { background:linear-gradient(135deg,#c9a961,#a67c52); color:#0a1428; padding:11px 24px; border-radius:8px; font-weight:900; font-size:14px; text-decoration:none; flex-shrink:0; white-space:nowrap; }
+    .cta-short { display:none; } .cta-mini { display:none; }
     .hero { background:linear-gradient(160deg,#0a1428 0%,#123149 100%); color:#fff; padding:80px 40px 64px; }
     .hero-in { max-width:820px; margin:0 auto; }
     .crumbs { font-size:13px; color:rgba(255,255,255,.6); margin-bottom:22px; }
@@ -120,6 +122,28 @@
         h1 { font-size:32px; } h2 { font-size:24px; }
         header { padding:14px 20px; } .hero, main { padding-left:20px; padding-right:20px; }
         .btn.ghost { margin:12px 0 0; }
+    }
+    @media (max-width:520px) {
+        .cta-full { display:none; }
+        .cta-short { display:inline; }
+        header { padding:12px 14px; gap:8px; }
+        .logo { font-size:14px; gap:8px; letter-spacing:-.2px; }
+        .logo-mark { height:34px; }
+        .hdr-cta { padding:10px 12px; font-size:12.5px; }
+    }
+    @media (max-width:360px) {
+        header { padding:12px 12px; gap:6px; }
+        .logo { font-size:13px; gap:7px; }
+        .logo-mark { height:30px; }
+        .hdr-cta { padding:9px 10px; font-size:12px; }
+    }
+    @media (max-width:330px) {
+        .cta-short { display:none; }
+        .cta-mini { display:inline; }
+        header { padding:12px 10px; gap:6px; }
+        .logo { font-size:12px; gap:6px; }
+        .logo-mark { height:26px; }
+        .hdr-cta { padding:9px 9px; font-size:11.5px; }
     }
 </style>
 <!-- Analytics: Vercel Web Analytics + Speed Insights - cookieless, anonymised, no personal data. -->
@@ -166,8 +190,8 @@
 <body>
 
 <header>
-  <a class="logo" href="https://reilacquisitions.com/"><img class="logo-mark" src="/assets/reil-mark-312.png" alt="" width="78" height="40"> REIL Acquisitions</a>
-  <a class="hdr-cta" href="/#contact">Confidential Consultation</a>
+  <a class="logo" href="https://reilacquisitions.com/"><img class="logo-mark" src="/assets/reil-mark-312.png" alt="" width="78" height="40"> <span class="logo-txt">REIL Acquisitions</span></a>
+  <a class="hdr-cta" href="/#contact"><span class="cta-full">Confidential Consultation</span><span class="cta-short">Free Consultation</span><span class="cta-mini">Talk to Us</span></a>
 </header>
 
 <div class="hero">
@@ -199,7 +223,7 @@
 
 <p>The practical effect: a well-run Madison company with clean books will draw interest from individual buyers, regional operators and private equity groups at the same time. Your job is to run a competitive process so those buyers bid against each other rather than against you.</p>
 
-<h2>What Your Madison Business Is Worth</h2>
+<h2 id="valuation">What Your Madison Business Is Worth</h2>
 
 <p>Almost every small and mid-sized business in Wisconsin is valued on one of two earnings measures.</p>
 
@@ -229,7 +253,7 @@
   </ul>
 </div>
 
-<h2>The Wisconsin Factors That Affect Your Sale</h2>
+<h2 id="financing">The Wisconsin Factors That Affect Your Sale</h2>
 
 <p>Wisconsin has specific characteristics that change the maths on an exit, and they are easy to miss if you have only ever talked to a national broker.</p>
 

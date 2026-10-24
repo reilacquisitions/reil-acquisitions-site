@@ -640,6 +640,35 @@
             .nav { display: flex; gap: 0; }
             .nav > a:not(.btn) { display: none; }
             .nav a.btn { padding: 11px 20px; font-size: 12px; }
+            @media (max-width: 360px) {
+                header { padding: 14px 14px; gap: 8px; }
+                .logo { font-size: 15px; gap: 8px; }
+                .logo-mark { height: 28px; }
+                .nav a.btn { padding: 10px 14px; font-size: 11px; }
+                /* stats text was wider than its grid cell and pushed the page to 343px */
+                .stats { gap: 26px 18px; }
+                .stat-item, .stat-number, .stat-label { min-width: 0; }
+                .stat-number { font-size: 32px; letter-spacing: -.5px; }
+                .stat-label { font-size: 12px; line-height: 1.35; word-break: break-word; }
+                .step-icon { margin-left: 0; margin-right: 0; }
+                /* 64px card padding + 32px label could not fit a 320px screen */
+                .why-card { padding: 30px 22px; }
+                .why-label { font-size: 22px; margin-bottom: 14px; line-height: 1.2; word-break: break-word; }
+                .why-grid { gap: 28px; }
+                /* testimonial cards also carry 64px padding, and their container 80px sides */
+                .testimonial-card { padding: 28px 20px; }
+                .testimonials-grid { gap: 22px; }
+                .testimonial-text { font-size: 16px; line-height: 1.7; margin-bottom: 22px; }
+                .testimonials-container { padding: 64px 16px; }
+            }
+            @media (max-width: 330px) {
+                header { padding: 12px 12px; gap: 6px; }
+                .logo { font-size: 14px; gap: 6px; }
+                .logo-mark { height: 26px; }
+                .nav a.btn { padding: 9px 12px; font-size: 10.5px; }
+                .stats { grid-template-columns: 1fr; gap: 24px; }
+                .stat-number { font-size: 38px; }
+            }
         }
 
         a.btn { text-align: center; cursor: pointer; font-family: inherit; transition: all 0.3s ease; }
@@ -1298,8 +1327,8 @@
                 <ul>
                     <li><a href="#deals">Browse Deals</a></li>
                     <li><a href="#process">How It Works</a></li>
-                    <li><a href="/checklist.html">Financing Resources</a></li>
-                    <li><a href="/checklist.html">Valuation Guide</a></li>
+                    <li><a href="/sell-a-business-madison-wi/#financing">Financing Resources</a></li>
+                    <li><a href="/sell-a-business-madison-wi/#valuation">Valuation Guide</a></li>
                 </ul>
             </div>
             <div class="footer-col">

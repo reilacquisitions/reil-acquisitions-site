@@ -87,6 +87,18 @@
         h1 { font-size:44px; }
         h2 { font-size:32px; }
         header { padding:16px 24px; }
+        @media (max-width:360px) {
+            header { padding:14px 14px; gap:8px; }
+            .logo { font-size:15px; gap:8px; }
+            .logo-mark { height:28px; }
+            .header-cta { padding:10px 14px; font-size:12px; }
+        }
+        @media (max-width:330px) {
+            header { padding:12px 12px; gap:6px; }
+            .logo { font-size:14px; gap:6px; }
+            .logo-mark { height:26px; }
+            .header-cta { padding:9px 11px; font-size:11px; }
+        }
         .hero { padding:80px 24px 64px; }
         .hero .stat-line { gap:24px; }
         .preview-grid { grid-template-columns:1fr; }
@@ -249,7 +261,7 @@
         <div id="formWrap">
             <div class="tag">Free Download</div>
             <h2>Get the checklist</h2>
-            <p class="form-sub">Enter your email and get the full 12-page checklist instantly. No spam, unsubscribe anytime.</p>
+            <p class="form-sub">Enter your email and get the full 10-page checklist instantly. No spam, unsubscribe anytime.</p>
             <form id="leadForm" action="/api/lead" method="POST" novalidate>
                 <input type="hidden" name="source" value="Free Acquisition Checklist">
                 <input type="text" name="_honey" class="hp-field" tabindex="-1" autocomplete="off" aria-hidden="true">
