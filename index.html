@@ -1269,6 +1269,9 @@
             <div class="contact-form-wrap">
                 <form id="contactForm" class="contact-form" action="/api/lead" method="POST" novalidate>
                     <input type="text" name="_honey" class="hp-field" tabindex="-1" autocomplete="off" aria-hidden="true">
+                    <input type="hidden" name="_t" value="">
+                    <input type="hidden" name="_s" value="">
+                    <input type="hidden" name="_p" value="">
                     <div class="field-row">
                         <div class="field">
                             <label for="c-name">Full Name</label>
@@ -1306,6 +1309,40 @@
                     <p id="contactError" class="contact-error" role="alert"></p>
                     <p class="contact-note">Your details stay private. No lists, no spam.</p>
                 </form>
+            <script>
+            /* Form friction, paired with the checks in /api/lead.
+               _t/_s prove the form took longer than a bot would take to fill it;
+               _p is a small proof-of-work proving a real JavaScript engine ran.
+               All three are public by design - friction, not cryptography. */
+            (function () {
+                var form = document.getElementById('contactForm');
+                if (!form) return;
+                var SALT = 'reil-friction-2026-11';
+                var BITS = 16;
+                var t0 = Date.now();
+                var tf = form.querySelector('[name="_t"]');
+                var sf = form.querySelector('[name="_s"]');
+                var pf = form.querySelector('[name="_p"]');
+                function fnv1a(str) {
+                    var h = 2166136261;
+                    for (var i = 0; i < str.length; i++) { h ^= str.charCodeAt(i); h = Math.imul(h, 16777619) >>> 0; }
+                    return h >>> 0;
+                }
+                if (tf) tf.value = String(t0);
+                if (sf) sf.value = fnv1a(t0 + '.' + SALT).toString(36);
+                /* Registered before the page's own submit handler, so the value
+                   is already in the form when that handler reads FormData. */
+                form.addEventListener('submit', function () {
+                    if (!pf || pf.value) return;
+                    var nonce = Math.random().toString(36).slice(2, 12);
+                    var base = nonce + '.' + t0 + '.' + SALT + '.';
+                    var mask = (1 << BITS) - 1;
+                    for (var c = 0; c < 5e6; c++) {
+                        if ((fnv1a(base + c) & mask) === 0) { pf.value = nonce + '.' + c; return; }
+                    }
+                });
+            })();
+            </script>
                 <div id="contactSuccess" class="contact-success" role="status" aria-live="polite">
                     <div class="contact-success-icon">&#10003;</div>
                     <h3>Message sent.</h3>

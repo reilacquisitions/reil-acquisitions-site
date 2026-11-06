@@ -142,6 +142,230 @@ function attributionRows(a) {
   ].filter((r) => r[1]);
 }
 
+/* ---------------- spam defences ----------------
+   Layered friction, cheapest first. Order matters: the "not a browser" gates
+   run before anything that costs a network call or an email.
+
+     1. honeypot          - hidden field; real people never fill it in
+     2. origin gate       - a real browser POST carries Origin/Referer/Sec-Fetch
+     3. timing token      - humans take longer than MIN_FILL_MS to fill a form
+     4. proof of work     - requires an actual JavaScript engine to run
+     5. per-IP rate limit - caps bursts (per warm instance; a damper, not a ledger)
+     6. email hygiene     - temporary inboxes and free throwaway TLDs
+     7. content score     - URL-stuffed and pitch-shaped submissions
+     8. Turnstile         - only active when TURNSTILE_SECRET is set in the env
+
+   Bot-signature failures (2, 3, 4, 8) return a fake {ok:true} so automated
+   senders get no signal to adapt against. Human-class failures (6, 7) return a
+   real 400 with a message a person can act on, because a mistyped address must
+   not silently vanish. Every rejection is logged as one JSON line so the
+   pattern is visible in the logs instead of guessed at.
+
+   The salt and the work factor are public by design: this is friction, not
+   cryptography. Turnstile remains the real challenge when you want one, and
+   switching it on needs no code change - just the env var.
+   ------------------------------------------------------------------- */
+
+const FORM_SALT = "reil-friction-2026-11";
+const MIN_FILL_MS = 1500;
+const MAX_AGE_MS = 6 * 60 * 60 * 1000;
+const POW_BITS = 16;
+const POW_MASK = (1 << POW_BITS) - 1;
+const RATE_WINDOW_MS = 10 * 60 * 1000;
+const RATE_MAX = 8;
+
+/* Same tiny digest on both sides. No dependency, runs in any JS engine. */
+function fnv1a(str) {
+  let h = 2166136261;
+  for (let i = 0; i < str.length; i++) {
+    h ^= str.charCodeAt(i);
+    h = Math.imul(h, 16777619) >>> 0;
+  }
+  return h >>> 0;
+}
+
+const timingToken = (t0) => fnv1a(`${t0}.${FORM_SALT}`).toString(36);
+
+/* Disposable mail providers. Not exhaustive, and does not need to be: these
+   catch the services a spray-and-pray script reaches for first. */
+const DISPOSABLE = [
+  "mailinator", "guerrillamail", "sharklasers", "grr.la", "tempmail", "temp-mail",
+  "10minutemail", "yopmail", "trashmail", "maildrop", "getnada", "dispostable",
+  "throwaway", "fakeinbox", "mailnesia", "spam4.me", "mailcatch", "discard.email",
+  "emailondeck", "moakt", "mohmal", "tempinbox", "luxusmail", "inboxbear",
+];
+const FREE_TLDS = [".tk", ".ml", ".ga", ".cf", ".gq"];
+
+/* Phrases that turn up in pitches and spam, never in a genuine inquiry. */
+const PITCH_PHRASES = [
+  "backlink", "guest post", "seo service", "rank higher", "increase your traffic",
+  "digital marketing", "lead generation", "mass email", "buy followers",
+  "crypto", "bitcoin", "casino", "forex", "payday loan", "viagra", "escort",
+  "work from home", "make money online", "click here", "limited time offer",
+  "dear sir/madam", "dear sir or madam",
+];
+
+const LINK_RE = /(https?:\/\/|www\.|\b[a-z0-9-]{2,}\.(?:ru|cn|tk|ml|ga|cf|gq)\b)/i;
+
+function emailVerdict(email) {
+  const e = String(email || "").toLowerCase();
+  const at = e.lastIndexOf("@");
+  const domain = at === -1 ? "" : e.slice(at + 1);
+  if (!domain) return "no domain";
+  if (DISPOSABLE.some((d) => domain === d || domain.endsWith("." + d) || domain.includes(d))) {
+    return `temporary mailbox (${domain})`;
+  }
+  const free = FREE_TLDS.find((t) => domain.endsWith(t));
+  if (free) return `free TLD (${domain})`;
+  if (!/\.[a-z]{2,}$/.test(domain)) return `malformed domain (${domain})`;
+  return null;
+}
+
+function nameVerdict(name) {
+  const n = String(name || "").trim();
+  if (n.length < 2) return "too short";
+  if (LINK_RE.test(n)) return "contains a link";
+  if (/\d/.test(n)) return "contains digits";
+  if (n.split(/\s+/).length > 5) return "more than 5 words";
+  const letters = (n.match(/[A-Za-z]/g) || []).length;
+  if (letters / n.length < 0.5) return "mostly non-letters";
+  return null;
+}
+
+/* Score rather than hard-block, so a real seller who pastes their own website
+   inside a normal sentence is not thrown out with the bots. */
+function contentScore(d) {
+  const hits = [];
+  let score = 0;
+  const msg = clean(d.message, 4000);
+  const company = clean(d.company, 200);
+  const links = (msg.match(/https?:\/\/|www\./gi) || []).length;
+
+  if (links >= 3) { score += 3; hits.push(`${links} links in the message`); }
+  else if (links === 1) { score += 1; hits.push("1 link in the message"); }
+  if (LINK_RE.test(company)) { score += 2; hits.push("link in the company name"); }
+
+  const hay = `${msg} ${company} ${clean(d.intent, 80)}`.toLowerCase();
+  const found = PITCH_PHRASES.filter((p) => hay.includes(p));
+  if (found.length) {
+    score += Math.min(found.length * 2, 4);
+    hits.push(`pitch language: ${found.slice(0, 3).join(", ")}`);
+  }
+  return { score, hits };
+}
+
+/* Per-IP burst cap. Vercel functions are ephemeral, so this only sees requests
+   landing on the same warm instance - it damps a burst, it does not count. */
+const HITS = new Map();
+
+function rateLimited(ip) {
+  if (!ip) return false;
+  const now = Date.now();
+  const recent = (HITS.get(ip) || []).filter((t) => now - t < RATE_WINDOW_MS);
+  recent.push(now);
+  HITS.set(ip, recent);
+  if (HITS.size > 2000) {
+    for (const [k, v] of HITS) if (!v.some((t) => now - t < RATE_WINDOW_MS)) HITS.delete(k);
+  }
+  return recent.length > RATE_MAX;
+}
+
+function clientIp(req) {
+  const h = req.headers || {};
+  return clean(String(h["x-forwarded-for"] || "").split(",")[0], 60) || clean(h["x-real-ip"], 60);
+}
+
+/* Newlines are stripped so a hostile User-Agent cannot forge a log line. */
+const logSafe = (s) => clean(s, 300).replace(/[\r\n]+/g, " ");
+
+function logReject(req, rule, data, extra) {
+  const h = req.headers || {};
+  console.log("lead_rejected " + JSON.stringify({
+    rule,
+    at: new Date().toISOString(),
+    ip: clientIp(req),
+    country: clean(h["x-vercel-ip-country"], 8),
+    ua: logSafe(h["user-agent"]),
+    origin: logSafe(h.origin),
+    referer: logSafe(h.referer),
+    sec_fetch_site: logSafe(h["sec-fetch-site"]),
+    name: logSafe(data && data.name),
+    email: logSafe(data && data.email),
+    company: logSafe(data && data.company),
+    intent: logSafe(data && data.intent),
+    message: logSafe(data && data.message),
+    ...(extra || {}),
+  }));
+}
+
+/* A real browser sends at least one of these on a POST. A script posting
+   straight at the API usually sends none of them. */
+function originVerdict(req) {
+  const h = req.headers || {};
+  const site = clean(h["sec-fetch-site"], 20).toLowerCase();
+  const origin = clean(h.origin, 300);
+  const referer = clean(h.referer, 300);
+  const ours = (u) => {
+    const host = hostOf(u);
+    return host === "reilacquisitions.com"
+      || (host.length > 19 && host.slice(-19) === ".reilacquisitions.com")
+      || host === "reil-acquisitions-site.vercel.app";
+  };
+  if (site && site !== "same-origin" && site !== "same-site" && site !== "none") {
+    return `cross-site fetch (${site})`;
+  }
+  if (origin) return ours(origin) ? null : `foreign origin (${origin})`;
+  if (referer) return ours(referer) ? null : `foreign referer (${referer})`;
+  if (site === "same-origin" || site === "same-site") return null;
+  return "no origin, referer or sec-fetch-site";
+}
+
+/* `native` marks a no-JavaScript form post (urlencoded/multipart). Those get a
+   pass on the token checks so a visitor without JS still reaches us; they are
+   still subject to the origin gate, the honeypot and the rate limit. */
+function timingVerdict(d, native) {
+  const t0 = Number(clean(d._t, 20));
+  if (!t0 || !Number.isFinite(t0)) return native ? null : "missing timestamp";
+  if (clean(d._s, 40) !== timingToken(t0)) return "bad timing token";
+  const now = Date.now();
+  if (t0 > now + 60000) return "timestamp in the future";
+  const age = now - t0;
+  if (age < MIN_FILL_MS) return `submitted in ${age}ms`;
+  return null; // stale but correctly signed: never reject a real person's clock
+}
+
+function powVerdict(d, native) {
+  const p = clean(d._p, 60);
+  if (!p) return native ? null : "missing proof of work";
+  const m = /^([a-z0-9]{4,32})\.(\d{1,9})$/.exec(p);
+  if (!m) return "malformed proof of work";
+  const t0 = Number(clean(d._t, 20)) || 0;
+  const h = fnv1a(`${m[1]}.${t0}.${FORM_SALT}.${Number(m[2])}`);
+  return (h & POW_MASK) === 0 ? null : "insufficient proof of work";
+}
+
+async function turnstileVerdict(req, d) {
+  const secret = process.env.TURNSTILE_SECRET;
+  if (!secret) return { skipped: true };
+  const token = clean(d["cf-turnstile-response"] || d.turnstile, 2048);
+  if (!token) return { failed: "no challenge token" };
+  try {
+    const form = new URLSearchParams({ secret, response: token });
+    const ip = clientIp(req);
+    if (ip) form.set("remoteip", ip);
+    const r = await fetch("https://challenges.cloudflare.com/turnstile/v0/siteverify", {
+      method: "POST",
+      body: form,
+    });
+    const j = await r.json();
+    if (j && j.success) return { ok: true };
+    return { failed: ((j && j["error-codes"]) || []).join(",") || "challenge failed" };
+  } catch (e) {
+    // Fail open: never lose a real lead because Cloudflare was unreachable.
+    return { ok: true, degraded: String(e).slice(0, 120) };
+  }
+}
+
 /* ---------------- Resend ---------------- */
 async function sendResend(d, attr) {
   const key = process.env.RESEND_API_KEY;
@@ -356,7 +580,39 @@ module.exports = async function handler(req, res) {
 
   // Honeypot: real people never fill this in. Pretend success, send nothing.
   if (data._honey) {
+    logReject(req, "honeypot", data);
     finish(200, { ok: true, note: "ignored" });
+    return;
+  }
+
+  // ---- gates a browser passes and a script usually does not ---------------
+  const originProblem = originVerdict(req);
+  if (originProblem) {
+    logReject(req, "origin", data, { detail: originProblem });
+    finish(200, { ok: true, note: "ignored" });
+    return;
+  }
+
+  const timingProblem = timingVerdict(data, native);
+  if (timingProblem) {
+    logReject(req, "timing", data, { detail: timingProblem });
+    finish(200, { ok: true, note: "ignored" });
+    return;
+  }
+
+  const powProblem = powVerdict(data, native);
+  if (powProblem) {
+    logReject(req, "proof_of_work", data, { detail: powProblem });
+    finish(200, { ok: true, note: "ignored" });
+    return;
+  }
+
+  if (rateLimited(clientIp(req))) {
+    logReject(req, "rate_limit", data);
+    res.status(429).json({
+      ok: false,
+      error: "Too many submissions from this connection. Please email hello@reilacquisitions.com.",
+    });
     return;
   }
 
@@ -370,6 +626,42 @@ module.exports = async function handler(req, res) {
     finish(400, { ok: false, error: "Invalid email address" });
     return;
   }
+
+  // ---- things a real person should be told about ---------------------------
+  const emailProblem = emailVerdict(clean(data.email, 200));
+  if (emailProblem) {
+    logReject(req, "email", data, { detail: emailProblem });
+    finish(400, {
+      ok: false,
+      error: "Please use an email address we can actually reply to - temporary and throwaway inboxes are blocked.",
+    });
+    return;
+  }
+
+  const nameProblem = nameVerdict(clean(data.name, 200));
+  if (nameProblem) {
+    logReject(req, "name", data, { detail: nameProblem });
+    finish(400, { ok: false, error: "Please enter your real name." });
+    return;
+  }
+
+  const content = contentScore(data);
+  if (content.score >= 4) {
+    logReject(req, "content", data, { detail: content.hits.join("; "), score: content.score });
+    finish(400, {
+      ok: false,
+      error: "That message looked automated. If it was not, email hello@reilacquisitions.com and we will pick it up.",
+    });
+    return;
+  }
+
+  const challenge = await turnstileVerdict(req, data);
+  if (challenge.failed) {
+    logReject(req, "turnstile", data, { detail: challenge.failed });
+    finish(200, { ok: true, note: "ignored" });
+    return;
+  }
+  if (challenge.degraded) console.log("turnstile_degraded " + logSafe(challenge.degraded));
 
   if (!process.env.RESEND_API_KEY) {
     finish(503, {
