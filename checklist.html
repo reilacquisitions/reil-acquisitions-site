@@ -300,7 +300,7 @@
                 if (sf) sf.value = fnv1a(t0 + '.' + SALT).toString(36);
                 /* Registered before the page's own submit handler, so the value
                    is already in the form when that handler reads FormData. */
-                form.addEventListener('submit', function () {
+                function solve() {
                     if (!pf || pf.value) return;
                     var nonce = Math.random().toString(36).slice(2, 12);
                     var base = nonce + '.' + t0 + '.' + SALT + '.';
@@ -308,7 +308,12 @@
                     for (var c = 0; c < 5e6; c++) {
                         if ((fnv1a(base + c) & mask) === 0) { pf.value = nonce + '.' + c; return; }
                     }
-                });
+                }
+                form.addEventListener('submit', solve);
+                /* Solve during idle time too, so the value is already in the form
+                   even if the page's own handler ever runs before this one. */
+                if (window.requestIdleCallback) requestIdleCallback(solve, { timeout: 2000 });
+                else setTimeout(solve, 800);
             })();
             </script>
             <p class="privacy">🔒 Your information is kept confidential. No spam, unsubscribe anytime.</p>
@@ -427,11 +432,17 @@
         payload.source = 'Free Acquisition Checklist';
         if (window.reilAttribution) { var attr = window.reilAttribution(); for (var ak in attr) { if (attr[ak]) payload[ak] = attr[ak]; } }
 
-        send(payload).then(showSuccess).catch(function () {
+        send(payload).then(showSuccess).catch(function (e) {
             btn.textContent = label;
             btn.disabled = false;
             if (errBox) {
-                errBox.textContent = "Sorry \u2014 that didn't go through. Please try again in a moment.";
+                /* Show the server's own explanation when it gave one - the
+                   address rules return a message the visitor can act on. Fall
+                   back to a generic line for network failures, whose message is
+                   only "Failed to fetch". */
+                var m = (e && e.message) ? String(e.message) : '';
+                var useful = m.length > 12 && m.indexOf(' ') !== -1 && !/^HTTP \d+$/.test(m);
+                errBox.textContent = useful ? m : "Sorry \u2014 that didn't go through. Please try again in a moment.";
                 errBox.classList.add('show');
             }
         });

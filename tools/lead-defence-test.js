@@ -324,6 +324,31 @@ async function run() {
   check("every rule writes a lead_rejected log line", missing.length === 0,
     `missing=${missing.join(",")} seen=${JSON.stringify(rules)}`);
 
+  // 24. client, server and watchdog must agree on the token maths. A silent
+  // mismatch here would swallow every genuine submission, so it is asserted.
+  const fs = require("fs");
+  const read = (p) => fs.readFileSync(path.join(__dirname, "..", p), "utf8");
+  const leadSrc = read("api/lead.js");
+  const serverSalt = /FORM_SALT = "([^"]+)"/.exec(leadSrc)[1];
+  const serverBits = Number(/POW_BITS = (\d+)/.exec(leadSrc)[1]);
+  const drift = [];
+  for (const f of ["index.html", "checklist.html"]) {
+    const html = read(f);
+    if (!html.includes(`'${serverSalt}'`)) drift.push(`${f}: salt`);
+    if (!new RegExp(`BITS = ${serverBits}\\b`).test(html)) drift.push(`${f}: work factor`);
+    for (const n of ["_t", "_s", "_p"]) if (!html.includes(`name="${n}"`)) drift.push(`${f}: field ${n}`);
+  }
+  const wdPath = "/Users/matt/.hermes/profiles/samax/scripts/reil_form_watchdog.py";
+  if (fs.existsSync(wdPath)) {
+    const wdSrc = fs.readFileSync(wdPath, "utf8");
+    if (!wdSrc.includes(`FORM_SALT = "${serverSalt}"`)) drift.push("watchdog: salt");
+    if (!new RegExp(`POW_BITS = ${serverBits}\\b`).test(wdSrc)) drift.push("watchdog: work factor");
+  } else {
+    drift.push("watchdog script not found (skipped)");
+  }
+  check("client, server and watchdog agree on salt, work factor and field names",
+    drift.filter((d) => !d.includes("skipped")).length === 0, drift.join("; "));
+
   // ---- report ----
   console.log = realLog;
   const failed = results.filter((x) => !x.ok);
